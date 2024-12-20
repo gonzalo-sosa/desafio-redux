@@ -1,6 +1,7 @@
 import { createSelector } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { apiCallBegan } from './api';
+import moment from 'moment';
 
 let lastId = 0;
 
@@ -46,13 +47,10 @@ const {
 } = boardSlice.actions;
 export default boardSlice.reducer;
 
-export const getBoards = createSelector(
-  (state) => state.boards,
-  (boards) => boards.list,
-);
+const url = '/boards';
 
 export const loadBoards = () => (dispatch, getState) => {
-  const { lastFetch } = getState().entities.bugs;
+  const { lastFetch } = getState().entities.boards;
 
   if (lastFetch) {
     const diffInMinutes = moment().diff(moment(lastFetch), 'minutes');
@@ -69,8 +67,6 @@ export const loadBoards = () => (dispatch, getState) => {
     }),
   );
 };
-
-const url = '/boards';
 
 export const addBoard = (board) =>
   apiCallBegan({
