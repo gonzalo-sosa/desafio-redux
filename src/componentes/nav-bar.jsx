@@ -9,7 +9,7 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="nav navbar navbar-expand-lg navbar-dark bg-dark">
       <div className="d-flex">
         <button className="btn btn-secondary mx-2">Menú</button>
         <Link to="/" className="navbar-brand">
