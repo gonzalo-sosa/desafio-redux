@@ -3,7 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { apiCallBegan } from './api';
 import moment from 'moment';
 
-let lastId = 0;
+let lastId = 3;
 
 const boardSlice = createSlice({
   name: 'boards',
@@ -11,12 +11,12 @@ const boardSlice = createSlice({
   reducers: {
     boardAdded: (boards, action) => {
       const board = { ...action.payload, id: ++lastId };
+      console.log(board);
       boards.list.push(board);
     },
     boardUpdated: (boards, action) => {
       let board = boards.list.find((board) => board.id === action.payload.id);
-      let { id } = board;
-      board = { ...board, ...action.payload, id };
+      board = { ...board, ...action.payload };
     },
     boardRemoved: (boards, action) => {
       boards.list = boards.list.filter(
@@ -70,7 +70,7 @@ export const loadBoards = () => (dispatch, getState) => {
 
 export const addBoard = (board) =>
   apiCallBegan({
-    url: '/boards',
+    url,
     method: 'post',
     data: board,
     onSuccess: boardAdded.type,
@@ -78,7 +78,7 @@ export const addBoard = (board) =>
 
 export const updateBoard = (id, board) =>
   apiCallBegan({
-    url: `/boards/${id}`,
+    url: `${url}/${id}`,
     method: 'patch',
     data: board,
     onSuccess: boardUpdated.type,
@@ -86,7 +86,7 @@ export const updateBoard = (id, board) =>
 
 export const removeBoard = (id) =>
   apiCallBegan({
-    url: `/boards/${id}`,
+    url: `${url}/${id}`,
     method: 'delete',
     data: { id },
     onSuccess: boardRemoved.type,

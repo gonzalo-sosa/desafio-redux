@@ -12,14 +12,28 @@ const api =
 
     next(action);
 
-    try {
-      const response = await Promise.resolve({
+    const responses = {
+      get: {
         data: [
-          { id: 1, name: 'Board 1' },
-          { id: 2, name: 'Board 2' },
+          { id: 1, title: 'Board 1' },
+          { id: 2, title: 'Board 2' },
         ],
-      });
+      },
+      post: {
+        data,
+      },
+      patch: {
+        data,
+      },
+      delete: {
+        data,
+      },
+    };
 
+    const getData = (method) => responses[method];
+
+    try {
+      const response = await Promise.resolve(getData(method));
       // const response = await axios.request({
       //   baseURL: 'http://localhost:9001/api',
       //   url,
@@ -29,6 +43,8 @@ const api =
 
       // General
       dispatch(actions.apiCallSuccess(response.data));
+
+      console.log(onSuccess, response.data);
 
       // Specific
       if (onSuccess) dispatch({ type: onSuccess, payload: response.data });

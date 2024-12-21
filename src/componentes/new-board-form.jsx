@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { addBoard, loadBoards } from '../store/boards';
+import { addBoard } from '../store/boards';
 import Form from './common/form/form';
 import Joi from 'joi-browser';
 
@@ -18,6 +18,7 @@ class NewBoardForm extends Form {
   };
 
   doSubmit = () => {
+    console.log(this.state.data);
     this.props.addBoard(this.state.data);
   };
 
@@ -36,7 +37,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  addBoard: () => dispatch(addBoard()),
+  addBoard: (data) => dispatch(addBoard(data)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(NewBoardForm);

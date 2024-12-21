@@ -19,7 +19,7 @@ const BoardsList = () => {
       {boards.map((board) => (
         <li key={board.id} className="nav-item">
           <a href="" className="nav-link text-light">
-            {board.name}
+            {board.title}
           </a>
         </li>
       ))}
