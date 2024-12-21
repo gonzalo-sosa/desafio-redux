@@ -6,7 +6,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import eslintPluginPrettier from 'eslint-plugin-prettier';
 
 export default [
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'tests'] },
   {
     files: ['**/*.{js,jsx}'],
     languageOptions: {
@@ -23,7 +23,7 @@ export default [
       react,
       'react-hooks': reactHooks,
       'react-refresh': reactRefresh,
-      eslintPluginPrettier,
+      prettier: eslintPluginPrettier,
     },
     rules: {
       ...js.configs.recommended.rules,
@@ -35,7 +35,7 @@ export default [
         'warn',
         { allowConstantExport: true },
       ],
-      'prettier/prettier': 'error',
+      ...eslintPluginPrettier.configs.recommended.rules,
     },
   },
 ];
