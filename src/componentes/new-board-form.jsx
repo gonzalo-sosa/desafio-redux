@@ -18,8 +18,8 @@ class NewBoardForm extends Form {
   };
 
   doSubmit = () => {
-    console.log(this.state.data);
     this.props.addBoard(this.state.data);
+    this.props.onSubmit();
   };
 
   render() {
