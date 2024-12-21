@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { addBoard, loadBoards } from '../store/boards';
+import { loadBoards } from '../store/boards';
 import NewBoardForm from './new-board-form';
+import { Link } from 'react-router-dom';
+import Modal from './common/modal';
 
 const BoardsList = () => {
   const dispatch = useDispatch();
@@ -13,17 +15,25 @@ const BoardsList = () => {
   }, []);
 
   return (
-    <ul>
-      Sus tableros <button onClick={() => setShowForm(true)}>+</button>
-      {showForm && <NewBoardForm />}
-      {boards.map((board) => (
-        <li key={board.id} className="nav-item">
-          <a href="" className="nav-link text-light">
-            {board.title}
-          </a>
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        <button className="" onClick={() => setShowForm(true)}>
+          +
+        </button>
+        {showForm && (
+          <Modal>
+            <NewBoardForm onSubmit={() => setShowForm(false)} />
+          </Modal>
+        )}
+        {boards.map((board) => (
+          <li key={board.id} className="nav-item">
+            <Link href="" className="nav-link text-light">
+              {board.title}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </>
   );
 };
 
