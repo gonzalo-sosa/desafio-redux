@@ -7,12 +7,14 @@ import configureStore from './store/configureStore.js';
 
 const sideBarItems = [
   { active: true, disabled: false, href: '/', label: 'Home' },
-  {
-    active: false,
-    disabled: false,
-    href: '/boards',
-    label: 'Sus tableros',
-  },
+  () => (
+    <li key={'boards-list'} className="nav-item">
+      <a href="#" key={'boards-list-link'} className="nav-link text-light">
+        Sus tableros
+      </a>
+      <BoardsList />
+    </li>
+  ),
 ];
 
 const store = configureStore();
@@ -22,9 +24,7 @@ function App() {
     <>
       <NavBar />
       <Provider store={store}>
-        <SideBar items={sideBarItems}>
-          <BoardsList />
-        </SideBar>
+        <SideBar items={sideBarItems} />
       </Provider>
     </>
   );
