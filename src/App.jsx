@@ -1,8 +1,8 @@
 import { Provider } from 'react-redux';
 import './App.css';
-import NavBar from './componentes/nav-bar';
-import SideBar from './componentes/side-bar';
-import BoardsList from './componentes/boards-list';
+import NavBar from './components/nav-bar';
+import SideBar from './components/side-bar';
+import BoardsList from './components/boards-list';
 import configureStore from './store/configureStore.js';
 
 const sideBarItems = [
