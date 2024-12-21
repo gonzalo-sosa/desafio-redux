@@ -1,8 +1,10 @@
+import PropTypes from 'prop-types';
+
 const DropDown = ({ label, items }) => {
   return (
-    <div className="dropdown show mx-2 text-white">
+    <div className="dropdown show mx-2">
       <a
-        className="btn dropdown-toggle"
+        className="btn dropdown-toggle text-light"
         href="#"
         role="button"
         id="dropdownMenuLink"
@@ -22,6 +24,11 @@ const DropDown = ({ label, items }) => {
       </div>
     </div>
   );
+};
+
+DropDown.propTypes = {
+  label: PropTypes.string.isRequired,
+  items: PropTypes.array.isRequired,
 };
 
 export default DropDown;
