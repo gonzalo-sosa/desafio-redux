@@ -75,7 +75,7 @@ const NavBar = () => {
             </search>
           </div>
           <div className="d-flex mx-2">
-            <button>
+            <button className="nav-link">
               <svg
                 width="24"
                 height="24"
@@ -89,7 +89,7 @@ const NavBar = () => {
                 ></path>
               </svg>
             </button>
-            <button>
+            <button className="nav-link">
               <svg
                 width="24"
                 height="24"
@@ -106,7 +106,7 @@ const NavBar = () => {
                 ></path>
               </svg>
             </button>
-            <button>
+            <button className="nav-link">
               <span>Cuenta</span>
             </button>
           </div>
