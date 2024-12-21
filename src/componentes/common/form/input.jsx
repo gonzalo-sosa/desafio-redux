@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 const Input = ({ name, label, error, children, ...rest }) => {
   return (
     <div className="form-group">
@@ -7,6 +9,13 @@ const Input = ({ name, label, error, children, ...rest }) => {
       {error && <div className="alert alert-danger">{error}</div>}
     </div>
   );
+};
+
+Input.propTypes = {
+  name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+  error: PropTypes.string,
+  children: PropTypes.node,
 };
 
 export default Input;
