@@ -12,7 +12,7 @@ const BoardsList = () => {
 
   useEffect(() => {
     dispatch(loadBoards());
-  }, []);
+  }, [dispatch]);
 
   return (
     <>
@@ -21,8 +21,18 @@ const BoardsList = () => {
           +
         </button>
         {showForm && (
-          <Modal>
-            <NewBoardForm onSubmit={() => setShowForm(false)} />
+          <Modal
+            label={'Nuevo tablero'}
+            onClose={() => setShowForm(false)}
+            btnSave={{
+              type: 'submit',
+              form: 'new-board-form',
+            }}
+          >
+            <NewBoardForm
+              id={'new-board-form'}
+              onSubmit={() => setShowForm(false)}
+            />
           </Modal>
         )}
         {boards.map((board) => (
