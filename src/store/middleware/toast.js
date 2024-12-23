@@ -2,7 +2,7 @@
 import { toast } from 'react-toastify';
 import * as actions from '../toast.js';
 
-export const toastMiddleware = (store) => (next) => (action) => {
+const toastMiddleware = (store) => (next) => (action) => {
   if (action.type === actions.notifyErrorToast.type) {
     toast.error(action.payload.message);
   }
@@ -11,3 +11,5 @@ export const toastMiddleware = (store) => (next) => (action) => {
   }
   return next(action);
 };
+
+export default toastMiddleware;
