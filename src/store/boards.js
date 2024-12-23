@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { createSelector } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 import { apiCallBegan } from './api';
