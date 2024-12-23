@@ -24,7 +24,7 @@ class NewBoardForm extends Form {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} {...this.props}>
+      <form onSubmit={this.handleSubmit} {...this.props.form}>
         {this.renderInput({ name: 'title', label: 'Título', autoFocus: true })}
       </form>
     );

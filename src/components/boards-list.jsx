@@ -30,8 +30,8 @@ const BoardsList = () => {
             }}
           >
             <NewBoardForm
-              id={'new-board-form'}
               onSubmit={() => setShowForm(false)}
+              form={{ id: 'new-board-form' }}
             />
           </Modal>
         )}
