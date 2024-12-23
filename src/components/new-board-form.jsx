@@ -14,7 +14,7 @@ class NewBoardForm extends Form {
   };
 
   schema = {
-    title: Joi.string().required().label('Title'),
+    title: Joi.string().min(3).max(50).required().label('Title'),
   };
 
   doSubmit = () => {
@@ -24,9 +24,8 @@ class NewBoardForm extends Form {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        {this.renderInput({ name: 'title', label: 'Título' })}
-        {this.renderButton('Crear')}
+      <form onSubmit={this.handleSubmit} {...this.props}>
+        {this.renderInput({ name: 'title', label: 'Título', autoFocus: true })}
       </form>
     );
   }
