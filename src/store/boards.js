@@ -12,7 +12,6 @@ const boardSlice = createSlice({
   reducers: {
     boardAdded: (boards, action) => {
       const board = { ...action.payload, id: ++lastId };
-      console.log(board);
       boards.list.push(board);
     },
     boardUpdated: (boards, action) => {
