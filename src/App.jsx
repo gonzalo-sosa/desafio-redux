@@ -4,6 +4,7 @@ import NavBar from './components/nav-bar';
 import SideBar from './components/side-bar';
 import BoardsList from './components/boards-list';
 import configureStore from './store/configureStore.js';
+import { ToastContainer } from 'react-toastify';
 
 const sideBarItems = [
   { active: true, disabled: false, href: '/', label: 'Home' },
@@ -22,6 +23,7 @@ const store = configureStore();
 function App() {
   return (
     <>
+      <ToastContainer />
       <NavBar />
       <Provider store={store}>
         <SideBar items={sideBarItems} />
