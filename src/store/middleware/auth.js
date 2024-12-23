@@ -1,27 +1,41 @@
 /* eslint-disable no-unused-vars */
-import { createAction } from '@reduxjs/toolkit';
+import { jwtDecode } from 'jwt-decode';
+import * as actions from '../auth.js';
 
-export const logout = createAction('auth/Logout');
-export const login = createAction('auth/Login');
-export const register = createAction('auth/Register');
+const TOKEN_KEY = 'jwt-token';
 
-export const logoutMiddleware = (store) => (next) => (action) => {
-  if (action.type === logout.type) {
-    localStorage.removeItem('jwt-token');
+export const logout = (store) => (next) => (action) => {
+  if (action.type === actions.logout.type) {
+    localStorage.removeItem(TOKEN_KEY);
   }
   return next(action);
 };
 
-export const authMiddleware = (store) => (next) => (action) => {
-  if (action.type === login.type || action.type === register.type) {
-    localStorage.setItem('jwt-token', action.payload.token);
+export const login = (store) => (next) => (action) => {
+  if (action.type === actions.login.type) {
+    localStorage.setItem(TOKEN_KEY, action.payload.token);
   }
   return next(action);
 };
 
-// export const checkAuth = () => (dispatch) => {
-//   const token = localStorage.getItem('token');
-//   if (token) {
-//     dispatch(login(token));
-//   }
-// };
+export const register = (store) => (next) => (action) => {
+  if (action.type === actions.register.type) {
+    localStorage.setItem(TOKEN_KEY, action.payload.token);
+  }
+  return next(action);
+};
+
+export const checkToken =
+  ({ dispatch, getState }) =>
+  (next) =>
+  (action) => {
+    if (action.type !== actions.checkToken.type) return next(action);
+
+    let token = localStorage.getItem(TOKEN_KEY);
+    token ??= jwtDecode(token);
+
+    if (token) {
+      dispatch(actions.login({ token }));
+    }
+    return next(action);
+  };
