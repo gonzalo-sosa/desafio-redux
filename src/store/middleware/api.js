@@ -1,10 +1,12 @@
-import * as actions from '../api.js';
+/* eslint-disable no-unused-vars */
+import * as apiActions from '../api.js';
+import * as toastActions from '../toast.js';
 
 const api =
   ({ dispatch, getState }) =>
   (next) =>
   async (action) => {
-    if (action.type !== actions.apiCallBegan.type) return next(action);
+    if (action.type !== apiActions.apiCallBegan.type) return next(action);
 
     const { url, method, data, onStart, onSuccess, onError } = action.payload;
 
@@ -42,18 +44,22 @@ const api =
       // });
 
       // General
-      dispatch(actions.apiCallSuccess(response.data));
-
-      console.log(onSuccess, response.data);
+      dispatch(apiActions.apiCallSuccess(response.data));
 
       // Specific
-      if (onSuccess) dispatch({ type: onSuccess, payload: response.data });
+      if (onSuccess) {
+        dispatch({ type: onSuccess, payload: response.data });
+        dispatch(toastActions.notifyToast({ message: 'Success' }));
+      }
     } catch (error) {
       // General
-      dispatch(actions.apiCallFailed(error.message));
+      dispatch(apiActions.apiCallFailed(error.message));
 
       // Specific
-      if (onError) dispatch({ type: onError, payload: error.message });
+      if (onError) {
+        dispatch({ type: onError, payload: error.message });
+        dispatch(toastActions.notifyErrorToast({ message: error.message }));
+      }
     }
   };
 
