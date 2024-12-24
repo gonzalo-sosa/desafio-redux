@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import { NavLink } from 'react-router-dom';
 
 const SideBar = ({ items, children }) => {
   const renderItems = () => {
@@ -9,14 +9,14 @@ const SideBar = ({ items, children }) => {
       } else {
         return (
           <li className="nav-item" key={`sidebar-item-${index}`}>
-            <Link
+            <NavLink
               className={`nav-link text-light ${item.active ? 'active' : ''} ${item.disabled ? 'disabled' : ''}`}
               key={`sidebar-link-${index}`}
               aria-current={item.active ? 'page' : undefined}
-              href={item.href}
+              to={item.href}
             >
               {item.label}
-            </Link>
+            </NavLink>
           </li>
         );
       }
