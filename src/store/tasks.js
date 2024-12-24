@@ -24,6 +24,10 @@ const taskSlice = createSlice({
       const task = tasks.list.find((task) => task.id === taskId);
       task.boardId = boardId;
     },
+    allTasksRemovedFromBoard: (tasks, action) => {
+      const { boardId } = action.payload;
+      tasks.list = tasks.list.filter((task) => task.boardId !== boardId);
+    },
     allTasksRemoved: (tasks) => {
       tasks.list = [];
       lastId = 0;
@@ -36,6 +40,7 @@ const {
   taskRemoved,
   taskUpdated,
   taskAddedToBoard,
+  allTasksRemovedFromBoard,
   allTasksRemoved,
 } = taskSlice.actions;
 export default taskSlice.reducer;
@@ -62,6 +67,10 @@ export const updateTask = (task) => (dispatch) => {
 
 export const addTaskToBoard = (task) => (dispatch) => {
   dispatch(taskAddedToBoard(task));
+};
+
+export const removeAllTasksFromBoard = (task) => (dispatch) => {
+  dispatch(allTasksRemovedFromBoard(task));
 };
 
 export const removeAllTasks = () => (dispatch) => {
