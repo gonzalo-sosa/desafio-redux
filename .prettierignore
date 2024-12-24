@@ -1,0 +1,6 @@
+*.prettierrc
+*.eslintrc.config.js
+*.lintstagedrc.json
+*.yaml
+package.json
+*.config.*
