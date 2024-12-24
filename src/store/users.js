@@ -11,17 +11,22 @@ const userSlice = createSlice({
     userAdded: (users, action) => {
       users.list.push({ ...action.payload, id: ++lastId });
     },
-    userDeleted: (users, action) => {
+    userRemoved: (users, action) => {
       users.list = users.list.filter((user) => user.id !== action.payload.id);
     },
     userUpdated: (users, action) => {
       let user = users.list.find((user) => user.id === action.payload.id);
       Object.assign(user, action.payload);
     },
+    allUsersRemoved: (users, action) => {
+      users.list = [];
+      lastId = 0;
+    },
   },
 });
 
-const { userAdded, userDeleted, userUpdated } = userSlice.actions;
+const { userAdded, userRemoved, userUpdated, allUsersRemoved } =
+  userSlice.actions;
 export default userSlice.reducer;
 
 export const getUsers = createSelector(
@@ -29,14 +34,21 @@ export const getUsers = createSelector(
   (users) => users.list,
 );
 
+export const getUserById = (state, id) =>
+  getUsers(state).find((user) => user.id === id);
+
 export const addUser = (user) => (dispatch) => {
   dispatch(userAdded(user));
 };
 
 export const removeUser = (user) => (dispatch) => {
-  dispatch(userDeleted(user));
+  dispatch(userRemoved(user));
 };
 
 export const updateUser = (user) => (dispatch) => {
   dispatch(userUpdated(user));
+};
+
+export const removeAllUsers = () => (dispatch) => {
+  dispatch(allUsersRemoved());
 };
