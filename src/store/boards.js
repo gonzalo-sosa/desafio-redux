@@ -16,7 +16,7 @@ const boardSlice = createSlice({
     },
     boardUpdated: (boards, action) => {
       let board = boards.list.find((board) => board.id === action.payload.id);
-      board = { ...board, ...action.payload };
+      Object.assign(board, action.payload);
     },
     boardRemoved: (boards, action) => {
       boards.list = boards.list.filter(
