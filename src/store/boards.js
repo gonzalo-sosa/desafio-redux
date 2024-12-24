@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { apiCallBegan } from './api';
 import moment from 'moment';
 
-let lastId = 3;
+let lastId = 2;
 
 const boardSlice = createSlice({
   name: 'boards',
@@ -91,3 +91,8 @@ export const removeBoard = (id) =>
     data: { id },
     onSuccess: boardRemoved.type,
   });
+
+export const getBoards = createSelector(
+  (state) => state.entities.boards,
+  (boards) => boards.list,
+);
