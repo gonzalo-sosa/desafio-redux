@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { loadBoards } from '../store/boards';
 import NewBoardForm from './new-board-form';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import Modal from './common/modal';
 
 const BoardsList = () => {
@@ -16,10 +16,10 @@ const BoardsList = () => {
 
   return (
     <>
+      <button className="btn btn-primary" onClick={() => setShowForm(true)}>
+        +
+      </button>
       <ul>
-        <button className="" onClick={() => setShowForm(true)}>
-          +
-        </button>
         {showForm && (
           <Modal
             label={'Nuevo tablero'}
@@ -37,9 +37,9 @@ const BoardsList = () => {
         )}
         {boards.map((board) => (
           <li key={board.id} className="nav-item">
-            <Link href="" className="nav-link text-light">
+            <NavLink to={`/boards/${board.id}`} className="nav-link text-light">
               {board.title}
-            </Link>
+            </NavLink>
           </li>
         ))}
       </ul>
