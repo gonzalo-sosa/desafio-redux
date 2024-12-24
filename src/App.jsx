@@ -1,33 +1,15 @@
-import { Provider } from 'react-redux';
 import './App.css';
-import NavBar from './components/nav-bar';
-import SideBar from './components/side-bar';
-import BoardsList from './components/boards-list';
-import configureStore from './store/configureStore.js';
 import { ToastContainer } from 'react-toastify';
-
-const sideBarItems = [
-  { active: true, disabled: false, href: '/', label: 'Home' },
-  () => (
-    <li key={'boards-list'} className="nav-item">
-      <a href="#" key={'boards-list-link'} className="nav-link text-light">
-        Sus tableros
-      </a>
-      <BoardsList />
-    </li>
-  ),
-];
-
-const store = configureStore();
+import { Switch } from 'react-router-dom';
+import Home from './views/Home.jsx';
 
 function App() {
   return (
     <>
       <ToastContainer />
-      <NavBar />
-      <Provider store={store}>
-        <SideBar items={sideBarItems} />
-      </Provider>
+      <Switch>
+        <Home />
+      </Switch>
     </>
   );
 }
