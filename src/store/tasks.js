@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+import { createSelector } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
 let lastId = 0;
@@ -6,20 +8,62 @@ const taskSlice = createSlice({
   name: 'tasks',
   initialState: { list: [] },
   reducers: {
-    addTask: (tasks, action) => {
+    taskAdded: (tasks, action) => {
       const task = { ...action.payload, id: ++lastId };
       tasks.list.push(task);
     },
-    removeTask: (tasks, action) => {
+    taskRemoved: (tasks, action) => {
       tasks.list = tasks.list.filter((task) => task.id !== action.payload.id);
     },
-    addTaskToBoard: (tasks, action) => {
-      const { boardId, taskId } = action.payload;
+    taskUpdated: (tasks, action) => {
+      let task = tasks.list.find((task) => task.id === action.payload.id);
+      Object.assign(task, action.payload);
+    },
+    taskAddedToBoard: (tasks, action) => {
+      const { boardId, id: taskId } = action.payload;
       const task = tasks.list.find((task) => task.id === taskId);
       task.boardId = boardId;
+    },
+    allTasksRemoved: (tasks) => {
+      tasks.list = [];
+      lastId = 0;
     },
   },
 });
 
-export const { addTask, removeTask } = taskSlice.actions;
+const {
+  taskAdded,
+  taskRemoved,
+  taskUpdated,
+  taskAddedToBoard,
+  allTasksRemoved,
+} = taskSlice.actions;
 export default taskSlice.reducer;
+
+export const getTasks = createSelector(
+  (state) => state.entities.tasks,
+  (tasks) => tasks.list,
+);
+
+export const getTasksByBoardId = (state, boardId) =>
+  getTasks(state).filter((task) => task.boardId === boardId);
+
+export const addTask = (task) => (dispatch) => {
+  dispatch(taskAdded(task));
+};
+
+export const removeTask = (task) => (dispatch) => {
+  dispatch(taskRemoved(task));
+};
+
+export const updateTask = (task) => (dispatch) => {
+  dispatch(taskUpdated(task));
+};
+
+export const addTaskToBoard = (task) => (dispatch) => {
+  dispatch(taskAddedToBoard(task));
+};
+
+export const removeAllTasks = () => (dispatch) => {
+  dispatch(allTasksRemoved());
+};
