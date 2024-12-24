@@ -1,4 +1,5 @@
 /* eslint-disable no-unused-vars */
+import { createSelector } from '@reduxjs/toolkit';
 import { createSlice } from '@reduxjs/toolkit';
 
 let lastId = 0;
@@ -15,15 +16,18 @@ const userSlice = createSlice({
     },
     userUpdated: (users, action) => {
       let user = users.list.find((user) => user.id === action.payload.id);
-      user = { ...user, ...action.payload };
+      Object.assign(user, action.payload);
     },
   },
 });
 
-export const { userAdded, userDeleted, userUpdated } = userSlice.actions;
+const { userAdded, userDeleted, userUpdated } = userSlice.actions;
 export default userSlice.reducer;
 
-export const getUsers = (state) => state.users.list;
+export const getUsers = createSelector(
+  (state) => state.entities.users,
+  (users) => users.list,
+);
 
 export const addUser = (user) => (dispatch) => {
   dispatch(userAdded(user));
