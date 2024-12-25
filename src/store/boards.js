@@ -23,6 +23,15 @@ const boardSlice = createSlice({
         (board) => board.id !== action.payload.id,
       );
     },
+    allBoardsRemovedFromUser: (boards, action) => {
+      boards.list = boards.list.filter(
+        (board) => board.userId !== action.payload.id,
+      );
+    },
+    allBoardsRemoved: (boards, action) => {
+      boards.list = [];
+      lastId = 0;
+    },
     boardsRequested: (boards, action) => {
       boards.loading = true;
     },
@@ -41,6 +50,8 @@ const {
   boardAdded,
   boardUpdated,
   boardRemoved,
+  allBoardsRemovedFromUser,
+  allBoardsRemoved,
   boardsReceived,
   boardsRequested,
   boardsRequestedFailed,
@@ -68,31 +79,57 @@ export const loadBoards = () => (dispatch, getState) => {
   );
 };
 
-export const addBoard = (board) =>
-  apiCallBegan({
-    url,
-    method: 'post',
-    data: board,
-    onSuccess: boardAdded.type,
-  });
+export const addBoard = (board) => (dispatch) => {
+  dispatch(boardAdded(board));
+};
 
-export const updateBoard = (id, board) =>
-  apiCallBegan({
+/*
+apiCallBegan({
+  url,
+  method: 'post',
+  data: board,
+  onSuccess: boardAdded.type,
+});
+*/
+
+export const updateBoard = (board) => (dispatch) => {
+  dispatch(boardUpdated(board));
+};
+
+/*
+apiCallBegan({
     url: `${url}/${id}`,
     method: 'patch',
     data: board,
     onSuccess: boardUpdated.type,
-  });
+});
+*/
 
-export const removeBoard = (id) =>
-  apiCallBegan({
+export const removeBoard = (id) => (dispatch) => {
+  dispatch(boardRemoved({ id }));
+};
+
+/*
+apiCallBegan({
     url: `${url}/${id}`,
     method: 'delete',
     data: { id },
     onSuccess: boardRemoved.type,
-  });
+});
+*/
+
+export const removeAllBoardsFromUser = (id) => (dispatch) => {
+  dispatch(allBoardsRemovedFromUser({ id }));
+};
+
+export const removeAllBoards = () => (dispatch) => {
+  dispatch(allBoardsRemoved());
+};
 
 export const getBoards = createSelector(
   (state) => state.entities.boards,
   (boards) => boards.list,
 );
+
+export const getBoardsByUserId = (state, userId) =>
+  getBoards(state).filter((board) => board.userId === userId);
