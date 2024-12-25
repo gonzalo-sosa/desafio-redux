@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import configureStore from '../src/store/configureStore';
+import configureStore from '@/store/configureStore';
 import {
   addUser,
   updateUser,
@@ -7,7 +7,7 @@ import {
   removeAllUsers,
   getUsers,
   getUserById,
-} from '../src/store/users';
+} from '@/store/users';
 
 describe('UserSlice', () => {
   let store;
