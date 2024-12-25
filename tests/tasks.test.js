@@ -7,8 +7,8 @@ import {
   getTasks,
   getTasksByBoardId,
   removeAllTasksFromBoard,
-} from '../src/store/tasks';
-import configureStore from '../src/store/configureStore';
+} from '@/store/tasks';
+import configureStore from '@/store/configureStore';
 
 describe('TaskSlice', () => {
   let store;
