@@ -7,6 +7,7 @@ import {
   removeAllBoards,
   removeAllBoardsFromUser,
   getBoards,
+  getBoardById,
   getBoardsByUserId,
 } from '@/store/boards';
 
@@ -79,6 +80,14 @@ describe('BoardSlice', () => {
   });
 
   describe('selectores', () => {
+    it('should get board by id', () => {
+      const board = { name: 'a', id: 1 };
+
+      store.dispatch(addBoard(board));
+
+      expect(getBoardById(store.getState(), 1)).toEqual(board);
+    });
+
     it('should get all boards', () => {
       const board1 = { name: 'a', id: 1 };
       const board2 = { name: 'a', id: 2 };
