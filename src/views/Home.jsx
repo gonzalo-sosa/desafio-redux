@@ -1,12 +1,12 @@
 import { Component } from 'react';
-import NavBar from '../components/nav-bar';
+import { getBoards } from '@/store/boards';
 import { Provider } from 'react-redux';
-import SideBar from '../components/side-bar';
-import configureStore from '../store/configureStore';
-import BoardsList from '../components/boards-list';
-import Board from '../components/board';
 import { Route, Redirect } from 'react-router-dom';
-import { getBoards } from '../store/boards';
+import Board from '@/components/board';
+import BoardsList from '@/components/boards-list';
+import configureStore from '@/store/configureStore';
+import NavBar from '@/components/nav-bar';
+import SideBar from '@/components/side-bar';
 
 const store = configureStore();
 
