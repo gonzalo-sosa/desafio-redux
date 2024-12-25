@@ -131,5 +131,8 @@ export const getBoards = createSelector(
   (boards) => boards.list,
 );
 
+export const getBoardById = (state, id) =>
+  getBoards(state).find((board) => board.id === id);
+
 export const getBoardsByUserId = (state, userId) =>
   getBoards(state).filter((board) => board.userId === userId);
