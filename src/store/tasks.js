@@ -18,11 +18,6 @@ const taskSlice = createSlice({
       let task = tasks.list.find((task) => task.id === action.payload.id);
       Object.assign(task, action.payload);
     },
-    taskAddedToBoard: (tasks, action) => {
-      const { boardId, id: taskId } = action.payload;
-      const task = tasks.list.find((task) => task.id === taskId);
-      task.boardId = boardId;
-    },
     allTasksRemovedFromBoard: (tasks, action) => {
       const { boardId } = action.payload;
       tasks.list = tasks.list.filter((task) => task.boardId !== boardId);
@@ -38,7 +33,6 @@ const {
   taskAdded,
   taskRemoved,
   taskUpdated,
-  taskAddedToBoard,
   allTasksRemovedFromBoard,
   allTasksRemoved,
 } = taskSlice.actions;
@@ -62,10 +56,6 @@ export const removeTask = (task) => (dispatch) => {
 
 export const updateTask = (task) => (dispatch) => {
   dispatch(taskUpdated(task));
-};
-
-export const addTaskToBoard = (task) => (dispatch) => {
-  dispatch(taskAddedToBoard(task));
 };
 
 export const removeAllTasksFromBoard = (task) => (dispatch) => {
