@@ -11,8 +11,12 @@ class Search extends Form {
   };
 
   schema = {
-    query: Joi.string().required().label('Query'),
+    query: Joi.string().min(3).max(50).required().label('Query'),
   };
+
+  // onSubmit = () => {
+  //   this.props.onSearch(this.state.data.query);
+  // };
 
   render() {
     return (
