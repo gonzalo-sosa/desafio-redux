@@ -1,5 +1,4 @@
 import { Component } from 'react';
-import { getBoards } from '@/store/boards';
 import { Provider } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import Board from '@/components/board';
@@ -24,21 +23,13 @@ class Home extends Component {
   ];
 
   render() {
-    const boards = getBoards(store.getState());
-
     return (
       <Route path="/">
         <NavBar />
         <Provider store={store}>
           <SideBar items={this.sideBarItems} />
+          <Route path="/boards/:id" component={Board} />
         </Provider>
-        {boards.map((board) => (
-          <Route
-            key={board.id}
-            path={`/boards/${board.id}`}
-            render={(props) => <Board {...props} board={board} />}
-          />
-        ))}
         <Route path="*" render={() => <Redirect to="/" />} />
       </Route>
     );
