@@ -4,7 +4,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { apiCallBegan } from './api';
 import moment from 'moment';
 
-let lastId = 2;
+let lastId = 0;
 
 const boardSlice = createSlice({
   name: 'boards',
