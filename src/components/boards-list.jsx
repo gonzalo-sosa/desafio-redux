@@ -36,7 +36,7 @@ const BoardsList = () => {
           </Modal>
         )}
         {boards.map((board) => (
-          <li key={board.id} className="nav-item">
+          <li key={`board-${board.id}`} className="nav-item">
             <NavLink to={`/boards/${board.id}`} className="nav-link text-light">
               {board.title}
             </NavLink>
