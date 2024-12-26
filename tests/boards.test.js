@@ -81,11 +81,14 @@ describe('BoardSlice', () => {
 
   describe('selectores', () => {
     it('should get board by id', () => {
-      const board = { name: 'a', id: 1 };
+      const board1 = { name: 'a', id: 1 };
+      const board2 = { name: 'b', id: 2 };
 
-      store.dispatch(addBoard(board));
+      store.dispatch(addBoard(board1));
+      store.dispatch(addBoard(board2));
 
-      expect(getBoardById(store.getState(), 1)).toEqual(board);
+      expect(getBoardById(store.getState(), 1)).toEqual(board1);
+      expect(getBoardById(store.getState(), 2)).toEqual(board2);
     });
 
     it('should get all boards', () => {
