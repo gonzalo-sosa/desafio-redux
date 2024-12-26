@@ -1,18 +1,31 @@
 import { Component } from 'react';
-import PropTypes from 'prop-types';
-import NavBar from '@/components/nav-bar';
 import { connect } from 'react-redux';
-import { getBoardById, removeBoard, updateBoard } from './../store/boards';
-import { getTasksByBoardId } from '../store/tasks';
+import PropTypes from 'prop-types';
+import TasksList from './tasks-list';
+import { getBoardById, removeBoard, updateBoard } from '@/store/boards';
+import { getTasksByBoardId } from '@/store/tasks';
+import BoardNavBar from './board-nav-bar';
 
 class Board extends Component {
   render() {
+    const { board, tasks } = this.props;
+
+    if (!board) {
+      return <div>Board not found</div>;
+    }
+
     return (
-      <main className="main p-3">
-        <NavBar />
-        <section>
-          <h2>{JSON.stringify(this.props.board)}</h2>
-        </section>
+      <main className="main">
+        <BoardNavBar title={board.title} />
+        <div className="container mt-3">
+          <div className="tasks-list-container">
+            <TasksList
+              boardId={board.id}
+              title="Listado de tareas"
+              tasks={tasks}
+            />
+          </div>
+        </div>
       </main>
     );
   }
@@ -20,16 +33,24 @@ class Board extends Component {
 
 Board.propTypes = {
   board: PropTypes.object,
+  tasks: PropTypes.array,
+  updateBoard: PropTypes.func,
+  removeBoard: PropTypes.func,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  board: getBoardById(state, ownProps.id),
-});
+const mapStateToProps = (state, ownProps) => {
+  const { id } = ownProps.match.params;
+  const parsedId = parseInt(id, 10);
+
+  return {
+    board: getBoardById(state, parsedId),
+    tasks: getTasksByBoardId(state, parsedId),
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
   updateBoard: (data) => dispatch(updateBoard(data)),
   removeBoard: (id) => dispatch(removeBoard(id)),
-  getTasksByBoardId: (id) => dispatch(getTasksByBoardId(id)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);
