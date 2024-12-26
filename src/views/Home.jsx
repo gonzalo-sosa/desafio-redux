@@ -6,6 +6,8 @@ import BoardsList from '@/components/boards-list';
 import configureStore from '@/store/configureStore';
 import NavBar from '@/components/nav-bar';
 import SideBar from '@/components/side-bar';
+import { loadBoards } from '@/store/boards';
+import { addTask } from '@/store/tasks';
 
 const store = configureStore();
 
@@ -14,13 +16,16 @@ class Home extends Component {
     { active: true, disabled: false, href: '/', label: 'Home' },
     () => (
       <li key={'boards-list'} className="nav-item">
-        <a href="#" key={'boards-list-link'} className="nav-link text-light">
-          Sus tableros
-        </a>
         <BoardsList />
       </li>
     ),
   ];
+
+  componentDidMount() {
+    store.dispatch(loadBoards());
+    store.dispatch(addTask({ title: 'a', boardId: 91 }));
+    store.dispatch(addTask({ title: 'a', boardId: 91 }));
+  }
 
   render() {
     return (
