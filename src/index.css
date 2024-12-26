@@ -1,7 +1,7 @@
 #root {
-  min-height: 100dvh;
+  height: 100dvh;
   min-width: 100dvw;
   display: grid;
-  grid-template-rows: 2fr 8fr;
+  grid-template-rows: minmax(100px, 1fr) 9fr;
   grid-template-columns: minmax(100px, 2fr) 8fr;
 }
