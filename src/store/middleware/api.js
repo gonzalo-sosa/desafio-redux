@@ -17,8 +17,8 @@ const api =
     const responses = {
       get: {
         data: [
-          { id: 1, title: 'Board 1' },
-          { id: 2, title: 'Board 2' },
+          { id: 91, title: 'Board 1' },
+          { id: 92, title: 'Board 2' },
         ],
       },
       post: {
