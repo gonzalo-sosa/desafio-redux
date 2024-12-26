@@ -1,11 +1,20 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { addCard, removeCard, getCardsByTaskId } from '@/store/cards';
+import {
+  addCard,
+  removeCard,
+  updateCard,
+  getCardsByTaskId,
+} from '@/store/cards';
+import PencilIcon from './common/icons/pencil-icon';
+import Modal from '@/components/common/modal';
+import EditCardForm from './edit-card-form';
 
 class CardsList extends Component {
   state = {
     showForm: false,
+    showModal: false,
   };
 
   handleSubmit = (e) => {
@@ -29,12 +38,35 @@ class CardsList extends Component {
             className="px-1 list-group-item d-flex flex-row align-items-center justify-content-between"
           >
             {card.title}
-            <button
-              onClick={() => this.props.removeCard(card)}
-              className="btn btn-danger"
-            >
-              X
-            </button>
+            <div className="d-flex flex-row align-items-center">
+              {this.state.showModal && (
+                <Modal
+                  label={'Editar tarjeta'}
+                  onClose={() => this.setState({ showModal: false })}
+                  btnSave={{
+                    type: 'submit',
+                    form: 'edit-card-form',
+                  }}
+                >
+                  <EditCardForm
+                    form={{ id: 'edit-card-form' }}
+                    onSubmit={() => this.setState({ showModal: false })}
+                  />
+                </Modal>
+              )}
+              <button
+                onClick={() => this.setState({ showModal: true })}
+                className="btn btn-primary mx-2"
+              >
+                <PencilIcon />
+              </button>
+              <button
+                onClick={() => this.props.removeCard(card)}
+                className="btn btn-danger"
+              >
+                X
+              </button>
+            </div>
           </li>
         ))}
         {showForm && (
@@ -76,6 +108,7 @@ CardsList.propTypes = {
   cards: PropTypes.array,
   addCard: PropTypes.func,
   removeCard: PropTypes.func,
+  updateCard: PropTypes.func,
 };
 
 const mapStateToProps = (state, ownProps) => ({
@@ -85,6 +118,7 @@ const mapStateToProps = (state, ownProps) => ({
 const mapDispatchToProps = (dispatch) => ({
   addCard: (card) => dispatch(addCard(card)),
   removeCard: (card) => dispatch(removeCard(card)),
+  updateCard: (card) => dispatch(updateCard(card)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(CardsList);
