@@ -4,6 +4,7 @@ import CardsList from '@/components/cards/cards-list';
 import NewListForm from '@/components/lists/new-list-form';
 import { connect } from 'react-redux';
 import { removeList } from '@/store/lists';
+import { Droppable } from 'react-beautiful-dnd';
 
 class List extends Component {
   state = {
@@ -44,18 +45,27 @@ class List extends Component {
               </div>
             </header>
             <div className="card-body">
-              <CardsList taskId={list.id} />
+              <Droppable droppableId={`droppable-for-list-${list.id}`}>
+                {(provided) => (
+                  <CardsList
+                    listId={list.id}
+                    innerRef={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    {provided.placeholder}
+                  </CardsList>
+                )}
+              </Droppable>
             </div>
           </section>
         ))}
         <div>
-          {showNewForm && (
+          {showNewForm ? (
             <NewListForm
               onSubmit={() => this.setState({ showNewForm: false })}
               boardId={this.props.boardId}
             />
-          )}
-          {!showNewForm && (
+          ) : (
             <button
               onClick={() => this.setState({ showNewForm: true })}
               type="button"

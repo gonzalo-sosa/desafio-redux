@@ -65,5 +65,5 @@ export const getCards = createSelector(
   (cards) => cards.list,
 );
 
-export const getCardsByTaskId = (state, taskId) =>
-  getCards(state).filter((card) => card.taskId === taskId);
+export const getCardsByListId = (state, listId) =>
+  getCards(state).filter((card) => card.listId === listId);

@@ -25,7 +25,7 @@ class NewListForm extends Form {
       return;
     }
 
-    this.props.addTask({ title, boardId: this.props.boardId });
+    this.props.addList({ title, boardId: this.props.boardId });
     this.setState({ showForm: false });
 
     this.props.onSubmit();

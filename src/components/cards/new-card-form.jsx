@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import Form from '@/components/common/form/form';
+import PropTypes from 'prop-types';
 import Joi from 'joi-browser';
 import { addCard } from '@/store/cards';
 
@@ -16,7 +17,7 @@ class NewCardForm extends Form {
   doSubmit = () => {
     const { title } = this.state.data;
 
-    this.props.addCard({ title, taskId: this.props.taskId });
+    this.props.addCard({ title, listId: this.props.listId });
     this.props.onSubmit();
   };
 
@@ -44,6 +45,12 @@ class NewCardForm extends Form {
     );
   }
 }
+
+NewCardForm.propTypes = {
+  onSubmit: PropTypes.func,
+  onClose: PropTypes.func,
+  listId: PropTypes.number,
+};
 
 const mapDispatchToProps = (dispatch) => ({
   addCard: (card) => dispatch(addCard(card)),

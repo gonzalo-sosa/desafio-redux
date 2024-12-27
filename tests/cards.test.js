@@ -7,7 +7,7 @@ import {
   removeAllCards,
   removeAllCardsFromTask,
   getCards,
-  getCardsByTaskId,
+  getCardsByListId,
 } from '@/store/cards';
 
 describe('CardSlice', () => {
@@ -91,19 +91,19 @@ describe('CardSlice', () => {
     });
 
     it('should get cards by list id', () => {
-      const card1 = { title: 'a', id: 1, taskId: 1 };
-      const card2 = { title: 'a', id: 2, taskId: 1 };
-      const card3 = { title: 'a', id: 3, taskId: 2 };
+      const card1 = { title: 'a', id: 1, listId: 1 };
+      const card2 = { title: 'a', id: 2, listId: 1 };
+      const card3 = { title: 'a', id: 3, listId: 2 };
 
       store.dispatch(addCard(card1));
       store.dispatch(addCard(card2));
       store.dispatch(addCard(card3));
 
-      expect(getCardsByTaskId(store.getState(), 1)).toHaveLength(2);
-      expect(getCardsByTaskId(store.getState(), 1)).toContainEqual(card1);
-      expect(getCardsByTaskId(store.getState(), 1)).toContainEqual(card2);
-      expect(getCardsByTaskId(store.getState(), 2)).toHaveLength(1);
-      expect(getCardsByTaskId(store.getState(), 2)).toContainEqual(card3);
+      expect(getCardsByListId(store.getState(), 1)).toHaveLength(2);
+      expect(getCardsByListId(store.getState(), 1)).toContainEqual(card1);
+      expect(getCardsByListId(store.getState(), 1)).toContainEqual(card2);
+      expect(getCardsByListId(store.getState(), 2)).toHaveLength(1);
+      expect(getCardsByListId(store.getState(), 2)).toContainEqual(card3);
     });
   });
 });

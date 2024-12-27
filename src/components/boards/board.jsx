@@ -5,8 +5,13 @@ import List from '../lists/list';
 import { getBoardById, removeBoard, updateBoard } from '@/store/boards';
 import { getListsByBoardId } from '@/store/lists';
 import BoardNavBar from './board-nav-bar';
+import { DragDropContext } from 'react-beautiful-dnd';
 
 class Board extends Component {
+  onDragEnd = (result) => {
+    console.log(result);
+  };
+
   render() {
     const { board, lists } = this.props;
 
@@ -19,7 +24,13 @@ class Board extends Component {
         <BoardNavBar title={board.title} />
         <div className="container mt-3">
           <div className="list-container">
-            <List boardId={board.id} title="Listado de tareas" lists={lists} />
+            <DragDropContext onDragEnd={this.onDragEnd}>
+              <List
+                boardId={board.id}
+                title="Listado de tareas"
+                lists={lists}
+              />
+            </DragDropContext>
           </div>
         </div>
       </main>

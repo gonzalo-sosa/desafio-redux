@@ -14,7 +14,7 @@ class User extends Component {
     showEditForm: false,
   };
 
-  tabs = [{ id: 'tab-1', label: 'Activity', active: true }];
+  tabs = [{ id: 'tab-1', label: 'Actividad', active: true }];
 
   columns = [
     {
