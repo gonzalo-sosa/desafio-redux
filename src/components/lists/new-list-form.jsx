@@ -1,11 +1,11 @@
 import { connect } from 'react-redux';
 import Form from '@/components/common/form/form';
 import Joi from 'joi-browser';
-import { addTask } from '@/store/tasks';
+import { addList } from '@/store/lists';
 import { cleanInput } from '@/utils/clean-input';
 import { detectHTMLTags } from '@/utils/clean-input';
 
-class NewTasksListForm extends Form {
+class NewListForm extends Form {
   state = {
     data: { title: '' },
     errors: {},
@@ -46,7 +46,7 @@ class NewTasksListForm extends Form {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  addTask: (task) => dispatch(addTask(task)),
+  addList: (list) => dispatch(addList(list)),
 });
 
-export default connect(null, mapDispatchToProps)(NewTasksListForm);
+export default connect(null, mapDispatchToProps)(NewListForm);

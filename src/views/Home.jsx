@@ -7,7 +7,7 @@ import configureStore from '@/store/configureStore';
 import NavBar from '@/components/nav-bar';
 import SideBar from '@/components/side-bar';
 import { loadBoards } from '@/store/boards';
-import { addTask } from '@/store/tasks';
+import { addList } from '@/store/lists';
 
 const store = configureStore();
 
@@ -23,8 +23,8 @@ class Home extends Component {
 
   componentDidMount() {
     store.dispatch(loadBoards());
-    store.dispatch(addTask({ title: 'Lista 1', boardId: 91 }));
-    store.dispatch(addTask({ title: 'Lista 2', boardId: 91 }));
+    store.dispatch(addList({ title: 'Lista 1', boardId: 91 }));
+    store.dispatch(addList({ title: 'Lista 2', boardId: 91 }));
   }
 
   render() {

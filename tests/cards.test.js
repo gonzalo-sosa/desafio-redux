@@ -62,7 +62,7 @@ describe('CardSlice', () => {
     expect(getCards(store.getState())).toHaveLength(0);
   });
 
-  it('should remove all cards from a task', () => {
+  it('should remove all cards from a list', () => {
     const card1 = { title: 'a', id: 1, taskId: 1 };
     const card2 = { title: 'a', id: 2, taskId: 1 };
     const card3 = { title: 'a', id: 3, taskId: 2 };
@@ -90,7 +90,7 @@ describe('CardSlice', () => {
       expect(getCards(store.getState())).toContainEqual(card2);
     });
 
-    it('should get cards by task id', () => {
+    it('should get cards by list id', () => {
       const card1 = { title: 'a', id: 1, taskId: 1 };
       const card2 = { title: 'a', id: 2, taskId: 1 };
       const card3 = { title: 'a', id: 3, taskId: 2 };

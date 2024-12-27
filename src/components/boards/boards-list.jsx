@@ -1,5 +1,5 @@
-import { getBoards } from '../../store/boards';
-import NewBoardForm from '../tasks/new-board-form';
+import { getBoards } from '@/store/boards';
+import NewBoardForm from '@/components/boards/new-board-form';
 import { NavLink } from 'react-router-dom';
 import Modal from '@/components/common/modal';
 import { connect } from 'react-redux';

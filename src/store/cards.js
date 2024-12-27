@@ -56,8 +56,8 @@ export const removeAllCards = () => (dispatch) => {
   dispatch(allCardsRemoved());
 };
 
-export const removeAllCardsFromTask = (task) => (dispatch) => {
-  dispatch(allCardsRemovedFromTask(task));
+export const removeAllCardsFromTask = (list) => (dispatch) => {
+  dispatch(allCardsRemovedFromTask(list));
 };
 
 export const getCards = createSelector(
