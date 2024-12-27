@@ -8,21 +8,32 @@ import NavBar from '@/components/nav-bar';
 import SideBar from '@/components/side-bar';
 import { loadBoards } from '@/store/boards';
 import { addList } from '@/store/lists';
+import { addUser } from '@/store/users';
+import UsersList from '@/components/users/users-list';
+import User from '@/components/users/user';
 
 const store = configureStore();
 
 class Home extends Component {
   sideBarItems = [
-    { active: true, disabled: false, href: '/', label: 'Home' },
     () => (
       <li key={'boards-list'} className="nav-item">
         <BoardsList />
+      </li>
+    ),
+    () => (
+      <li key={'users-list'} className="nav-item">
+        <UsersList />
       </li>
     ),
   ];
 
   componentDidMount() {
     store.dispatch(loadBoards());
+    store.dispatch(
+      addUser({ name: 'gonzalo', email: 'D9mCt@example.com', address: 'CABA' }),
+    );
+    store.dispatch(addUser({ name: 'agustin' }));
     store.dispatch(addList({ title: 'Lista 1', boardId: 91 }));
     store.dispatch(addList({ title: 'Lista 2', boardId: 91 }));
   }
@@ -34,6 +45,7 @@ class Home extends Component {
         <Provider store={store}>
           <SideBar items={this.sideBarItems} />
           <Route path="/boards/:id" component={Board} />
+          <Route path="/users/:id" component={User} />
         </Provider>
         <Route path="*" render={() => <Redirect to="/" />} />
       </Route>
