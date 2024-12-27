@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
-import DropDown from './common/drop-down';
-import NotificationIcon from './common/icons/notification-icon';
-import QuestionMarkIcon from './common/icons/question-mark-icon';
-import Search from './search';
+import DropDown from '@/components/common/drop-down';
+import NotificationIcon from '@/components/common/icons/notification-icon';
+import QuestionMarkIcon from '@/components/common/icons/question-mark-icon';
+import Search from '@/components/search';
 
 const NavBar = () => {
   const dropdownItems = [

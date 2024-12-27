@@ -13,7 +13,7 @@ const Input = ({ name, label, error, children, ...rest }) => {
 
 Input.propTypes = {
   name: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
+  label: PropTypes.string,
   error: PropTypes.string,
   children: PropTypes.node,
 };
