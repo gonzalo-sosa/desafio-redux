@@ -1,6 +1,5 @@
 /* eslint-disable no-unused-vars */
 import * as apiActions from '../api.js';
-import * as toastActions from '../toast.js';
 
 const api =
   ({ dispatch, getState }) =>
@@ -49,7 +48,6 @@ const api =
       // Specific
       if (onSuccess) {
         dispatch({ type: onSuccess, payload: response.data });
-        dispatch(toastActions.notifyToast({ message: 'Success' }));
       }
     } catch (error) {
       // General
@@ -58,7 +56,6 @@ const api =
       // Specific
       if (onError) {
         dispatch({ type: onError, payload: error.message });
-        dispatch(toastActions.notifyErrorToast({ message: error.message }));
       }
     }
   };
