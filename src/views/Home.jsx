@@ -1,8 +1,8 @@
 import { Component } from 'react';
 import { Provider } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
-import Board from '@/components/board';
-import BoardsList from '@/components/boards-list';
+import Board from '@/components/boards/board';
+import BoardsList from '@/components/boards/boards-list';
 import configureStore from '@/store/configureStore';
 import NavBar from '@/components/nav-bar';
 import SideBar from '@/components/side-bar';
@@ -23,8 +23,8 @@ class Home extends Component {
 
   componentDidMount() {
     store.dispatch(loadBoards());
-    store.dispatch(addTask({ title: 'a', boardId: 91 }));
-    store.dispatch(addTask({ title: 'a', boardId: 91 }));
+    store.dispatch(addTask({ title: 'Lista 1', boardId: 91 }));
+    store.dispatch(addTask({ title: 'Lista 2', boardId: 91 }));
   }
 
   render() {
