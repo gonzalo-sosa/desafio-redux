@@ -11,9 +11,21 @@ class CardItem extends Component {
     showModal: false,
   };
 
+  handleEditCard = (e) => {
+    e.stopPropagation();
+
+    this.setState({ showModal: true });
+  };
+
+  handleRemoveCard = (e) => {
+    e.stopPropagation();
+
+    this.props.removeCard(this.props.card);
+  };
+
   render() {
     const { showModal } = this.state;
-    const { card, removeCard } = this.props;
+    const { card, index } = this.props;
 
     if (!card) {
       return null;
@@ -21,15 +33,11 @@ class CardItem extends Component {
 
     return (
       <li
-        ref={this.props.innerRef}
-        {...this.props.draggableProps}
-        className="px-1 list-group-item d-flex flex-row align-items-center justify-content-between"
+        data-card-index={index}
+        className="list-group-item d-flex flex-row align-items-center justify-content-between"
       >
         {card.title}
-        <div
-          {...this.props.dragHandleProps}
-          className="d-flex flex-row align-items-center"
-        >
+        <div className="d-flex flex-row align-items-center">
           {showModal && (
             <Modal
               label={'Editar tarjeta'}
@@ -47,12 +55,13 @@ class CardItem extends Component {
             </Modal>
           )}
           <button
-            onClick={() => this.setState({ showModal: true })}
+            type="button"
+            onClick={this.handleEditCard}
             className="btn btn-primary mx-2"
           >
             <PencilIcon />
           </button>
-          <button onClick={() => removeCard(card)} className="btn btn-danger">
+          <button onClick={this.handleRemoveCard} className="btn btn-danger">
             X
           </button>
         </div>
@@ -64,9 +73,6 @@ class CardItem extends Component {
 CardItem.propTypes = {
   card: PropTypes.object,
   index: PropTypes.number,
-  innerRef: PropTypes.func,
-  draggableProps: PropTypes.object,
-  dragHandleProps: PropTypes.object,
   removeCard: PropTypes.func,
 };
 

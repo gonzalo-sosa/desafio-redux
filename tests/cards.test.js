@@ -5,7 +5,7 @@ import {
   removeCard,
   updateCard,
   removeAllCards,
-  removeAllCardsFromTask,
+  removeAllCardsFromList,
   getCards,
   getCardsByListId,
 } from '@/store/cards';
@@ -63,15 +63,15 @@ describe('CardSlice', () => {
   });
 
   it('should remove all cards from a list', () => {
-    const card1 = { title: 'a', id: 1, taskId: 1 };
-    const card2 = { title: 'a', id: 2, taskId: 1 };
-    const card3 = { title: 'a', id: 3, taskId: 2 };
+    const card1 = { title: 'a', id: 1, listId: 1 };
+    const card2 = { title: 'a', id: 2, listId: 1 };
+    const card3 = { title: 'a', id: 3, listId: 2 };
 
     store.dispatch(addCard(card1));
     store.dispatch(addCard(card2));
     store.dispatch(addCard(card3));
 
-    store.dispatch(removeAllCardsFromTask({ taskId: 1 }));
+    store.dispatch(removeAllCardsFromList({ listId: 1 }));
 
     expect(getCards(store.getState())).toHaveLength(1);
     expect(getCards(store.getState())).toContainEqual(card3);

@@ -4,11 +4,47 @@ import CardsList from '@/components/cards/cards-list';
 import NewListForm from '@/components/lists/new-list-form';
 import { connect } from 'react-redux';
 import { removeList } from '@/store/lists';
-import { Droppable } from 'react-beautiful-dnd';
+import { removeCard, updateCard } from '@/store/cards';
+import { DndContext } from '@dnd-kit/core';
 
 class List extends Component {
   state = {
     showNewForm: false,
+  };
+
+  handleDragStart = (e) => {
+    const { activatorEvent, active } = e;
+    const { target } = activatorEvent;
+    if (!(target instanceof HTMLElement) || target.tagName !== 'LI') return;
+
+    if (target.closest('button')) {
+      e.preventDefault();
+    }
+
+    const { cardIndex } = target.dataset;
+    const { listId } = target.parentElement.parentElement.dataset;
+
+    Object.assign(active.data, {
+      current: target,
+      cardIndex: Number(cardIndex),
+      listId: Number(listId),
+    });
+  };
+
+  handleDragEnd = ({ activatorEvent, active, over }) => {
+    const { target } = activatorEvent;
+    if (!(target instanceof HTMLElement) || target.tagName !== 'LI') return;
+
+    const { cardIndex, listId: sourceListId } = active.data;
+    const cardId = Number(active.id.split('-')[1]);
+    const overListId = Number(over.id.split('-')[1]);
+
+    if (sourceListId !== overListId) {
+      this.props.updateCard({ id: cardId, listId: overListId });
+    }
+
+    // TODO: reordenar con cardIndex
+    console.log({ cardIndex });
   };
 
   render() {
@@ -20,9 +56,12 @@ class List extends Component {
     }
 
     return (
-      <>
+      <DndContext
+        onDragStart={this.handleDragStart}
+        onDragEnd={this.handleDragEnd}
+      >
         {lists.map((list) => (
-          <section
+          <article
             key={`list-${list.id}`}
             className="card"
             style={{ height: 'fit-content' }}
@@ -45,19 +84,9 @@ class List extends Component {
               </div>
             </header>
             <div className="card-body">
-              <Droppable droppableId={`droppable-for-list-${list.id}`}>
-                {(provided) => (
-                  <CardsList
-                    listId={list.id}
-                    innerRef={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
-                    {provided.placeholder}
-                  </CardsList>
-                )}
-              </Droppable>
+              <CardsList listId={list.id} />
             </div>
-          </section>
+          </article>
         ))}
         <div>
           {showNewForm ? (
@@ -75,7 +104,7 @@ class List extends Component {
             </button>
           )}
         </div>
-      </>
+      </DndContext>
     );
   }
 }
@@ -85,10 +114,14 @@ List.propTypes = {
   title: PropTypes.string,
   lists: PropTypes.array,
   removeList: PropTypes.func,
+  removeCard: PropTypes.func,
+  updateCard: PropTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => ({
   removeList: (list) => dispatch(removeList(list)),
+  removeCard: (card) => dispatch(removeCard(card)),
+  updateCard: (card) => dispatch(updateCard(card)),
 });
 
 export default connect(null, mapDispatchToProps)(List);

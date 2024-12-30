@@ -9,6 +9,7 @@ import SideBar from '@/components/side-bar';
 import { loadBoards } from '@/store/boards';
 import { addList } from '@/store/lists';
 import { addUser } from '@/store/users';
+import { addCard } from '@/store/cards';
 import UsersList from '@/components/users/users-list';
 import User from '@/components/users/user';
 
@@ -36,6 +37,8 @@ class Home extends Component {
     store.dispatch(addUser({ name: 'agustin' }));
     store.dispatch(addList({ title: 'Lista 1', boardId: 91 }));
     store.dispatch(addList({ title: 'Lista 2', boardId: 91 }));
+    store.dispatch(addCard({ title: 'Tarjeta 1', listId: 1 }));
+    store.dispatch(addCard({ title: 'Tarjeta 2', listId: 1 }));
   }
 
   render() {

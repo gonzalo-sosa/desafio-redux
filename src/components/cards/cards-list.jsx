@@ -1,10 +1,11 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { getCardsByListId } from '@/store/cards';
+import { getCardsByListId, updateCard } from '@/store/cards';
 import NewCardForm from '@/components/cards/new-card-form';
 import CardItem from './card-item';
-import { Draggable } from 'react-beautiful-dnd';
+import WithDroppable from '../hoc/with-droppable';
+import WithDraggable from '../hoc/with-draggable';
 
 class CardsList extends Component {
   state = {
@@ -20,54 +21,51 @@ class CardsList extends Component {
     }
 
     return (
-      <ul ref={this.props.innerRef} className="list-group list-group-flush">
-        {cards.map((card, index) => (
-          <Draggable
-            key={`draggable-for-card-${card.id}`}
-            draggableId={`draggable-for-card-${card.id}`}
-            index={index}
-          >
-            {(provided) => (
-              <CardItem
-                draggableProps={provided.draggableProps}
-                dragHandleProps={provided.dragHandleProps}
-                innerRef={provided.innerRef}
-                key={`card-${card.id}`}
-                card={card}
-                index={index}
+      <>
+        <WithDroppable droppableId={`list-${listId}`}>
+          <ul data-list-id={listId} className="list-group list-group-flush">
+            {cards.map((card, index) => (
+              <WithDraggable
+                key={`draggable-for-card-${card.id}`}
+                draggableId={`card-${card.id}`}
+                className="p-1 px-0 list-group-item"
+              >
+                <CardItem key={`card-${card.id}`} card={card} index={index} />
+              </WithDraggable>
+            ))}
+            {showForm ? (
+              <NewCardForm
+                onSubmit={() => this.setState({ showForm: false })}
+                onClose={() => this.setState({ showForm: false })}
+                listId={listId}
               />
+            ) : (
+              <button
+                onClick={() => this.setState({ showForm: true })}
+                className="btn btn-dark text-start mt-2"
+              >
+                + Añade una tarjeta
+              </button>
             )}
-          </Draggable>
-        ))}
-        {this.props.children}
-        {showForm ? (
-          <NewCardForm
-            onSubmit={() => this.setState({ showForm: false })}
-            onClose={() => this.setState({ showForm: false })}
-            listId={listId}
-          />
-        ) : (
-          <button
-            onClick={() => this.setState({ showForm: true })}
-            className="btn btn-dark text-start"
-          >
-            + Añade una tarjeta
-          </button>
-        )}
-      </ul>
+          </ul>
+        </WithDroppable>
+      </>
     );
   }
 }
 
 CardsList.propTypes = {
   listId: PropTypes.number,
-  innerRef: PropTypes.func,
   cards: PropTypes.array,
-  children: PropTypes.node,
+  updateCard: PropTypes.func,
 };
 
 const mapStateToProps = (state, ownProps) => ({
   cards: getCardsByListId(state, ownProps.listId),
 });
 
-export default connect(mapStateToProps, null)(CardsList);
+const mapDispatchToProps = (dispatch) => ({
+  updateCard: (card) => dispatch(updateCard(card)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(CardsList);

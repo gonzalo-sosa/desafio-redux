@@ -23,9 +23,9 @@ const cardSlice = createSlice({
       cards.list = [];
       lastId = 0;
     },
-    allCardsRemovedFromTask: (cards, action) => {
+    allCardsRemovedFromList: (cards, action) => {
       cards.list = cards.list.filter(
-        (card) => card.taskId !== action.payload.taskId,
+        (card) => card.listId !== action.payload.listId,
       );
     },
   },
@@ -36,7 +36,7 @@ const {
   cardUpdated,
   cardRemoved,
   allCardsRemoved,
-  allCardsRemovedFromTask,
+  allCardsRemovedFromList,
 } = cardSlice.actions;
 export default cardSlice.reducer;
 
@@ -56,8 +56,8 @@ export const removeAllCards = () => (dispatch) => {
   dispatch(allCardsRemoved());
 };
 
-export const removeAllCardsFromTask = (list) => (dispatch) => {
-  dispatch(allCardsRemovedFromTask(list));
+export const removeAllCardsFromList = (list) => (dispatch) => {
+  dispatch(allCardsRemovedFromList(list));
 };
 
 export const getCards = createSelector(
