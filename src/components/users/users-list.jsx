@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { getUsers } from '@/store/users';
 import { NavLink } from 'react-router-dom';
 import Modal from '@/components/common/modal';
-import NewUserForm from './new-user-form';
+import UserForm from './user-form';
 
 class UsersList extends Component {
   state = {
@@ -34,9 +34,10 @@ class UsersList extends Component {
               form: 'new-user-form',
             }}
           >
-            <NewUserForm
-              onSubmit={() => this.setState({ showForm: false })}
+            <UserForm
+              action="add"
               form={{ id: 'new-user-form' }}
+              onSubmit={() => this.setState({ showForm: false })}
             />
           </Modal>
         )}

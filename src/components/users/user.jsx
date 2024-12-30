@@ -7,7 +7,7 @@ import { removeUser, updateUser } from '@/store/users';
 import TabPane from '@/components/common/tab-pane';
 import Table from '@/components/common/table/table';
 import Modal from '@/components/common/modal';
-import EditUserForm from './edit-user-form';
+import UserForm from './user-form';
 
 class User extends Component {
   state = {
@@ -89,7 +89,8 @@ class User extends Component {
                   form: 'edit-user-form',
                 }}
               >
-                <EditUserForm
+                <UserForm
+                  action="update"
                   user={user}
                   form={{ id: 'edit-user-form' }}
                   onSubmit={() => this.setState({ showEditForm: false })}
