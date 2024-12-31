@@ -1,1 +1,1 @@
-npx vitest run
+cd frontend && npx vitest run
