@@ -4,23 +4,24 @@ import { createSlice } from '@reduxjs/toolkit';
 import { apiCallBegan } from './api';
 import moment from 'moment';
 
-let lastId = 0;
-
 const boardSlice = createSlice({
   name: 'boards',
   initialState: { list: [], loading: false, lastFetch: null },
   reducers: {
     boardAdded: (boards, action) => {
-      const board = { ...action.payload, id: ++lastId };
+      const board = { ...action.payload, id: Number(action.payload.id) };
       boards.list.push(board);
     },
     boardUpdated: (boards, action) => {
-      let board = boards.list.find((board) => board.id === action.payload.id);
+      let board = boards.list.find(
+        (board) => board.id === Number(action.payload.id),
+      );
+
       Object.assign(board, action.payload);
     },
     boardRemoved: (boards, action) => {
       boards.list = boards.list.filter(
-        (board) => board.id !== action.payload.id,
+        (board) => board.id !== Number(action.payload.board.id),
       );
     },
     allBoardsRemovedFromUser: (boards, action) => {
@@ -30,13 +31,12 @@ const boardSlice = createSlice({
     },
     allBoardsRemoved: (boards, action) => {
       boards.list = [];
-      lastId = 0;
     },
     boardsRequested: (boards, action) => {
       boards.loading = true;
     },
     boardsReceived: (boards, action) => {
-      boards.list = action.payload;
+      boards.list = action.payload.boards;
       boards.loading = false;
       boards.lastFetch = Date.now();
     },
@@ -79,44 +79,29 @@ export const loadBoards = () => (dispatch, getState) => {
   );
 };
 
-export const addBoard = (board) => (dispatch) => {
-  dispatch(boardAdded(board));
-};
+export const addBoard = (board) =>
+  apiCallBegan({
+    url,
+    method: 'post',
+    data: board,
+    onSuccess: boardAdded.type,
+  });
 
-/*
-apiCallBegan({
-  url,
-  method: 'post',
-  data: board,
-  onSuccess: boardAdded.type,
-});
-*/
-
-export const updateBoard = (board) => (dispatch) => {
-  dispatch(boardUpdated(board));
-};
-
-/*
-apiCallBegan({
-    url: `${url}/${id}`,
+export const updateBoard = (board) =>
+  apiCallBegan({
+    url: `${url}/${board.id}`,
     method: 'patch',
     data: board,
     onSuccess: boardUpdated.type,
-});
-*/
+  });
 
-export const removeBoard = (id) => (dispatch) => {
-  dispatch(boardRemoved({ id }));
-};
-
-/*
-apiCallBegan({
+export const removeBoard = (id) =>
+  apiCallBegan({
     url: `${url}/${id}`,
     method: 'delete',
     data: { id },
     onSuccess: boardRemoved.type,
-});
-*/
+  });
 
 export const removeAllBoardsFromUser = (id) => (dispatch) => {
   dispatch(allBoardsRemovedFromUser({ id }));
