@@ -1,4 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 import configureStore from '@/store/configureStore';
 import {
   addUser,
@@ -11,38 +13,52 @@ import {
 
 describe('UserSlice', () => {
   let store;
+  let fakeAxios;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     store = configureStore();
+    fakeAxios = new MockAdapter(axios);
   });
 
   afterEach(() => {
     store.dispatch(removeAllUsers());
   });
 
-  it('should add an user', () => {
-    const user = { name: 'a' };
+  const createState = (list = []) => ({
+    entities: {
+      users: {
+        list,
+      },
+    },
+  });
 
-    store.dispatch(addUser(user));
+  it('should add an user', async () => {
+    const user = { name: 'a' };
+    fakeAxios.onPost('/users').reply(200, user);
+
+    await store.dispatch(addUser(user));
 
     expect(getUsers(store.getState())).toHaveLength(1);
   });
 
-  it('should remove an user', () => {
+  it('should remove an user', async () => {
     const user = { name: 'a', id: 1 };
+    fakeAxios.onDelete('/users/1').reply(200);
 
-    store.dispatch(addUser(user));
-    store.dispatch(removeUser({ id: 1 }));
+    await store.dispatch(addUser(user));
+    await store.dispatch(removeUser({ id: 1 }));
 
     expect(getUsers(store.getState())).toHaveLength(0);
   });
 
-  it('should update an user', () => {
+  it('should update an user', async () => {
     const user = { name: 'a', id: 1 };
-    const updatedUser = { ...user, name: 'b', id: 1 };
+    const updatedUser = { ...user, name: 'b' };
+    fakeAxios.onPost('/users').reply(200, user);
+    fakeAxios.onPatch('/users/1').reply(200, updatedUser);
 
-    store.dispatch(addUser(user));
-    store.dispatch(updateUser(updatedUser));
+    await store.dispatch(addUser(user));
+    await store.dispatch(updateUser(updatedUser));
 
     expect(getUsers(store.getState())).toContainEqual(updatedUser);
   });
@@ -61,24 +77,26 @@ describe('UserSlice', () => {
 
   describe('selectors', () => {
     it('should get all users', () => {
-      const user1 = { name: 'a', id: 1 };
-      const user2 = { name: 'a', id: 2 };
+      const state = createState([
+        { name: 'a', id: 1 },
+        { name: 'b', id: 2 },
+        { name: 'c', id: 3 },
+      ]);
 
-      store.dispatch(addUser(user1));
-      store.dispatch(addUser(user2));
+      const result = getUsers(state);
 
-      expect(getUsers(store.getState())).toHaveLength(2);
+      expect(result).toHaveLength(3);
     });
 
     it('should get user by id', () => {
-      const user1 = { name: 'a', id: 1 };
-      const user2 = { name: 'a', id: 2 };
+      const state = createState([
+        { name: 'a', id: 1 },
+        { name: 'b', id: 2 },
+      ]);
 
-      store.dispatch(addUser(user1));
-      store.dispatch(addUser(user2));
+      const result = getUserById(state, 1);
 
-      expect(getUserById(store.getState(), 1)).toEqual(user1);
-      expect(getUserById(store.getState(), 2)).toEqual(user2);
+      expect(result).toEqual({ name: 'a', id: 1 });
     });
   });
 });
