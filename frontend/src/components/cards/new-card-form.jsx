@@ -17,7 +17,7 @@ class NewCardForm extends Form {
   doSubmit = () => {
     const { title } = this.state.data;
 
-    this.props.addCard({ title, listId: this.props.listId });
+    this.props.addCard({ title, list_id: this.props.listId });
     this.props.onSubmit();
   };
 

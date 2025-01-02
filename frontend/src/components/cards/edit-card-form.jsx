@@ -21,7 +21,11 @@ class EditCardForm extends Form {
   };
 
   doSubmit = () => {
-    this.props.updateCard({ ...this.state.data, id: this.props.card.id });
+    this.props.updateCard({
+      ...this.state.data,
+      list_id: this.props.card.list_id,
+      id: this.props.card.id,
+    });
     this.props.onSubmit();
   };
 
@@ -46,6 +50,7 @@ class EditCardForm extends Form {
 EditCardForm.propTypes = {
   card: PropTypes.object,
   onSubmit: PropTypes.func,
+  updateCard: PropTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => ({

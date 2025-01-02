@@ -49,7 +49,7 @@ class CardItem extends Component {
             >
               <EditCardForm
                 form={{ id: 'edit-card-form' }}
-                card={card}
+                card={{ ...card, list_id: this.props.listId }}
                 onSubmit={() => this.setState({ showModal: false })}
               />
             </Modal>
@@ -71,6 +71,7 @@ class CardItem extends Component {
 }
 
 CardItem.propTypes = {
+  listId: PropTypes.number,
   card: PropTypes.object,
   index: PropTypes.number,
   removeCard: PropTypes.func,
