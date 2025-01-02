@@ -9,6 +9,8 @@ import PropTypes from 'prop-types';
 import RocketIcon from '@/components/common/icons/rocket-icon';
 import ShareIcon from '@/components/common/icons/share-icon';
 import StarIcon from '@/components/common/icons/star-icon';
+import { connect } from 'react-redux';
+import { removeBoard } from '@/store/boards';
 
 class BoardNavBar extends Component {
   render() {
@@ -77,6 +79,14 @@ class BoardNavBar extends Component {
               <DotsIcon />
             </a>
           </li>
+          <li className="nav-item">
+            <button
+              onClick={() => this.props.removeBoard(this.props.boardId)}
+              className="btn btn-danger"
+            >
+              X
+            </button>
+          </li>
         </ul>
       </NavBar>
     );
@@ -85,6 +95,12 @@ class BoardNavBar extends Component {
 
 BoardNavBar.propTypes = {
   title: PropTypes.string,
+  boardId: PropTypes.number,
+  removeBoard: PropTypes.func,
 };
 
-export default BoardNavBar;
+const mapDispatchToProps = (dispatch) => ({
+  removeBoard: (board) => dispatch(removeBoard(board)),
+});
+
+export default connect(null, mapDispatchToProps)(BoardNavBar);

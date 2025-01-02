@@ -17,6 +17,10 @@ class BoardsList extends Component {
   render() {
     const { boards } = this.props;
 
+    if (!boards) {
+      return <div>Loading...</div>;
+    }
+
     return (
       <>
         <div className="nav-link text-light d-flex flex-row justify-content-between align-items-center pe-0">
@@ -68,8 +72,4 @@ const mapStateToProps = (state) => ({
   boards: getBoards(state),
 });
 
-const mapDispatchToProps = (dispatch) => ({
-  dispatch,
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(BoardsList);
+export default connect(mapStateToProps, null)(BoardsList);

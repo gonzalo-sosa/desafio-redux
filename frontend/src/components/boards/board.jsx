@@ -16,7 +16,7 @@ class Board extends Component {
 
     return (
       <main className="main">
-        <BoardNavBar title={board.title} />
+        <BoardNavBar boardId={board.id} title={board.title} />
         <div className="container mt-3">
           <div className="list-container">
             <List boardId={board.id} title="Listado de tareas" lists={lists} />
