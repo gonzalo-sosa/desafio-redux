@@ -36,7 +36,7 @@ const boardSlice = createSlice({
       boards.loading = true;
     },
     boardsReceived: (boards, action) => {
-      boards.list = action.payload.boards;
+      boards.list = action.payload;
       boards.loading = false;
       boards.lastFetch = Date.now();
     },

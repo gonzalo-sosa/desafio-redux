@@ -35,7 +35,7 @@ const listSlice = createSlice({
       lists.loading = true;
     },
     listsReceived: (lists, action) => {
-      lists.list = action.payload.lists;
+      lists.list = action.payload;
       lists.loading = false;
       lists.lastFetch = Date.now();
     },

@@ -35,7 +35,7 @@ const userSlice = createSlice({
       users.loading = false;
     },
     usersReceived: (users, action) => {
-      users.list = action.payload.users;
+      users.list = action.payload;
       users.loading = false;
       users.lastFetch = Date.now();
     },

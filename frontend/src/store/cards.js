@@ -37,7 +37,7 @@ const cardSlice = createSlice({
       cards.loading = false;
     },
     cardsReceived: (cards, action) => {
-      cards.list = action.payload.cards;
+      cards.list = action.payload;
       cards.loading = false;
       cards.lastFetch = Date.now();
     },
