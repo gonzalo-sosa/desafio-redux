@@ -22,12 +22,7 @@ router.post('/register', (req, res) => {
 
   const accessToken = authController.generateToken({ ...user }, '1d');
 
-  res
-    .status(201)
-    .json({
-      data: { ...data, jwt: accessToken },
-      message: 'User registered successfully',
-    });
+  res.status(201).json({ ...data, accessToken });
 });
 
 router.post('/login', async (req, res) => {
@@ -42,16 +37,16 @@ router.post('/login', async (req, res) => {
   const { user } = data;
 
   if (!user) {
-    return res.status(404).send({ error: true, message: 'User not found' });
+    return res.status(404).send('User not found');
   }
 
   if (user.password !== password) {
-    return res.status(401).send({ message: 'Invalid password' });
+    return res.status(401).send('Invalid password');
   }
 
   const accessToken = await authController.generateToken({ email }, '1d');
 
-  res.json({ data: { jwt: accessToken }, message: 'Login successful' });
+  res.json({ error: null, data: { jwt: accessToken } });
 });
 
 export default router;

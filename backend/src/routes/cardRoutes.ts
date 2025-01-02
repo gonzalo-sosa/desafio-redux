@@ -16,7 +16,7 @@ router.get('/cards', (req, res) => {
 
   const { cards } = data;
 
-  res.status(200).json(cards);
+  res.status(200).json({ cards, message: 'Cards retrieved successfully' });
 });
 
 router.get('/cards/:id', (req, res) => {
@@ -28,7 +28,7 @@ router.get('/cards/:id', (req, res) => {
 
   const { card } = data;
 
-  res.status(200).json(card);
+  res.status(200).json({ card, message: 'Card retrieved successfully' });
 });
 
 router.post('/cards', (req, res) => {
@@ -40,7 +40,7 @@ router.post('/cards', (req, res) => {
 
   const { card } = data;
 
-  res.status(201).json(card);
+  res.status(201).json({ card, message: 'Card created successfully' });
 });
 
 router.patch('/cards/:id', (req, res) => {
@@ -67,7 +67,7 @@ router.delete('/cards/:id', (req, res) => {
 
   const { card } = data;
 
-  res.status(200).json(card);
+  res.status(200).json({ card, message: 'Card deleted successfully' });
 });
 
 export default router;

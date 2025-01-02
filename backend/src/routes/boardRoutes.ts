@@ -16,7 +16,7 @@ router.get('/boards', (req, res) => {
 
   const { boards } = data;
 
-  res.status(200).json(boards);
+  res.status(200).json({ boards, message: 'Boards retrieved successfully' });
 });
 
 router.get('/boards/:id', (req, res) => {
@@ -28,7 +28,7 @@ router.get('/boards/:id', (req, res) => {
 
   const { board } = data;
 
-  res.status(200).json({ ...board, message: 'Board retrieved successfully' });
+  res.status(200).json({ board, message: 'Board retrieved successfully' });
 });
 
 router.post('/boards', (req, res) => {
@@ -41,7 +41,7 @@ router.post('/boards', (req, res) => {
 
   const { board } = data;
 
-  res.status(201).json(board);
+  res.status(201).json({ board, message: 'Board created successfully' });
 });
 
 router.patch('/boards/:id', (req, res) => {
@@ -56,7 +56,7 @@ router.patch('/boards/:id', (req, res) => {
 
   const { board } = data;
 
-  res.status(200).json(board);
+  res.status(200).json({ board, message: 'Board updated successfully' });
 });
 
 router.delete('/boards/:id', (req, res) => {
@@ -68,7 +68,7 @@ router.delete('/boards/:id', (req, res) => {
 
   const { board } = data;
 
-  res.status(200).json(board);
+  res.status(200).json({ board, message: 'Board deleted successfully' });
 });
 
 export default router;
