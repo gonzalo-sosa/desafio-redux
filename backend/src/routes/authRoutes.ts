@@ -1,22 +1,40 @@
 import { Router } from 'express';
-import type { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
+import { AuthController } from '@/controllers/authController';
+import { UserController } from '@/controllers/userController';
+import { Database } from 'bun:sqlite';
 
 const router = Router();
-
-const users = [] as { username: string; password: string }[];
+const db = new Database(config.db_filename);
+const userController = new UserController(db);
+const authController = new AuthController();
 
 router.post('/register', (req, res) => {
-  const { username, password } = req.body;
-  users.push({ username, password });
+  const { name, email, password } = req.body;
 
-  res.status(201).json({ username });
+  const { error, data } = userController.createUser({ name, email, password });
+
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  const { user } = data;
+
+  const accessToken = authController.generateToken({ ...user }, '1d');
+
+  res.status(201).json({ ...data, accessToken });
 });
 
 router.post('/login', async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
-  const user = users.find((user) => user.username === username);
+  const { error, data } = userController.getUserByEmail(email);
+
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  const { user } = data;
 
   if (!user) {
     return res.status(404).send('User not found');
@@ -26,16 +44,9 @@ router.post('/login', async (req, res) => {
     return res.status(401).send('Invalid password');
   }
 
-  const accessToken = await getToken({ username }, '1d');
+  const accessToken = await authController.generateToken({ email }, '1d');
 
-  res.json({ accessToken });
+  res.json({ error: null, data: { jwt: accessToken } });
 });
-
-const getToken = async (payload: JwtPayload, expiresIn?: string) => {
-  const module = await import('jsonwebtoken');
-  const token = module.sign(payload, config.jwtSecret, { expiresIn });
-
-  return token;
-};
 
 export default router;

@@ -1,50 +1,74 @@
 import { Router } from 'express';
 import { Database } from 'bun:sqlite';
 import config from 'config';
+import { BoardController } from '@/controllers/boardController';
 
 const router = Router();
 const db = new Database(config.db_filename);
+const boardController = new BoardController(db);
 
 router.get('/boards', (req, res) => {
-  const stmt = db.query('SELECT id, title FROM boards');
-  const boards = stmt.all();
+  const { error, data } = boardController.getBoards();
 
-  res.status(200).json(boards);
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  const { boards } = data;
+
+  res.status(200).json({ boards, message: 'Boards retrieved successfully' });
 });
 
 router.get('/boards/:id', (req, res) => {
-  const stmt = db.query('SELECT id, title FROM boards WHERE id = ?');
-  const board = stmt.get(req.params.id);
+  const { error, data } = boardController.getBoardById(req.params.id);
 
-  res.status(200).json(board);
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  const { board } = data;
+
+  res.status(200).json({ board, message: 'Board retrieved successfully' });
 });
 
 router.post('/boards', (req, res) => {
-  const stmt = db.prepare('INSERT INTO boards (title, user_id) VALUES (?, ?)');
+  const { error, data } = boardController.createBoard(req.body);
 
-  if (!req.body.title) {
-    res.status(400).json({ message: 'Title is required' });
+  if (error) {
+    res.status(400).json(error);
     return;
   }
 
-  if (!req.body.user_id) {
-    stmt.run(req.body.title);
-  } else {
-    stmt.run(req.body.title, req.body.user_id);
-  }
+  const { board } = data;
 
-  res
-    .status(201)
-    .json({ title: req.body.title, message: 'Board created successfully' });
+  res.status(201).json({ board, message: 'Board created successfully' });
 });
 
 router.patch('/boards/:id', (req, res) => {
-  const stmt = db.prepare('UPDATE boards SET title = ? WHERE id = ?');
-  stmt.run(req.body.title, req.params.id);
+  const { error, data } = boardController.updateBoard({
+    ...req.body,
+    id: req.params.id,
+  });
 
-  res
-    .status(200)
-    .json({ title: req.body.title, message: 'Board updated successfully' });
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  const { board } = data;
+
+  res.status(200).json({ board, message: 'Board updated successfully' });
+});
+
+router.delete('/boards/:id', (req, res) => {
+  const { error, data } = boardController.deleteBoard({ id: req.params.id });
+
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  const { board } = data;
+
+  res.status(200).json({ board, message: 'Board deleted successfully' });
 });
 
 export default router;

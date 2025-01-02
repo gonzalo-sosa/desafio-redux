@@ -18,7 +18,7 @@ const initializeDatabase = () => {
     CREATE TABLE IF NOT EXISTS boards (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
-      user_id INTEGER NOT NULL,
+      user_id INTEGER NULL,
       FOREIGN KEY (user_id) REFERENCES users (id)
     )
   `);
@@ -46,6 +46,7 @@ const initializeDatabase = () => {
     CREATE TABLE IF NOT EXISTS cards (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
+      description TEXT NULL,
       list_id INTEGER NOT NULL,
       FOREIGN KEY (list_id) REFERENCES lists (id)
     )

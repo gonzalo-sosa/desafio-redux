@@ -1,11 +1,21 @@
-// rutas de autenticación (login, register, etc)
+import config from 'config';
+import type { JwtPayload } from 'jsonwebtoken';
 
-import { Router } from 'express';
+export class AuthController {
+  async generateToken(payload: JwtPayload, expiresIn?: string) {
+    const module = await import('jsonwebtoken');
+    const token = module.sign(payload, config.jwtSecret, {
+      expiresIn,
+      algorithm: 'HS256',
+    });
 
-const router = Router();
+    return token;
+  }
 
-router.get('/', (req, res) => {
-  res.send('Auth');
-});
+  async checkToken(token: string) {
+    const module = await import('jsonwebtoken');
+    const decoded = module.verify(token, config.jwtSecret);
 
-export default router;
+    return decoded as JwtPayload;
+  }
+}

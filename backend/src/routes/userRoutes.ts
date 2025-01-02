@@ -1,44 +1,73 @@
 import { Router } from 'express';
 import { Database } from 'bun:sqlite';
 import config from 'config';
+import { UserController } from '@/controllers/userController';
 
 const router = Router();
 const db = new Database(config.db_filename);
+const userController = new UserController(db);
 
 router.get('/users', (req, res) => {
-  const stmt = db.query('SELECT id, name, email FROM users');
-  const users = stmt.all();
+  const { error, data } = userController.getUsers();
 
-  res.status(200).json(users);
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  const { users } = data;
+
+  res.status(200).json({ users, message: 'Users retrieved successfully' });
 });
 
 router.get('/users/:id', (req, res) => {
-  const stmt = db.query('SELECT id, name, email FROM users WHERE id = ?');
-  const user = stmt.get(req.params.id);
+  const { error, data } = userController.getUserById(req.params.id);
 
-  res.status(200).json(user);
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  const { user } = data;
+
+  res.status(200).json({ user, message: 'User retrieved successfully' });
 });
 
 router.post('/users', (req, res) => {
-  const stmt = db.prepare(
-    'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
-  );
-  stmt.run(req.body.name, req.body.email, req.body.password);
+  const { error, data } = userController.createUser(req.body);
 
-  res
-    .status(201)
-    .json({ name: req.body.name, message: 'User created successfully' });
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  const { user } = data;
+
+  res.status(201).json({ user, message: 'User created successfully' });
 });
 
 router.patch('/users/:id', (req, res) => {
-  const stmt = db.prepare(
-    'UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?',
-  );
-  stmt.run(req.body.name, req.body.email, req.body.password, req.params.id);
+  const { error, data } = userController.updateUser({
+    id: Number(req.params.id),
+    ...req.body,
+  });
 
-  res
-    .status(200)
-    .json({ name: req.body.name, message: 'User updated successfully' });
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  const { user } = data;
+
+  res.status(200).json({ user, message: 'User updated successfully' });
+});
+
+router.delete('/users/:id', (req, res) => {
+  const { error, data } = userController.deleteUser({ id: req.params.id });
+
+  if (error) {
+    return res.status(400).send(error);
+  }
+
+  const { user } = data;
+
+  res.status(200).json({ user, message: 'User deleted successfully' });
 });
 
 export default router;
