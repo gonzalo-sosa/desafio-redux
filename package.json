@@ -9,7 +9,11 @@
   ],
   "scripts": {
     "frontend": "cd frontend && pnpm dev",
-    "backend": "cd backend && bun dev"
+    "backend": "cd backend && bun dev",
+    "format": "prettier --check .",
+    "lint": "eslint .",
+    "format:fix": "prettier --write .",
+    "lint:fix": "eslint . --fix"
   },
   "repository": {
     "type": "git",
