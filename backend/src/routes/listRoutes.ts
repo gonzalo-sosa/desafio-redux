@@ -16,7 +16,7 @@ router.get('/lists', (req, res) => {
 
   const { lists } = data;
 
-  res.status(200).json({ lists, message: 'Lists retrieved successfully' });
+  res.status(200).json(lists);
 });
 
 router.get('/lists/:id', (req, res) => {
@@ -28,7 +28,7 @@ router.get('/lists/:id', (req, res) => {
 
   const { list } = data;
 
-  res.status(200).json({ list, message: 'List retrieved successfully' });
+  res.status(200).json(list);
 });
 
 router.post('/lists', (req, res) => {
@@ -40,7 +40,7 @@ router.post('/lists', (req, res) => {
 
   const { list } = data;
 
-  res.status(201).json({ list, message: 'List created successfully' });
+  res.status(201).json(list);
 });
 
 router.put('/lists/:id', (req, res) => {
@@ -55,7 +55,7 @@ router.put('/lists/:id', (req, res) => {
 
   const { list } = data;
 
-  res.status(200).json({ list, message: 'List updated successfully' });
+  res.status(200).json(list);
 });
 
 router.delete('/lists/:id', (req, res) => {
@@ -67,7 +67,7 @@ router.delete('/lists/:id', (req, res) => {
 
   const { list } = data;
 
-  res.status(200).json({ list, message: 'List deleted successfully' });
+  res.status(200).json(list);
 });
 
 export default router;
