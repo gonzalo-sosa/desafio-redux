@@ -5,47 +5,46 @@ import NewListForm from '@/components/lists/new-list-form';
 import { connect } from 'react-redux';
 import { removeList } from '@/store/lists';
 import { removeCard, updateCard } from '@/store/cards';
-import { DndContext } from '@dnd-kit/core';
 
 class List extends Component {
   state = {
     showNewForm: false,
   };
 
-  handleDragStart = (e) => {
-    const { activatorEvent, active } = e;
-    const { target } = activatorEvent;
-    if (!(target instanceof HTMLElement) || target.tagName !== 'LI') return;
+  // handleDragStart = (e) => {
+  //   const { activatorEvent, active } = e;
+  //   const { target } = activatorEvent;
+  //   if (!(target instanceof HTMLElement) || target.tagName !== 'LI') return;
 
-    if (target.closest('button')) {
-      e.preventDefault();
-    }
+  //   if (target.closest('button')) {
+  //     e.preventDefault();
+  //   }
 
-    const { cardIndex } = target.dataset;
-    const { listId } = target.parentElement.parentElement.dataset;
+  //   const { cardIndex } = target.dataset;
+  //   const { listId } = target.parentElement.parentElement.dataset;
 
-    Object.assign(active.data, {
-      current: target,
-      cardIndex: Number(cardIndex),
-      listId: Number(listId),
-    });
-  };
+  //   Object.assign(active.data, {
+  //     current: target,
+  //     cardIndex: Number(cardIndex),
+  //     listId: Number(listId),
+  //   });
+  // };
 
-  handleDragEnd = ({ activatorEvent, active, over }) => {
-    const { target } = activatorEvent;
-    if (!(target instanceof HTMLElement) || target.tagName !== 'LI') return;
+  // handleDragEnd = ({ activatorEvent, active, over }) => {
+  //   const { target } = activatorEvent;
+  //   if (!(target instanceof HTMLElement) || target.tagName !== 'LI') return;
 
-    const { cardIndex, listId: sourceListId } = active.data;
-    const cardId = Number(active.id.split('-')[1]);
-    const overListId = Number(over.id.split('-')[1]);
+  //   const { cardIndex, listId: sourceListId } = active.data;
+  //   const cardId = Number(active.id.split('-')[1]);
+  //   const overListId = Number(over.id.split('-')[1]);
 
-    if (sourceListId !== overListId) {
-      this.props.updateCard({ id: cardId, listId: overListId });
-    }
+  //   if (sourceListId !== overListId) {
+  //     this.props.updateCard({ id: cardId, listId: overListId });
+  //   }
 
-    // TODO: reordenar con cardIndex
-    console.log({ cardIndex });
-  };
+  //   // TODO: reordenar con cardIndex
+  //   console.log({ cardIndex });
+  // };
 
   render() {
     const { showNewForm } = this.state;
@@ -56,10 +55,7 @@ class List extends Component {
     }
 
     return (
-      <DndContext
-        onDragStart={this.handleDragStart}
-        onDragEnd={this.handleDragEnd}
-      >
+      <>
         {lists.map((list) => (
           <article
             key={`list-${list.id}`}
@@ -68,12 +64,7 @@ class List extends Component {
           >
             <header className="card-header">
               <div className="d-flex align-items-center justify-content-between">
-                <h5
-                  onClick={() => this.setState({ showEditForm: true })}
-                  className="card-title"
-                >
-                  {list.title}
-                </h5>
+                <h5 className="card-title">{list.title}</h5>
                 <button
                   onClick={() => this.props.removeList(list)}
                   type="button"
@@ -104,7 +95,7 @@ class List extends Component {
             </button>
           )}
         </div>
-      </DndContext>
+      </>
     );
   }
 }
