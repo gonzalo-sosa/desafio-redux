@@ -6,12 +6,12 @@ import BoardsList from '@/components/boards/boards-list';
 import configureStore from '@/store/configureStore';
 import NavBar from '@/components/nav-bar';
 import SideBar from '@/components/side-bar';
-import { loadBoards } from '@/store/boards';
-import { addList } from '@/store/lists';
-import { addUser } from '@/store/users';
-import { addCard } from '@/store/cards';
 import UsersList from '@/components/users/users-list';
 import User from '@/components/users/user';
+import { loadUsers } from '@/store/users';
+import { loadBoards } from '@/store/boards';
+import { loadLists } from '@/store/lists';
+import { loadCards } from '@/store/cards';
 
 const store = configureStore();
 
@@ -31,14 +31,9 @@ class Home extends Component {
 
   componentDidMount() {
     store.dispatch(loadBoards());
-    store.dispatch(
-      addUser({ name: 'gonzalo', email: 'D9mCt@example.com', address: 'CABA' }),
-    );
-    store.dispatch(addUser({ name: 'agustin' }));
-    store.dispatch(addList({ title: 'Lista 1', boardId: 91 }));
-    store.dispatch(addList({ title: 'Lista 2', boardId: 91 }));
-    store.dispatch(addCard({ title: 'Tarjeta 1', listId: 1 }));
-    store.dispatch(addCard({ title: 'Tarjeta 2', listId: 1 }));
+    store.dispatch(loadUsers());
+    store.dispatch(loadLists());
+    store.dispatch(loadCards());
   }
 
   render() {

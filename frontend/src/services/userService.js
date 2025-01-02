@@ -1,6 +1,6 @@
 import http from './httpService';
 
-const apiEndpoint = `${import.meta.env.REACT_APP_API_URL}/users`;
+const apiEndpoint = `${import.meta.env.REACT_APP_API_URL}/register`;
 
 export function register(user) {
   return http.post(apiEndpoint, {

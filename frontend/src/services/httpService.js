@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-axios.defaults.baseURL = import.meta.env.REACT_APP_API_URL;
+axios.defaults.baseURL = import.meta.env.PUBLIC_API_URL;
 
 // Interceptor para errores inesperados
 axios.interceptors.response.use(null, (error) => {

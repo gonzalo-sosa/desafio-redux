@@ -5,7 +5,6 @@ import { getUserById } from '@/store/users';
 import PencilIcon from '@/components/common/icons/pencil-icon';
 import { removeUser, updateUser } from '@/store/users';
 import TabPane from '@/components/common/tab-pane';
-import Table from '@/components/common/table/table';
 import Modal from '@/components/common/modal';
 import UserForm from './user-form';
 
@@ -34,16 +33,6 @@ class User extends Component {
           {item.description} <a href={item.link}>{item.project}</a> project.
         </div>
       ),
-    },
-  ];
-
-  data = [
-    {
-      _id: '1',
-      icon: 'fa-comment',
-      description: 'John Doe posted a comment in',
-      link: '#',
-      project: 'Avengers Initiative',
     },
   ];
 
@@ -147,16 +136,7 @@ class User extends Component {
               </ul>
 
               <div className="tab-content">
-                <TabPane id="tab-activity" active>
-                  <div className="table-responsive">
-                    <Table
-                      columns={this.columns}
-                      data={this.data}
-                      sortColumn={{}}
-                      onSort={() => {}}
-                    />
-                  </div>
-                </TabPane>
+                <TabPane id="tab-activity" active />
               </div>
             </div>
           </div>

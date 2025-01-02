@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import * as apiActions from '../api.js';
+import axios from 'axios';
 
 const api =
   ({ dispatch, getState }) =>
@@ -13,34 +14,13 @@ const api =
 
     next(action);
 
-    const responses = {
-      get: {
-        data: [
-          { id: 91, title: 'Board 1' },
-          { id: 92, title: 'Board 2' },
-        ],
-      },
-      post: {
-        data,
-      },
-      patch: {
-        data,
-      },
-      delete: {
-        data,
-      },
-    };
-
-    const getData = (method) => responses[method];
-
     try {
-      const response = await Promise.resolve(getData(method));
-      // const response = await axios.request({
-      //   baseURL: 'http://localhost:9001/api',
-      //   url,
-      //   method,
-      //   data,
-      // });
+      const response = await axios.request({
+        baseURL: 'http://localhost:1234',
+        url,
+        method,
+        data,
+      });
 
       // General
       dispatch(apiActions.apiCallSuccess(response.data));
