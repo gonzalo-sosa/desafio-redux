@@ -19,7 +19,7 @@ const cardSlice = createSlice({
     },
     cardRemoved: (cards, action) => {
       cards.list = cards.list.filter(
-        (card) => card.id !== Number(action.payload.card.id),
+        (card) => card.id !== Number(action.payload.id),
       );
     },
     allCardsRemoved: (cards, action) => {

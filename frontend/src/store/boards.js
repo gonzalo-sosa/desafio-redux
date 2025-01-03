@@ -21,7 +21,7 @@ const boardSlice = createSlice({
     },
     boardRemoved: (boards, action) => {
       boards.list = boards.list.filter(
-        (board) => board.id !== Number(action.payload.board.id),
+        (board) => board.id !== Number(action.payload.id),
       );
     },
     allBoardsRemovedFromUser: (boards, action) => {
