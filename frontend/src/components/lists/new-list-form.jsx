@@ -33,13 +33,25 @@ class NewListForm extends Form {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
+      <form onSubmit={this.handleSubmit} className="bg-light p-2 rounded">
         {this.renderInput({
           name: 'title',
-          placeholder: 'Introduce el nombre de la lista',
+          placeholder: 'Introduce el nombre de la lista...',
           autoFocus: true,
           className: 'form-control',
         })}
+        <div className="mt-2 d-flex flex-row justify-content-start align-items-center">
+          <button type="submit" className="btn btn-primary me-2">
+            Añadir lista
+          </button>
+          <button
+            type="button"
+            className="btn text-muted"
+            onClick={() => this.props.onClose()}
+          >
+            X
+          </button>
+        </div>
       </form>
     );
   }

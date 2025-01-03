@@ -6,9 +6,9 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import auth from '@/services/authService';
 import { Route } from 'react-router-dom';
-import LoginForm from '@/components/login-form';
-import RegisterForm from '@/components/register-form';
-import Logout from '@/components/logout';
+import LoginForm from '@/components/auth/login-form';
+import RegisterForm from '@/components/auth/register-form';
+import Logout from '@/components/auth/logout';
 
 function App() {
   const [user, setUser] = useState(null);

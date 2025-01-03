@@ -1,4 +1,4 @@
-import Form from './common/form/form';
+import Form from '../common/form/form';
 import Joi from 'joi-browser';
 import auth from '@/services/authService';
 import { Redirect } from 'react-router-dom';

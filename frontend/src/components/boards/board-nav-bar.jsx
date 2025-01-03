@@ -17,76 +17,76 @@ class BoardNavBar extends Component {
     const { title } = this.props;
 
     return (
-      <NavBar>
-        <span className="navbar-brand text-white">{title}</span>
+      <NavBar className="board-nav-bar">
+        <span className="navbar-brand">{title}</span>
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link text-white" href="#">
+            <a className="nav-link" href="#">
               <StarIcon />
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-white" href="#">
+            <a className="nav-link" href="#">
               <GroupIcon />
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-white" href="#">
+            <a className="nav-link" href="#">
               Tablero
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-white" href="#">
+            <a className="nav-link" href="#">
               Tabla
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-white" href="#">
+            <a className="nav-link" href="#">
               <ArrowIcon />
             </a>
           </li>
         </ul>
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link text-white" href="#">
+            <a className="nav-link" href="#">
               <RocketIcon />
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-white" href="#">
+            <a className="nav-link" href="#">
               <LightningIcon />
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-white" href="#">
+            <a className="nav-link" href="#">
               <BarsIcon />
               Filtros
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-white" href="#">
+            <a className="nav-link" href="#">
               Cuenta
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-white" href="#">
+            <a className="nav-link" href="#">
               <ShareIcon />
               Compartir
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link text-white" href="#">
+            <a className="nav-link" href="#">
               <DotsIcon />
             </a>
           </li>
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <button
               onClick={() => this.props.removeBoard(this.props.boardId)}
               className="btn btn-danger"
             >
               X
             </button>
-          </li>
+          </li> */}
         </ul>
       </NavBar>
     );

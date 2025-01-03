@@ -10,11 +10,20 @@ const SideBar = ({ items, children }) => {
         return (
           <li className="nav-item" key={`sidebar-item-${index}`}>
             <NavLink
-              className={`nav-link text-light ${item.active ? 'active' : ''} ${item.disabled ? 'disabled' : ''}`}
+              className={`nav-link text-dark ${item.active ? 'active' : ''} ${item.disabled ? 'disabled' : ''}`}
               key={`sidebar-link-${index}`}
               aria-current={item.active ? 'page' : undefined}
+              exact
               to={item.href}
             >
+              {item.icon && (
+                <img
+                  src={item.icon}
+                  alt={item.label}
+                  width={18}
+                  className="me-2"
+                />
+              )}
               {item.label}
             </NavLink>
           </li>
@@ -24,9 +33,11 @@ const SideBar = ({ items, children }) => {
   };
 
   return (
-    <aside className="aside d-flex flex-column p-3 bg-dark">
-      <ul className="nav nav-pills flex-column mb-auto">{renderItems()}</ul>
+    <aside className="side-bar d-flex flex-column">
       {children}
+      <ul className="nav nav-pills flex-column mb-auto pe-2">
+        {renderItems()}
+      </ul>
     </aside>
   );
 };

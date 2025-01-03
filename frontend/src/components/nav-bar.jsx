@@ -12,9 +12,11 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="nav navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="nav-bar navbar navbar-expand-lg">
       <div className="d-flex">
-        <button className="btn btn-secondary mx-2">Menú</button>
+        <button className="btn mx-2">
+          <img src="icons/square-dots.svg" alt="Menú" className="w-100" />
+        </button>
         <Link to="/" className="navbar-brand">
           Trello
         </Link>

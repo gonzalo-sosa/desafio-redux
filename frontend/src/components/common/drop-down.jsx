@@ -12,7 +12,7 @@ class DropDown extends Component {
     return (
       <div className="dropdown show mx-2">
         <button
-          className="btn dropdown-toggle text-light"
+          className="btn dropdown-toggle"
           href="#"
           role="button"
           id="dropdownMenuLink"

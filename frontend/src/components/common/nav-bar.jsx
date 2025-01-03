@@ -15,10 +15,15 @@ class NavBar extends Component {
 
   render() {
     const { isMenuOpen } = this.state;
+    const { className } = this.props;
     const [LeftCorner, Content, RightCorner] = this.props.children;
 
     return (
-      <nav className="nav navbar navbar-expand-lg navbar-light bg-primary px-2">
+      <nav
+        className={
+          'navbar navbar-expand-lg px-2' + (className ? ` ${className}` : '')
+        }
+      >
         <div className="container-fluid">
           {LeftCorner}
           <button
@@ -51,6 +56,7 @@ class NavBar extends Component {
 NavBar.propTypes = {
   nav: PropTypes.object,
   children: PropTypes.array,
+  className: PropTypes.string,
 };
 
 export default NavBar;

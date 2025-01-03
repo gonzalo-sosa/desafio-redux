@@ -23,16 +23,16 @@ class BoardsList extends Component {
 
     return (
       <>
-        <div className="nav-link text-light d-flex flex-row justify-content-between align-items-center pe-0">
-          <span>Sus tableros</span>
+        <div className="nav-link text-dark d-flex flex-row justify-content-between align-items-center mb-0 py-0 pe-0">
+          <h6 className="my-0">Sus tableros</h6>
           <button
-            className="btn btn-primary"
+            className="btn"
             onClick={() => this.setState({ showForm: true })}
           >
-            +
+            <span className="fs-4">+</span>
           </button>
         </div>
-        <ul>
+        <ul className="boards-list nav nav-pills flex-column mb-auto pe-2">
           {this.state.showForm && (
             <Modal
               label={'Nuevo tablero'}
@@ -52,7 +52,7 @@ class BoardsList extends Component {
             <li key={`board-${board.id}`} className="nav-item">
               <NavLink
                 to={`/boards/${board.id}`}
-                className="nav-link text-light"
+                className="nav-link text-dark"
               >
                 {board.title}
               </NavLink>

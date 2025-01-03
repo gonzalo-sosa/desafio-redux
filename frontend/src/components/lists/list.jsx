@@ -65,13 +65,25 @@ class List extends Component {
             <header className="card-header">
               <div className="d-flex align-items-center justify-content-between">
                 <h5 className="card-title">{list.title}</h5>
-                <button
+                <div>
+                  <button className="btn">
+                    <img
+                      src="front-arrows.svg"
+                      alt="Minimizar"
+                      className="w-100"
+                    />
+                  </button>
+                  <button className="btn">
+                    <img src="/dots.svg" alt="Opciones" className="w-100" />
+                  </button>
+                </div>
+                {/* <button
                   onClick={() => this.props.removeList(list)}
                   type="button"
                   className="btn btn-danger"
                 >
                   X
-                </button>
+                </button> */}
               </div>
             </header>
             <div className="card-body">
@@ -84,14 +96,15 @@ class List extends Component {
             <NewListForm
               onSubmit={() => this.setState({ showNewForm: false })}
               boardId={this.props.boardId}
+              onClose={() => this.setState({ showNewForm: false })}
             />
           ) : (
             <button
               onClick={() => this.setState({ showNewForm: true })}
               type="button"
-              className="btn btn-primary w-100 p-2 text-start"
+              className="btn w-100 p-2 text-start d-flex flex-row align-items-center new-list"
             >
-              + Agregar lista
+              <span className="fs-4 me-2 mb-1"> &#43;</span>Agregar lista
             </button>
           )}
         </div>

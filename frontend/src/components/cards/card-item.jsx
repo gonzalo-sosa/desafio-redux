@@ -61,9 +61,9 @@ class CardItem extends Component {
           >
             <PencilIcon />
           </button>
-          <button onClick={this.handleRemoveCard} className="btn btn-danger">
+          {/* <button onClick={this.handleRemoveCard} className="btn btn-danger">
             X
-          </button>
+          </button> */}
         </div>
       </li>
     );
