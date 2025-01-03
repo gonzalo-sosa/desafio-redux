@@ -16,7 +16,7 @@ router.get('/users', (req, res) => {
 
   const { users } = data;
 
-  res.status(200).json({ users, message: 'Users retrieved successfully' });
+  res.status(200).json(users);
 });
 
 router.get('/users/:id', (req, res) => {
@@ -28,7 +28,7 @@ router.get('/users/:id', (req, res) => {
 
   const { user } = data;
 
-  res.status(200).json({ user, message: 'User retrieved successfully' });
+  res.status(200).json(user);
 });
 
 router.post('/users', (req, res) => {
@@ -40,7 +40,7 @@ router.post('/users', (req, res) => {
 
   const { user } = data;
 
-  res.status(201).json({ user, message: 'User created successfully' });
+  res.status(201).json(user);
 });
 
 router.patch('/users/:id', (req, res) => {
@@ -55,7 +55,7 @@ router.patch('/users/:id', (req, res) => {
 
   const { user } = data;
 
-  res.status(200).json({ user, message: 'User updated successfully' });
+  res.status(200).json(user);
 });
 
 router.delete('/users/:id', (req, res) => {
@@ -67,7 +67,7 @@ router.delete('/users/:id', (req, res) => {
 
   const { user } = data;
 
-  res.status(200).json({ user, message: 'User deleted successfully' });
+  res.status(200).json(user);
 });
 
 export default router;
