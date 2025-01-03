@@ -52,7 +52,7 @@ class Home extends Component {
         <Provider store={store}>
           <div className="container-fluid px-0">
             <div className="row">
-              <div className="col-3 pe-0">
+              <div className="col-md-2 col-3 pe-0">
                 <SideBar items={this.sideBarItems}>
                   <div className="d-flex align-items-center py-2 border-bottom">
                     <div className="side-bar--icon me-2">
@@ -69,7 +69,7 @@ class Home extends Component {
                   </div>
                 </SideBar>
               </div>
-              <div className="col-9 ps-0">
+              <div className="col-md-10 col-9  ps-0">
                 <Route path="/boards/:id" component={Board} />
                 <Route path="/users/:id" component={User} />
               </div>

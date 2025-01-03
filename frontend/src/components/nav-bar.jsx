@@ -12,7 +12,7 @@ const NavBar = () => {
   ];
 
   return (
-    <nav className="nav-bar navbar navbar-expand-lg">
+    <nav className="nav-bar navbar navbar-expand-lg border-bottom">
       <div className="d-flex">
         <button className="btn mx-2">
           <img src="icons/square-dots.svg" alt="Menú" className="w-100" />

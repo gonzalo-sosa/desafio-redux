@@ -31,9 +31,7 @@ class BoardNavBar extends Component {
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              Tablero
-            </a>
+            <button className="btn">Tablero</button>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#">
@@ -60,7 +58,6 @@ class BoardNavBar extends Component {
           <li className="nav-item">
             <a className="nav-link" href="#">
               <BarsIcon />
-              Filtros
             </a>
           </li>
           <li className="nav-item">
@@ -69,10 +66,10 @@ class BoardNavBar extends Component {
             </a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
+            <button className="btn d-flex align-items-center">
               <ShareIcon />
               Compartir
-            </a>
+            </button>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#">

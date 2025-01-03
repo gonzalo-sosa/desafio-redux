@@ -36,6 +36,7 @@
 
 .board-nav-bar {
   background-color: var(--bg-color-secondary);
+  font-size: 14px;
 }
 
 .side-bar .nav-link.active {
@@ -44,8 +45,12 @@
 
 .list-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
+  gap: 0.5rem;
+}
+
+.new-list-container {
+  grid-column: span 5;
 }
 
 .new-list {
@@ -57,5 +62,33 @@
   &:hover {
     background: var(--bg-new-list);
     filter: brightness(0.9);
+  }
+}
+
+.list-card {
+  font-size: 12px;
+  grid-column: span 5;
+}
+
+.list-card--closed {
+  grid-column: span 1;
+  width: fit-content;
+
+  & header {
+    padding: 0;
+    padding-bottom: 10px;
+    & div {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      & h6 {
+        order: 1;
+        margin-block: 1rem;
+        transform: rotate(90deg);
+      }
+    }
   }
 }

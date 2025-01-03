@@ -38,9 +38,9 @@ class CardsList extends Component {
           ) : (
             <button
               onClick={() => this.setState({ showForm: true })}
-              className="btn btn-dark text-start mt-2"
+              className="btn text-start d-flex flex-row align-items-center"
             >
-              + Añade una tarjeta
+              <span className="fs-4 me-2 mb-1">&#43;</span> Añade una tarjeta
             </button>
           )}
         </ul>

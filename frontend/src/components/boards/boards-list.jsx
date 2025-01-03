@@ -26,10 +26,10 @@ class BoardsList extends Component {
         <div className="nav-link text-dark d-flex flex-row justify-content-between align-items-center mb-0 py-0 pe-0">
           <h6 className="my-0">Sus tableros</h6>
           <button
-            className="btn"
+            className="btn d-flex flex-row justify-content-center align-items-center"
             onClick={() => this.setState({ showForm: true })}
           >
-            <span className="fs-4">+</span>
+            <span className="fs-4">&#43;</span>
           </button>
         </div>
         <ul className="boards-list nav nav-pills flex-column mb-auto pe-2">
