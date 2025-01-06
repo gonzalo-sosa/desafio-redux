@@ -45,7 +45,7 @@ class CardsList extends Component {
       const itemToMove = updatedCards.splice(draggedItem.index, 1)[0];
 
       if (draggedItem.index < target.index) {
-        updatedCards.splice(target.index - 1, 0, itemToMove);
+        updatedCards.splice(target.index + 1, 0, itemToMove);
       } else {
         updatedCards.splice(target.index, 0, itemToMove);
       }
@@ -108,7 +108,7 @@ class CardsList extends Component {
           ) : (
             <button
               onClick={() => this.setState({ showForm: true })}
-              className="btn text-start d-flex flex-row align-items-center text-muted"
+              className="btn text-start d-flex flex-row align-items-center text-muted ps-0"
             >
               <span className="fs-4 me-2 mb-1 opacity-75">&#43;</span> Añade una
               tarjeta

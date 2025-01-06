@@ -50,7 +50,7 @@ class CardItem extends Component {
         onDragStart={this.handleDragStart}
         onDragEnd={this.handleDragEnd}
         onDrop={this.handleDrop}
-        className="list-group-item d-flex flex-row align-items-center justify-content-between"
+        className="border py-1 px-2 my-1 bg-white shadow-sm rounded d-flex flex-row align-items-center justify-content-between"
       >
         {card.title}
         <div className="d-flex flex-row align-items-center">

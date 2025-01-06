@@ -19,6 +19,7 @@ class ListItem extends Component {
   handleDragEnd = (e) => {
     this.setState({ isDragging: false });
     e.currentTarget.style.opacity = '1';
+    e.currentTarget.style.backgroundColor = 'inherit';
   };
 
   render() {
@@ -34,9 +35,9 @@ class ListItem extends Component {
         className={`card list-card${isClosed ? '--closed' : ''} ${isDragging ? 'dragging' : ''}`}
         style={{ height: 'fit-content' }}
       >
-        <header className="card-header">
+        <header className="card-header py-1 border-0 bg-transparent">
           <div className="d-flex align-items-center justify-content-between">
-            <h6 className="card-title">{list.title}</h6>
+            <h6 className="card-title mb-0 ms-2">{list.title}</h6>
             <div className="d-flex flex-row align-items-center">
               <button
                 className="btn"
@@ -46,13 +47,13 @@ class ListItem extends Component {
                   <img
                     src="/icons/left-right-arrows.svg"
                     alt="Abrir"
-                    width={20}
+                    width={16}
                   />
                 ) : (
                   <img
                     src="/icons/arrows.svg"
                     alt="Cerrar"
-                    width={20}
+                    width={16}
                     style={{ transform: 'rotate(45deg)' }}
                   />
                 )}
@@ -61,7 +62,7 @@ class ListItem extends Component {
                 className="btn"
                 style={{ display: `${this.state.isClosed ? 'none' : 'block'}` }}
               >
-                <img src="/icons/dots.svg" alt="Opciones" className="w-100" />
+                <img src="/icons/dots.svg" alt="Opciones" width={20} />
               </button>
             </div>
             {/* <button
