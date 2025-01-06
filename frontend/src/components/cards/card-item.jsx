@@ -23,9 +23,22 @@ class CardItem extends Component {
     this.props.removeCard(this.props.card);
   };
 
+  handleDragStart = () => {
+    this.props.onDragStart();
+    // console.log(e);
+  };
+
+  handleDragEnd = () => {
+    // console.log(e);
+  };
+
+  handleDrop = () => {
+    this.props.onDrop();
+  };
+
   render() {
     const { showModal } = this.state;
-    const { card, index } = this.props;
+    const { card } = this.props;
 
     if (!card) {
       return null;
@@ -33,7 +46,10 @@ class CardItem extends Component {
 
     return (
       <li
-        data-card-index={index}
+        draggable
+        onDragStart={this.handleDragStart}
+        onDragEnd={this.handleDragEnd}
+        onDrop={this.handleDrop}
         className="list-group-item d-flex flex-row align-items-center justify-content-between"
       >
         {card.title}
@@ -57,7 +73,7 @@ class CardItem extends Component {
           <button
             type="button"
             onClick={this.handleEditCard}
-            className="btn btn-primary mx-2"
+            className="btn mx-2"
           >
             <PencilIcon />
           </button>
@@ -75,6 +91,9 @@ CardItem.propTypes = {
   card: PropTypes.object,
   index: PropTypes.number,
   removeCard: PropTypes.func,
+  onDragStart: PropTypes.func,
+  onDragOver: PropTypes.func,
+  onDrop: PropTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => ({

@@ -5,15 +5,16 @@ import { connect } from 'react-redux';
 import { removeList } from '@/store/lists';
 import { removeCard, updateCard } from '@/store/cards';
 import ListItem from './list-item';
+import DropArea from '../dnd/drop-area';
 
-class List extends Component {
+class ListGroup extends Component {
   state = {
     showNewForm: false,
   };
 
   render() {
     const { showNewForm } = this.state;
-    const { lists } = this.props;
+    const { lists, onDragStart, onDragOver, onDrop } = this.props;
 
     if (!lists) {
       return null;
@@ -21,10 +22,24 @@ class List extends Component {
 
     return (
       <>
-        {lists.map((list) => (
-          <ListItem list={list} key={list.id} />
+        {lists.map((list, index) => (
+          <DropArea
+            onDragOver={(e) => onDragOver(e, list.id, index)}
+            onDrop={() => {
+              if (onDrop) onDrop(list.id, index);
+            }}
+            key={`drop-area-${index}`}
+            className="drop"
+          >
+            <ListItem
+              list={list}
+              key={list.id}
+              index={index}
+              onDragStart={onDragStart}
+            />
+          </DropArea>
         ))}
-        <div className="new-list-container">
+        <div className="new-list-container" style={{ order: lists.length + 1 }}>
           {showNewForm ? (
             <NewListForm
               onSubmit={() => this.setState({ showNewForm: false })}
@@ -46,13 +61,17 @@ class List extends Component {
   }
 }
 
-List.propTypes = {
+ListGroup.propTypes = {
   boardId: PropTypes.number,
   title: PropTypes.string,
   lists: PropTypes.array,
+  orders: PropTypes.object,
   removeList: PropTypes.func,
   removeCard: PropTypes.func,
   updateCard: PropTypes.func,
+  onDragStart: PropTypes.func,
+  onDragOver: PropTypes.func,
+  onDrop: PropTypes.func,
 };
 
 const mapDispatchToProps = (dispatch) => ({
@@ -61,4 +80,4 @@ const mapDispatchToProps = (dispatch) => ({
   updateCard: (card) => dispatch(updateCard(card)),
 });
 
-export default connect(null, mapDispatchToProps)(List);
+export default connect(null, mapDispatchToProps)(ListGroup);

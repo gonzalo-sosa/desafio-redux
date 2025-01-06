@@ -5,21 +5,33 @@ import CardsList from '../cards/cards-list';
 class ListItem extends Component {
   state = {
     isClosed: false,
+    isDragging: false,
+  };
+
+  handleDragStart = (e, id, index) => {
+    this.setState({ isDragging: true });
+    this.props.onDragStart(e, id, index);
+
+    e.currentTarget.style.opacity = '0.5';
+    e.currentTarget.style.backgroundColor = '#ccc';
+  };
+
+  handleDragEnd = (e) => {
+    this.setState({ isDragging: false });
+    e.currentTarget.style.opacity = '1';
   };
 
   render() {
-    const { list } = this.props;
+    const { isClosed, isDragging } = this.state;
+    const { list, index } = this.props;
 
     return (
       <article
-        data-order={this.props.index}
-        data-id={list.id}
         draggable
-        onDragStart={this.props.onDragStart}
-        onDragOver={(e) => e.preventDefault()}
-        onDrop={this.props.onDrop}
+        onDragStart={(e) => this.handleDragStart(e, list.id, index)}
+        onDragEnd={this.handleDragEnd}
         key={`list-${list.id}`}
-        className={`card list-card${this.state.isClosed ? '--closed' : ''}`}
+        className={`card list-card${isClosed ? '--closed' : ''} ${isDragging ? 'dragging' : ''}`}
         style={{ height: 'fit-content' }}
       >
         <header className="card-header">
@@ -28,9 +40,7 @@ class ListItem extends Component {
             <div className="d-flex flex-row align-items-center">
               <button
                 className="btn"
-                onClick={() =>
-                  this.setState({ isClosed: !this.state.isClosed })
-                }
+                onClick={() => this.setState({ isClosed: !isClosed })}
               >
                 {this.state.isClosed ? (
                   <img
@@ -75,10 +85,9 @@ class ListItem extends Component {
 }
 
 ListItem.propTypes = {
-  index: PropTypes.number.isRequired,
   list: PropTypes.object.isRequired,
+  index: PropTypes.number.isRequired,
   onDragStart: PropTypes.func.isRequired,
-  onDrop: PropTypes.func.isRequired,
 };
 
 export default ListItem;

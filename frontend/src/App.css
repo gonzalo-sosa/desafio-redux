@@ -44,13 +44,14 @@
 }
 
 .list-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
-  gap: 0.5rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .new-list-container {
-  grid-column: span 5;
+  width: 260px;
 }
 
 .new-list {
@@ -67,7 +68,8 @@
 
 .list-card {
   font-size: 12px;
-  grid-column: span 5;
+  cursor: grab;
+  /* grid-column: span 5; */
 
   & h6 {
     max-width: 60%;
@@ -98,3 +100,26 @@
     }
   }
 }
+
+.dragging {
+  opacity: 0.75;
+}
+
+/* .drop-area {
+  height: 0;
+  font-size: 0;
+  transition:
+    height 0.3s ease,
+    opacity 0.2s ease-in-out,
+    font-size 0.3s ease;
+  padding: 1rem;
+  border-width: 0.15rem;
+  border-style: dashed;
+  border-color: gray;
+  opacity: 0;
+  &.active {
+    height: calc-size(max-content, size);
+    font-size: 14px;
+    opacity: 1;
+  }
+} */

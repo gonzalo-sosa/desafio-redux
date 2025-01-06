@@ -8,11 +8,74 @@ import CardItem from './card-item';
 class CardsList extends Component {
   state = {
     showForm: false,
+    cards: [],
+    draggedItem: null,
+    sourceContainer: null,
   };
 
+  handleDragStart = (e, item, container) => {
+    this.setState({ draggedItem: item, sourceContainer: container });
+  };
+
+  handleDragOver = (e, id, index) => {
+    e.preventDefault();
+    console.log('drag over', id, index);
+  };
+
+  handleDrop = (e, target, targetContainer) => {
+    const { draggedItem, sourceContainer, cards } = this.state;
+
+    if (!draggedItem || !sourceContainer) return;
+
+    if (!target || !targetContainer) return;
+
+    if (draggedItem.id === target.id) return;
+
+    //Reorganizar dentro del mismo contenedor
+    if (sourceContainer.id === targetContainer.id) {
+      if (
+        draggedItem.index === target.index ||
+        draggedItem.index + 1 === target.index
+      )
+        return;
+
+      const updatedCards = [...cards];
+
+      // Mover el elemento a su nueva posición dentro del mismo contenedor
+      const itemToMove = updatedCards.splice(draggedItem.index, 1)[0];
+
+      if (draggedItem.index < target.index) {
+        updatedCards.splice(target.index - 1, 0, itemToMove);
+      } else {
+        updatedCards.splice(target.index, 0, itemToMove);
+      }
+
+      this.setState({
+        cards: updatedCards,
+      });
+    } // Mover entre contenedores
+    else {
+      //   const updatedGroupListItems = [...groupListItems];
+      //   const sourceList = updatedGroupListItems[sourceContainer.index];
+      //   const targetList = updatedGroupListItems[container.index];
+      //   const itemToMove = sourceList.splice(draggedItem.index, 1)[0];
+      //   targetList.splice(item.index, 0, itemToMove);
+      //   this.setState({
+      //     groupListItems: updatedGroupListItems,
+      //   });
+    }
+
+    // Limpiar el estado
+    this.setState({ draggedItem: null, sourceContainer: null });
+  };
+
+  componentDidMount() {
+    this.setState({ cards: this.props.cards });
+  }
+
   render() {
-    const { showForm } = this.state;
-    const { listId, cards } = this.props;
+    const { showForm, cards } = this.state;
+    const { listId } = this.props;
 
     if (!cards) {
       return null;
@@ -27,6 +90,13 @@ class CardsList extends Component {
               listId={listId}
               card={card}
               index={index}
+              onDragStart={(e) =>
+                this.handleDragStart(e, { id: card.id, index }, { id: listId })
+              }
+              onDragOver={this.handleDragOver}
+              onDrop={(e) =>
+                this.handleDrop(e, { id: card.id, index }, { id: listId })
+              }
             />
           ))}
           {showForm ? (
@@ -38,9 +108,10 @@ class CardsList extends Component {
           ) : (
             <button
               onClick={() => this.setState({ showForm: true })}
-              className="btn text-start d-flex flex-row align-items-center"
+              className="btn text-start d-flex flex-row align-items-center text-muted"
             >
-              <span className="fs-4 me-2 mb-1">&#43;</span> Añade una tarjeta
+              <span className="fs-4 me-2 mb-1 opacity-75">&#43;</span> Añade una
+              tarjeta
             </button>
           )}
         </ul>
