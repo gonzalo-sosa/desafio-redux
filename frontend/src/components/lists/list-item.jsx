@@ -12,6 +12,12 @@ class ListItem extends Component {
 
     return (
       <article
+        data-order={this.props.index}
+        data-id={list.id}
+        draggable
+        onDragStart={this.props.onDragStart}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={this.props.onDrop}
         key={`list-${list.id}`}
         className={`card list-card${this.state.isClosed ? '--closed' : ''}`}
         style={{ height: 'fit-content' }}
@@ -69,7 +75,10 @@ class ListItem extends Component {
 }
 
 ListItem.propTypes = {
+  index: PropTypes.number.isRequired,
   list: PropTypes.object.isRequired,
+  onDragStart: PropTypes.func.isRequired,
+  onDrop: PropTypes.func.isRequired,
 };
 
 export default ListItem;

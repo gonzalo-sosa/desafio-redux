@@ -68,11 +68,15 @@
 .list-card {
   font-size: 12px;
   grid-column: span 5;
+
+  & h6 {
+    max-width: 60%;
+  }
 }
 
 .list-card--closed {
   grid-column: span 1;
-  width: fit-content;
+  max-width: fit-content;
 
   & header {
     padding: 0;
@@ -83,8 +87,10 @@
       align-items: center;
       justify-content: center;
       text-align: center;
+      overflow: hidden;
 
       & h6 {
+        max-width: unset;
         order: 1;
         margin-block: 1rem;
         transform: rotate(90deg);

@@ -37,6 +37,7 @@ const initializeDatabase = () => {
     CREATE TABLE IF NOT EXISTS lists (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       title TEXT NOT NULL,
+      [order] INTEGER NULL,
       board_id INTEGER NOT NULL,
       FOREIGN KEY (board_id) REFERENCES boards (id)
     )

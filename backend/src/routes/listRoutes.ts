@@ -43,7 +43,7 @@ router.post('/lists', (req, res) => {
   res.status(201).json(list);
 });
 
-router.put('/lists/:id', (req, res) => {
+router.patch('/lists/:id', (req, res) => {
   const { error, data } = listController.updateList({
     id: req.params.id,
     ...req.body,

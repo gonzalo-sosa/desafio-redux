@@ -35,13 +35,29 @@ export class ListController {
     };
   }
 
-  updateList({ id, title }: { id: number; title: string }) {
-    const stmt = this.db.prepare('UPDATE lists SET title = ? WHERE id = ?');
-    stmt.run(title, id);
+  updateList({
+    id,
+    title,
+    order,
+  }: {
+    id: number;
+    title?: string;
+    order: number;
+  }) {
+    let stmt;
+    if (title) {
+      stmt = this.db.prepare(
+        'UPDATE lists SET title = ?, [order] = ? WHERE id = ?',
+      );
+      stmt.run(title, order, id);
+    } else {
+      stmt = this.db.prepare('UPDATE lists SET [order] = ? WHERE id = ?');
+      stmt.run(order, id);
+    }
 
     return {
       error: null,
-      data: { list: { id, title } },
+      data: { list: { id, title, order } },
     };
   }
 
