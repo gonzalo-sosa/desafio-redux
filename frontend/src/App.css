@@ -10,6 +10,11 @@
 }
 
 .side-bar {
+  position: absolute;
+  top: 0;
+  left: 200;
+  display: flex;
+  flex-direction: column;
   background-color: var(--bg-color-primary-dark);
   gap: 1rem;
   padding: 0.25rem;
@@ -17,6 +22,10 @@
   height: fit-content;
   width: 100%;
   font-size: 14px;
+}
+
+.side-bar--show {
+  width: 300px;
 }
 
 .side-bar--icon {

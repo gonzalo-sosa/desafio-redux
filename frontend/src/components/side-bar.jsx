@@ -1,8 +1,21 @@
 import PropTypes from 'prop-types';
+import { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
-const SideBar = ({ items, children }) => {
-  const renderItems = () => {
+class SideBar extends Component {
+  static propTypes = {
+    items: PropTypes.array.isRequired,
+    children: PropTypes.node,
+    onMenuToggle: PropTypes.func,
+    isMenuOpen: PropTypes.bool,
+  };
+
+  handleMenuToggle = () => {
+    this.props.onMenuToggle(this.props.isMenuOpen);
+  };
+
+  renderItems = () => {
+    const { items } = this.props;
     return items.map((item, index) => {
       if (typeof item === 'function') {
         return item();
@@ -32,15 +45,20 @@ const SideBar = ({ items, children }) => {
     });
   };
 
-  return (
-    <aside className="side-bar d-flex flex-column">
-      {children}
-      <ul className="nav nav-pills flex-column mb-auto pe-2">
-        {renderItems()}
-      </ul>
-    </aside>
-  );
-};
+  render() {
+    const { children, isMenuOpen } = this.props;
+    const className = isMenuOpen ? 'side-bar--show' : 'side-bar';
+
+    return (
+      <aside className={className}>
+        {children}
+        <ul className="nav nav-pills flex-column mb-auto pe-2">
+          {this.renderItems()}
+        </ul>
+      </aside>
+    );
+  }
+}
 
 SideBar.propTypes = {
   items: PropTypes.array.isRequired,

@@ -45,6 +45,12 @@ class Home extends Component {
     store.dispatch(loadCards());
   }
 
+  state = {
+    showSidebar: true,
+  };
+
+  handleShowSidebar = () => {};
+
   render() {
     return (
       <Route path="/">
@@ -53,7 +59,11 @@ class Home extends Component {
           <div className="container-fluid px-0">
             <div className="row">
               <div className="col-md-2 col-3 pe-0">
-                <SideBar items={this.sideBarItems}>
+                <SideBar
+                  items={this.sideBarItems}
+                  onMenuToggle={this.handleShowSidebar}
+                  isMenuOpen={this.state.showSidebar}
+                >
                   <div className="d-flex align-items-center py-2 border-bottom">
                     <div className="side-bar--icon me-2">
                       <span>E</span>
@@ -63,8 +73,11 @@ class Home extends Component {
                       <span>Premiun</span>
                     </div>
                     <div>
-                      <span>&gt;</span>
-                      <span>&lt;</span>
+                      {this.state.showSidebar ? (
+                        <span>&lt;</span>
+                      ) : (
+                        <span>&gt;</span>
+                      )}
                     </div>
                   </div>
                 </SideBar>
