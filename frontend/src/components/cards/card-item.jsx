@@ -28,8 +28,9 @@ class CardItem extends Component {
     // console.log(e);
   };
 
-  handleDragEnd = () => {
+  handleDragOver = (e) => {
     // console.log(e);
+    this.props.onDragOver(e);
   };
 
   handleDrop = () => {
@@ -48,7 +49,7 @@ class CardItem extends Component {
       <li
         draggable
         onDragStart={this.handleDragStart}
-        onDragEnd={this.handleDragEnd}
+        onDragOver={this.handleDragOver}
         onDrop={this.handleDrop}
         className="border py-1 px-2 my-1 bg-white shadow-sm rounded d-flex flex-row align-items-center justify-content-between"
       >

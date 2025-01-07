@@ -17,9 +17,8 @@ class CardsList extends Component {
     this.setState({ draggedItem: item, sourceContainer: container });
   };
 
-  handleDragOver = (e, id, index) => {
+  handleDragOver = (e) => {
     e.preventDefault();
-    console.log('drag over', id, index);
   };
 
   handleDrop = (e, target, targetContainer) => {
@@ -33,22 +32,14 @@ class CardsList extends Component {
 
     //Reorganizar dentro del mismo contenedor
     if (sourceContainer.id === targetContainer.id) {
-      if (
-        draggedItem.index === target.index ||
-        draggedItem.index + 1 === target.index
-      )
-        return;
+      if (draggedItem.index === target.index) return;
 
       const updatedCards = [...cards];
 
       // Mover el elemento a su nueva posición dentro del mismo contenedor
       const itemToMove = updatedCards.splice(draggedItem.index, 1)[0];
 
-      if (draggedItem.index < target.index) {
-        updatedCards.splice(target.index + 1, 0, itemToMove);
-      } else {
-        updatedCards.splice(target.index, 0, itemToMove);
-      }
+      updatedCards.splice(target.index, 0, itemToMove);
 
       this.setState({
         cards: updatedCards,
