@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import './side-bar.css';
 
 class SideBar extends Component {
   static propTypes = {
@@ -21,9 +22,9 @@ class SideBar extends Component {
         return item();
       } else {
         return (
-          <li className="nav-item" key={`sidebar-item-${index}`}>
+          <li className="sidebar__nav__item" key={`sidebar-item-${index}`}>
             <NavLink
-              className={`nav-link text-dark ${item.active ? 'active' : ''} ${item.disabled ? 'disabled' : ''}`}
+              className={`sidebar__nav__link ${item.active ? 'active' : ''} ${item.disabled ? 'disabled' : ''}`}
               key={`sidebar-link-${index}`}
               aria-current={item.active ? 'page' : undefined}
               exact
@@ -37,7 +38,7 @@ class SideBar extends Component {
                   className="me-2"
                 />
               )}
-              {item.label}
+              <span>{item.label}</span>
             </NavLink>
           </li>
         );
@@ -47,14 +48,14 @@ class SideBar extends Component {
 
   render() {
     const { children, isMenuOpen } = this.props;
-    const className = isMenuOpen ? 'side-bar--show' : 'side-bar';
+    const className = isMenuOpen
+      ? 'sidebar sidebar-toggle'
+      : 'sidebar sidebar-toggle sidebar--collapsed';
 
     return (
       <aside className={className}>
         {children}
-        <ul className="nav nav-pills flex-column mb-auto pe-2">
-          {this.renderItems()}
-        </ul>
+        <ul className="sidebar__nav">{this.renderItems()}</ul>
       </aside>
     );
   }
