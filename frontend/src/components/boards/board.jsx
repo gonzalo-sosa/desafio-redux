@@ -2,28 +2,43 @@ import { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getBoardById, removeBoard, updateBoard } from '@/store/boards';
+import { updateCard } from '@/store/cards';
 import { getListsByBoardId } from '@/store/lists';
 import BoardNavBar from './board-nav-bar';
 import ListGroup from '../lists/list-group';
+import DndContext from '@/context/dnd-context';
 
 class Board extends Component {
   state = {
-    draggedItem: null,
     lists: [],
+    draggedItem: null,
+    sourceContainer: null,
   };
 
-  handleDragStart = (e, id, index) => {
+  handleDragStartList = (e, id, index) => {
     const rect = e.target.getBoundingClientRect();
 
-    this.setState({ draggedItem: { id, index, rect, clientX: e.clientX } });
+    this.setState({
+      draggedItem: {
+        id,
+        index,
+        rect,
+        clientX: e.clientX,
+      },
+      sourceContainer: null,
+    });
   };
 
-  handleDragOver = (e, id, index) => {
-    e.preventDefault(); // Es necesario para permitir que el elemento sea soltado.
+  handleDragOverList = (e, id, index) => {
+    e.preventDefault();
+    const { draggedItem, sourceContainer } = this.state;
+    console.log({ draggedItem, sourceContainer });
 
-    if (this.state.draggedItem.id === id) return;
+    if (draggedItem && draggedItem.id === id) return;
 
-    // Filtrar para asegurarnos de que el cálculo solo se haga para el contenedor principal
+    if (sourceContainer && sourceContainer.id !== id) return;
+
+    // Filtrar para que el cálculo sólo se haga para el contenedor principal
     const targetElement = e.currentTarget; // 'currentTarget' siempre se refiere al elemento que escucha el evento
     if (!targetElement.contains(e.target)) {
       return; // Si el objetivo (e.target) está dentro de un hijo, no realizar el cálculo
@@ -36,16 +51,13 @@ class Board extends Component {
     const targetWidth = rect.width; // El ancho del objetivo
     const targetCenter = targetLeft + targetWidth / 2; // El centro del objetivo
 
-    // Si el mouse está a la izquierda del centro del objetivo
+    // Si el mouse está a la izquierda del centro del target
     if (mousePosition < targetCenter) {
       if (
         !this.state.lists[index + 1] ||
         this.state.lists[index + 1].id !== this.state.draggedItem.id
       )
         return;
-      // console.log('El elemento entra por la izquierda');
-      // si el elemento sobre el que hace over tiene un espacio libre a la derecha entonces lo mueve
-      // sino tiene espacio libre no lo mueve
 
       const listToMoveToIndex = this.state.lists.find(
         (list) => list.id === this.state.draggedItem.id,
@@ -66,7 +78,6 @@ class Board extends Component {
         this.state.lists[index - 1].id !== this.state.draggedItem.id
       )
         return;
-      // console.log('El elemento entra por la derecha');
 
       const listToMoveToIndex = this.state.lists.find(
         (list) => list.id === this.state.draggedItem.id,
@@ -84,9 +95,23 @@ class Board extends Component {
     }
   };
 
-  // handleDrop = (id, index) => {
-  //   // actualizar lista del board
-  // };
+  handleDragEndList = () => {
+    this.setState({ draggedItem: null, sourceContainer: null });
+  };
+
+  handleDropCardInList = (card) => {
+    if (!this.state.sourceContainer) return;
+
+    this.props.updateCard(card);
+  };
+
+  setDraggedItem = (draggedItem) => {
+    this.setState({ draggedItem });
+  };
+
+  setSourceContainer = (sourceContainer) => {
+    this.setState({ sourceContainer });
+  };
 
   componentDidMount() {
     this.setState({ lists: [...this.props.lists] });
@@ -100,7 +125,7 @@ class Board extends Component {
 
   render() {
     const { board } = this.props;
-    const { lists } = this.state;
+    const { lists, draggedItem, sourceContainer } = this.state;
 
     if (!board) {
       return <div>Board not found</div>;
@@ -115,15 +140,28 @@ class Board extends Component {
         <BoardNavBar boardId={board.id} title={board.title} />
         <div className="container-fluid mt-3">
           <div className="list-container">
-            <ListGroup
-              boardId={board.id}
-              title="Listado de tareas"
-              lists={lists}
-              orders={this.state.orders}
-              onDragStart={this.handleDragStart}
-              onDragOver={this.handleDragOver}
-              // onDrop={this.handleDrop}
-            />
+            <DndContext.Provider
+              value={{
+                draggedItem: {
+                  ...draggedItem,
+                  setDraggedItem: this.setDraggedItem,
+                },
+                sourceContainer: {
+                  ...sourceContainer,
+                  setSourceContainer: this.setSourceContainer,
+                },
+              }}
+            >
+              <ListGroup
+                boardId={board.id}
+                title="Listado de tareas"
+                lists={lists}
+                onDragStart={this.handleDragStartList}
+                onDragOver={this.handleDragOverList}
+                onDragEnd={this.handleDragEndList}
+                onDrop={this.handleDropCardInList}
+              />
+            </DndContext.Provider>
           </div>
         </div>
       </main>
@@ -136,6 +174,7 @@ Board.propTypes = {
   lists: PropTypes.array,
   updateBoard: PropTypes.func,
   removeBoard: PropTypes.func,
+  updateCard: PropTypes.func,
 };
 
 const mapStateToProps = (state, ownProps) => {
@@ -151,6 +190,7 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => ({
   updateBoard: (data) => dispatch(updateBoard(data)),
   removeBoard: (id) => dispatch(removeBoard(id)),
+  updateCard: (card) => dispatch(updateCard(card)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Board);

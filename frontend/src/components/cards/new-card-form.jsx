@@ -36,7 +36,7 @@ class NewCardForm extends Form {
           <button
             onClick={() => this.props.onClose()}
             type="button"
-            className="btn btn-danger mx-2"
+            className="btn mx-2"
           >
             X
           </button>

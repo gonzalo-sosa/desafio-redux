@@ -4,25 +4,40 @@ import { connect } from 'react-redux';
 import { getCardsByListId, updateCard } from '@/store/cards';
 import NewCardForm from '@/components/cards/new-card-form';
 import CardItem from './card-item';
+import DndContext from '@/context/dnd-context';
+/* eslint-disable no-unused-vars */
 
 class CardsList extends Component {
   state = {
     showForm: false,
     cards: [],
-    draggedItem: null,
-    sourceContainer: null,
   };
 
+  static contextType = DndContext;
+
   handleDragStart = (e, item, container) => {
-    this.setState({ draggedItem: item, sourceContainer: container });
+    e.stopPropagation();
+
+    this.context.draggedItem.setDraggedItem(item);
+    this.context.sourceContainer.setSourceContainer(container);
   };
 
   handleDragOver = (e) => {
     e.preventDefault();
+    e.stopPropagation();
   };
 
-  handleDrop = (e, target, targetContainer) => {
-    const { draggedItem, sourceContainer, cards } = this.state;
+  handleDragEnd = () => {
+    //   this.context.draggedItem.setDraggedItem(null);
+    //   this.context.sourceContainer.setSourceContainer(null);
+  };
+
+  handleDrop = (target, targetContainer) => {
+    const { draggedItem, sourceContainer } = this.context;
+    const { cards } = this.state;
+
+    console.log({ draggedItem, sourceContainer });
+    console.log({ target, targetContainer });
 
     if (!draggedItem || !sourceContainer) return;
 
@@ -30,31 +45,21 @@ class CardsList extends Component {
 
     if (draggedItem.id === target.id) return;
 
+    if (sourceContainer.id !== targetContainer.id) return;
+
     //Reorganizar dentro del mismo contenedor
-    if (sourceContainer.id === targetContainer.id) {
-      if (draggedItem.index === target.index) return;
 
-      const updatedCards = [...cards];
+    if (draggedItem.index === target.index) return;
 
-      // Mover el elemento a su nueva posición dentro del mismo contenedor
-      const itemToMove = updatedCards.splice(draggedItem.index, 1)[0];
+    const updatedCards = [...cards];
 
-      updatedCards.splice(target.index, 0, itemToMove);
+    const itemToMove = updatedCards.splice(draggedItem.index, 1)[0];
 
-      this.setState({
-        cards: updatedCards,
-      });
-    } // Mover entre contenedores
-    else {
-      //   const updatedGroupListItems = [...groupListItems];
-      //   const sourceList = updatedGroupListItems[sourceContainer.index];
-      //   const targetList = updatedGroupListItems[container.index];
-      //   const itemToMove = sourceList.splice(draggedItem.index, 1)[0];
-      //   targetList.splice(item.index, 0, itemToMove);
-      //   this.setState({
-      //     groupListItems: updatedGroupListItems,
-      //   });
-    }
+    updatedCards.splice(target.index, 0, itemToMove);
+
+    this.setState({
+      cards: updatedCards,
+    });
 
     // Limpiar el estado
     this.setState({ draggedItem: null, sourceContainer: null });
@@ -62,6 +67,12 @@ class CardsList extends Component {
 
   componentDidMount() {
     this.setState({ cards: this.props.cards });
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.cards !== prevProps.cards) {
+      this.setState({ cards: this.props.cards });
+    }
   }
 
   render() {
@@ -73,40 +84,49 @@ class CardsList extends Component {
     }
 
     return (
-      <>
-        <ul data-list-id={listId} className="list-group list-group-flush">
-          {cards.map((card, index) => (
-            <CardItem
-              key={`card-${card.id}`}
-              listId={listId}
-              card={card}
-              index={index}
-              onDragStart={(e) =>
-                this.handleDragStart(e, { id: card.id, index }, { id: listId })
-              }
-              onDragOver={this.handleDragOver}
-              onDrop={(e) =>
-                this.handleDrop(e, { id: card.id, index }, { id: listId })
-              }
-            />
-          ))}
-          {showForm ? (
-            <NewCardForm
-              onSubmit={() => this.setState({ showForm: false })}
-              onClose={() => this.setState({ showForm: false })}
-              listId={listId}
-            />
-          ) : (
-            <button
-              onClick={() => this.setState({ showForm: true })}
-              className="btn text-start d-flex flex-row align-items-center text-muted ps-0"
-            >
-              <span className="fs-4 me-2 mb-1 opacity-75">&#43;</span> Añade una
-              tarjeta
-            </button>
-          )}
-        </ul>
-      </>
+      <DndContext.Consumer>
+        {(dndContext) => (
+          <ul
+            className="list-group list-group-flush"
+            onDragOver={this.handleDragOver}
+          >
+            {cards.map((card, index) => (
+              <CardItem
+                key={`card-${card.id}`}
+                listId={listId}
+                card={card}
+                index={index}
+                onDragStart={(e) =>
+                  this.handleDragStart(
+                    e,
+                    { id: card.id, index },
+                    { id: listId },
+                  )
+                }
+                onDragOver={this.handleDragOver}
+                onDrop={() =>
+                  this.handleDrop({ id: card.id, index }, { id: listId })
+                }
+              />
+            ))}
+            {showForm ? (
+              <NewCardForm
+                onSubmit={() => this.setState({ showForm: false })}
+                onClose={() => this.setState({ showForm: false })}
+                listId={listId}
+              />
+            ) : (
+              <button
+                onClick={() => this.setState({ showForm: true })}
+                className="btn text-start d-flex flex-row align-items-center text-muted ps-0"
+              >
+                <span className="fs-4 me-2 mb-1 opacity-75">&#43;</span> Añade
+                una tarjeta
+              </button>
+            )}
+          </ul>
+        )}
+      </DndContext.Consumer>
     );
   }
 }
@@ -115,6 +135,7 @@ CardsList.propTypes = {
   listId: PropTypes.number,
   cards: PropTypes.array,
   updateCard: PropTypes.func,
+  onDrop: PropTypes.func,
 };
 
 const mapStateToProps = (state, ownProps) => ({

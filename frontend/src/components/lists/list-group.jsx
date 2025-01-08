@@ -3,9 +3,8 @@ import PropTypes from 'prop-types';
 import NewListForm from '@/components/lists/new-list-form';
 import { connect } from 'react-redux';
 import { removeList } from '@/store/lists';
-import { removeCard, updateCard } from '@/store/cards';
+import { removeCard, updateCard, getCardById } from '@/store/cards';
 import ListItem from './list-item';
-import DropArea from '../dnd/drop-area';
 
 class ListGroup extends Component {
   state = {
@@ -14,7 +13,7 @@ class ListGroup extends Component {
 
   render() {
     const { showNewForm } = this.state;
-    const { lists, onDragStart, onDragOver, onDrop } = this.props;
+    const { lists, onDragStart, onDragOver, onDragEnd, onDrop } = this.props;
 
     if (!lists) {
       return null;
@@ -23,21 +22,16 @@ class ListGroup extends Component {
     return (
       <>
         {lists.map((list, index) => (
-          <DropArea
-            onDragOver={(e) => onDragOver(e, list.id, index)}
-            onDrop={() => {
-              if (onDrop) onDrop(list.id, index);
-            }}
-            key={`drop-area-${index}`}
-            className="drop"
-          >
-            <ListItem
-              list={list}
-              key={list.id}
-              index={index}
-              onDragStart={onDragStart}
-            />
-          </DropArea>
+          <ListItem
+            list={list}
+            key={list.id}
+            index={index}
+            onDragStart={onDragStart}
+            onDragOver={onDragOver}
+            onDragEnd={onDragEnd}
+            onDrop={onDrop}
+            getCardById={this.props.getCardById}
+          />
         ))}
         <div className="new-list-container" style={{ order: lists.length + 1 }}>
           {showNewForm ? (
@@ -71,8 +65,14 @@ ListGroup.propTypes = {
   updateCard: PropTypes.func,
   onDragStart: PropTypes.func,
   onDragOver: PropTypes.func,
+  onDragEnd: PropTypes.func,
   onDrop: PropTypes.func,
+  getCardById: PropTypes.func,
 };
+
+const mapStateToProps = (state) => ({
+  getCardById: (id) => getCardById(state, id),
+});
 
 const mapDispatchToProps = (dispatch) => ({
   removeList: (list) => dispatch(removeList(list)),
@@ -80,4 +80,4 @@ const mapDispatchToProps = (dispatch) => ({
   updateCard: (card) => dispatch(updateCard(card)),
 });
 
-export default connect(null, mapDispatchToProps)(ListGroup);
+export default connect(mapStateToProps, mapDispatchToProps)(ListGroup);

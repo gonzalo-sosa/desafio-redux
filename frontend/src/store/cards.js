@@ -111,5 +111,8 @@ export const getCards = createSelector(
   (cards) => cards.list,
 );
 
+export const getCardById = (state, id) =>
+  getCards(state).find((card) => card.id === Number(id));
+
 export const getCardsByListId = (state, listId) =>
   getCards(state).filter((card) => card.list_id === Number(listId));

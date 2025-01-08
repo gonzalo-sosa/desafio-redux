@@ -23,6 +23,7 @@ li {
 .sidebar--collapsed .toggler {
   margin-left: 0;
   position: relative;
+  z-index: 999;
   left: 16px;
   background-color: #257442;
   border-radius: 999px;
