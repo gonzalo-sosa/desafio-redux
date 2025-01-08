@@ -16,7 +16,6 @@ const boardSlice = createSlice({
       let board = boards.list.find(
         (board) => board.id === Number(action.payload.id),
       );
-
       Object.assign(board, action.payload);
     },
     boardRemoved: (boards, action) => {
@@ -117,7 +116,7 @@ export const getBoards = createSelector(
 );
 
 export const getBoardById = (state, id) =>
-  getBoards(state).find((board) => board.id === id);
+  getBoards(state).find((board) => board.id === Number(id));
 
 export const getBoardsByUserId = (state, userId) =>
-  getBoards(state).filter((board) => board.userId === userId);
+  getBoards(state).filter((board) => board.userId === Number(userId));

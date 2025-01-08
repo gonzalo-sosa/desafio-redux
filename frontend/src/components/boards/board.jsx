@@ -31,8 +31,8 @@ class Board extends Component {
 
   handleDragOverList = (e, id, index) => {
     e.preventDefault();
+
     const { draggedItem, sourceContainer } = this.state;
-    console.log({ draggedItem, sourceContainer });
 
     if (draggedItem && draggedItem.id === id) return;
 

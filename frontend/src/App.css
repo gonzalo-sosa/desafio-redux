@@ -21,6 +21,7 @@
 
 .board {
   display: flex;
+  width: 100%;
   flex-direction: column;
 }
 
@@ -59,7 +60,7 @@
 .list-card {
   font-size: 12px;
   cursor: grab;
-  /* grid-column: span 5; */
+  height: fit-content;
 
   & h6 {
     max-width: 60%;
@@ -67,10 +68,12 @@
 }
 
 .list-card--closed {
-  grid-column: span 1;
   max-width: fit-content;
+  height: 7.5em;
+  overflow: hidden;
 
   & header {
+    height: 100%;
     padding: 0;
     padding-bottom: 10px;
     & div {
@@ -79,7 +82,6 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-      overflow: hidden;
 
       & h6 {
         max-width: unset;

@@ -37,7 +37,6 @@ class ListItem extends Component {
             onDrop={() => this.handleDrop(list.id)}
             key={`list-${list.id}`}
             className={`card list-card${isClosed ? '--closed' : ''} ${isDragging ? 'dragging' : ''}`}
-            style={{ height: 'fit-content' }}
           >
             <header className="card-header py-1 border-0 bg-transparent">
               <div className="d-flex align-items-center justify-content-between">

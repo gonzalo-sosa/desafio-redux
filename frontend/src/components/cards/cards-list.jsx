@@ -36,9 +36,6 @@ class CardsList extends Component {
     const { draggedItem, sourceContainer } = this.context;
     const { cards } = this.state;
 
-    console.log({ draggedItem, sourceContainer });
-    console.log({ target, targetContainer });
-
     if (!draggedItem || !sourceContainer) return;
 
     if (!target || !targetContainer) return;
@@ -47,22 +44,17 @@ class CardsList extends Component {
 
     if (sourceContainer.id !== targetContainer.id) return;
 
-    //Reorganizar dentro del mismo contenedor
-
     if (draggedItem.index === target.index) return;
 
     const updatedCards = [...cards];
 
-    const itemToMove = updatedCards.splice(draggedItem.index, 1)[0];
+    const [itemToMove] = updatedCards.splice(draggedItem.index, 1);
 
     updatedCards.splice(target.index, 0, itemToMove);
 
     this.setState({
       cards: updatedCards,
     });
-
-    // Limpiar el estado
-    this.setState({ draggedItem: null, sourceContainer: null });
   };
 
   componentDidMount() {

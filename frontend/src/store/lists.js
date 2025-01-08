@@ -11,16 +11,16 @@ const listSlice = createSlice({
       const list = { ...action.payload, id: Number(action.payload.id) };
       lists.list.push(list);
     },
-    listRemoved: (lists, action) => {
-      lists.list = lists.list.filter(
-        (list) => list.id !== Number(action.payload.id),
-      );
-    },
     listUpdated: (lists, action) => {
       let list = lists.list.find(
         (list) => list.id === Number(action.payload.id),
       );
       Object.assign(list, action.payload);
+    },
+    listRemoved: (lists, action) => {
+      lists.list = lists.list.filter(
+        (list) => list.id !== Number(action.payload.id),
+      );
     },
     allListsRemovedFromBoard: (lists, action) => {
       const { boardId } = action.payload;
@@ -63,7 +63,7 @@ export const getLists = createSelector(
 );
 
 export const getListsByBoardId = (state, boardId) =>
-  getLists(state).filter((list) => list.board_id === boardId);
+  getLists(state).filter((list) => list.board_id === Number(boardId));
 
 const url = '/lists';
 

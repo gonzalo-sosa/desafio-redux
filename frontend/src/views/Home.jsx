@@ -93,7 +93,7 @@ class Home extends Component {
                 </div>
               </div>
             </SideBar>
-            <div className="container-fluid ps-0">
+            <div className="container-fluid px-0">
               <Route path="/boards/:id" component={Board} />
               <Route path="/users/:id" component={User} />
             </div>
