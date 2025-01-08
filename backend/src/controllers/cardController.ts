@@ -65,9 +65,9 @@ export class CardController {
     list_id: number;
   }) {
     const stmt = this.db.prepare(
-      'UPDATE cards SET title = ?, description = ? WHERE id = ?',
+      'UPDATE cards SET title = ?, description = ?, list_id = ? WHERE id = ?',
     );
-    stmt.run(title, description, Number(id));
+    stmt.run(title, description, Number(list_id), Number(id));
 
     return {
       error: null,
