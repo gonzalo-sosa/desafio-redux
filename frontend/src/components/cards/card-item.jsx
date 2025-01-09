@@ -2,9 +2,10 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import Modal from '@/components/common/modal';
 import EditCardForm from './edit-card-form';
-import PencilIcon from '@/components/common/icons/pencil-icon';
 import { connect } from 'react-redux';
 import { removeCard } from '@/store/cards';
+import LoadIcon from '../common/icons/load-icon';
+import iconNames from '../common/icons/icon-names';
 // import DndContext from '@/context/dnd-context';
 
 class CardItem extends Component {
@@ -64,7 +65,7 @@ class CardItem extends Component {
               onClick={this.handleEditCard}
               className="btn mx-2"
             >
-              <PencilIcon />
+              <LoadIcon name={iconNames.PENCIL} height={20} width={20} />
             </button>
             {/* <button onClick={this.handleRemoveCard} className="btn btn-danger">
             X

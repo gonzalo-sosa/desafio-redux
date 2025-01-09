@@ -9,14 +9,33 @@
   background-color: var(--bg-color-primary);
 }
 
+.user-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(0, 110, 255);
+  height: 24px;
+  width: 24px;
+  border-radius: 999px;
+  margin-top: 3px;
+  border-width: 1px;
+  & span {
+    font-size: 12px;
+    color: white;
+    font-weight: bolder;
+  }
+}
+
 .sidebar__icon {
   width: 32px;
   height: 32px;
-  background-color: #c4589b;
+  background: linear-gradient(#ae4787, #e774bb);
   display: grid;
   place-content: center;
   color: white;
   border-radius: 0.25rem;
+  font-size: 20px;
+  font-weight: bolder;
 }
 
 .board {
@@ -97,21 +116,7 @@
   opacity: 0.75;
 }
 
-/* .drop-area {
-  height: 0;
-  font-size: 0;
-  transition:
-    height 0.3s ease,
-    opacity 0.2s ease-in-out,
-    font-size 0.3s ease;
-  padding: 1rem;
-  border-width: 0.15rem;
-  border-style: dashed;
-  border-color: gray;
-  opacity: 0;
-  &.active {
-    height: calc-size(max-content, size);
-    font-size: 14px;
-    opacity: 1;
-  }
-} */
+.icon {
+  color: inherit;
+  fill: inherit;
+}

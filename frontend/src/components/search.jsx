@@ -1,6 +1,7 @@
 import Joi from 'joi-browser';
 import Form from './common/form/form';
-import SearchIcon from './common/icons/search-icon';
+import LoadIcon from './common/icons/load-icon';
+import iconNames from './common/icons/icon-names';
 
 class Search extends Form {
   state = {
@@ -24,7 +25,12 @@ class Search extends Form {
         <form onSubmit={this.handleSubmit} className="form-inline my-2 my-lg-0">
           <div className="input-group">
             <label htmlFor="query" className="input-group-text">
-              <SearchIcon />
+              <LoadIcon
+                name={iconNames.SEARCH}
+                width={24}
+                height={24}
+                fill="#000"
+              />
             </label>
             <input
               type="text"

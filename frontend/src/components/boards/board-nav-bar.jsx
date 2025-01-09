@@ -1,16 +1,10 @@
 import { Component } from 'react';
-import ArrowIcon from '@/components/common/icons/arrow-icon';
-import BarsIcon from '@/components/common/icons/bars-icon';
-import DotsIcon from '@/components/common/icons/dots-icon';
-import GroupIcon from '@/components/common/icons/group-icon';
-import LightningIcon from '@/components/common/icons/lightning-icon';
 import NavBar from '@/components/common/nav-bar';
 import PropTypes from 'prop-types';
-import RocketIcon from '@/components/common/icons/rocket-icon';
-import ShareIcon from '@/components/common/icons/share-icon';
-import StarIcon from '@/components/common/icons/star-icon';
 import { connect } from 'react-redux';
 import { removeBoard } from '@/store/boards';
+import LoadIcon from '@/components/common/icons/load-icon';
+import iconNames from '@/components/common/icons/icon-names';
 
 class BoardNavBar extends Component {
   render() {
@@ -21,60 +15,70 @@ class BoardNavBar extends Component {
         <span className="navbar-brand">{title}</span>
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              <StarIcon />
-            </a>
+            <button className="btn">
+              <LoadIcon name={iconNames.STAR} height={16} width={16} />
+            </button>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              <GroupIcon />
-            </a>
+            <button className="btn">
+              <LoadIcon name={iconNames.GROUP} height={16} width={16} />
+            </button>
           </li>
           <li className="nav-item">
-            <button className="btn">Tablero</button>
+            <button className="btn">
+              <LoadIcon name={iconNames.LIST} height="24" width="24" />
+              Tablero
+            </button>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
+            <button className="btn">
+              <LoadIcon name={iconNames.TABLE} height={16} width={16} />
               Tabla
-            </a>
+            </button>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              <ArrowIcon />
-            </a>
+            <button className="btn">
+              <LoadIcon name={iconNames.BOTTOM_ARROW} height={16} width={16} />
+            </button>
           </li>
         </ul>
         <ul className="navbar-nav">
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              <RocketIcon />
-            </a>
+            <button className="btn">
+              <LoadIcon name={iconNames.ROCKET} height={16} width={16} />
+            </button>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              <LightningIcon />
-            </a>
+            <button className="btn">
+              <LoadIcon name={iconNames.LIGHTNING} height={16} width={16} />
+            </button>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              <BarsIcon />
-            </a>
+            <button className="btn">
+              <LoadIcon name={iconNames.BARS} height={16} width={16} />
+              Filtros
+            </button>
+          </li>
+          <li className="nav-item d-flex align-items-center mx-2">
+            <button className="btn p-0 d-flex align-items-center">
+              <span className="user-icon">
+                <span>GS</span>
+              </span>
+            </button>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              Cuenta
-            </a>
-          </li>
-          <li className="nav-item">
-            <button className="btn d-flex align-items-center">
-              <ShareIcon />
+            <button
+              className="btn text-white d-flex align-items-center"
+              style={{ backgroundColor: 'rgb(0 0 0 / 58%)' }}
+            >
+              <LoadIcon name={iconNames.SHARE} height={16} width={16} />
               Compartir
             </button>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">
-              <DotsIcon />
-            </a>
+            <button className="btn">
+              <LoadIcon name={iconNames.THREE_DOTS} height={16} width={16} />
+            </button>
           </li>
           {/* <li className="nav-item">
             <button

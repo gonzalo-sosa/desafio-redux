@@ -6,16 +6,16 @@ class DropDown extends Component {
     showItems: false,
   };
   render() {
-    const { label, items } = this.props;
+    const { label, items, className, ...rest } = this.props;
     const { showItems } = this.state;
 
     return (
-      <div className="dropdown show mx-2">
+      <div className={`dropdown show ` + className} {...rest}>
         <button
           className="btn dropdown-toggle"
           href="#"
           role="button"
-          id="dropdownMenuLink"
+          id="dropdownMenuButton"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded={this.state.showItems}
@@ -25,7 +25,10 @@ class DropDown extends Component {
         </button>
 
         {showItems && (
-          <div className="dropdown-menu" aria-labelledby="dropdownMenuLink">
+          <div
+            className="dropdown-menu d-block"
+            aria-labelledby="dropdownMenuButton"
+          >
             {items.map((item, index) => (
               <a className="dropdown-item" href={item.href} key={index}>
                 {item.label}
@@ -41,6 +44,7 @@ class DropDown extends Component {
 DropDown.propTypes = {
   label: PropTypes.string.isRequired,
   items: PropTypes.array.isRequired,
+  className: PropTypes.string,
 };
 
 export default DropDown;

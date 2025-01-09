@@ -8,7 +8,7 @@ li {
   transition: all 0.35s ease-in-out;
   display: flex;
   flex-direction: column;
-  background-color: #257442;
+  background-color: var(--bg-color-primary-dark);
 }
 
 .sidebar--collapsed {
@@ -18,6 +18,8 @@ li {
 .toggler {
   margin-left: 0.5rem;
   transition: all 0.3s ease-in-out;
+  margin-bottom: 1.15rem;
+  border: 1px solid var(--bg-color-primary-dark);
 }
 
 .sidebar--collapsed .toggler {
@@ -25,12 +27,13 @@ li {
   position: relative;
   z-index: 999;
   left: 16px;
-  background-color: #257442;
+  background-color: var(--bg-color-primary);
   border-radius: 999px;
 }
 
 .toggler-icon {
-  color: #fff;
+  color: #7e7e7e;
+  font-size: 18px;
   font-weight: bolder;
 }
 
@@ -39,15 +42,11 @@ li {
   flex: 1 1 auto;
 }
 
-.sidebar__header {
-  padding: 1rem;
-  padding-right: 0.25rem;
-}
-
-a.sidebar__nav__link {
+a.sidebar__nav__link,
+span.sidebar__nav__link {
   text-decoration: none;
   font-size: 14px;
-  color: #fff;
+  color: inherit;
   position: relative;
   transition: all 0.35s;
   padding: 0.25rem 1rem;

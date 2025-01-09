@@ -5,6 +5,8 @@ import Modal from '@/components/common/modal';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Component } from 'react';
+import LoadIcon from '../common/icons/load-icon';
+import iconNames from '../common/icons/icon-names';
 
 class BoardsList extends Component {
   constructor(props) {
@@ -24,12 +26,12 @@ class BoardsList extends Component {
     return (
       <>
         <div className="d-flex flex-row justify-content-between align-items-center">
-          <h6 className="my-0 text-light">Sus tableros</h6>
+          <span className="font-weight-bold">Sus tableros</span>
           <button
             className="btn d-flex flex-row justify-content-center align-items-center"
             onClick={() => this.setState({ showForm: true })}
           >
-            <span className="fs-4 text-light">&#43;</span>
+            <LoadIcon name={iconNames.CROSS} height={16} width={16} />
           </button>
         </div>
         <ul className="px-0">

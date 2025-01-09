@@ -2,11 +2,12 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getUserById } from '@/store/users';
-import PencilIcon from '@/components/common/icons/pencil-icon';
 import { removeUser, updateUser } from '@/store/users';
 import TabPane from '@/components/common/tab-pane';
 import Modal from '@/components/common/modal';
 import UserForm from './user-form';
+import LoadIcon from '@/components/common/icons/load-icon';
+import iconNames from '@/components/common/icons/icon-names';
 
 class User extends Component {
   state = {
@@ -57,7 +58,7 @@ class User extends Component {
                   onClick={() => this.setState({ showEditForm: true })}
                   className="btn btn-primary edit-profile"
                 >
-                  <PencilIcon />
+                  <LoadIcon name={iconNames.PENCIL} />
                   Editar perfil
                 </button>
                 <button

@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { Component } from 'react';
 import { NavLink } from 'react-router-dom';
+import LoadIcon from './common/icons/load-icon';
 import './side-bar.css';
 
 class SideBar extends Component {
@@ -31,9 +32,9 @@ class SideBar extends Component {
               to={item.href}
             >
               {item.icon && (
-                <img
-                  src={item.icon}
-                  alt={item.label}
+                <LoadIcon
+                  name={item.icon}
+                  height={18}
                   width={18}
                   className="me-2"
                 />

@@ -40,10 +40,10 @@ class NavBar extends Component {
             className={`collapse navbar-collapse ${isMenuOpen ? 'show' : ''}`}
             id="navbarNavDropdown"
           >
-            <div className="w-100 d-flex justify-content-start align-items-center text-white">
+            <div className="w-100 d-flex justify-content-start align-items-center">
               {Content}
             </div>
-            <div className="w-100 d-flex justify-content-end align-items-center text-white">
+            <div className="w-100 d-flex justify-content-end align-items-center">
               {RightCorner}
             </div>
           </div>

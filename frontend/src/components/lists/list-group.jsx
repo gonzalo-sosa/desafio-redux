@@ -46,7 +46,8 @@ class ListGroup extends Component {
               type="button"
               className="btn w-100 p-2 text-start d-flex flex-row align-items-center new-list"
             >
-              <span className="fs-4 me-2 mb-1"> &#43;</span>Añade otra lista
+              <span className="fs-4 me-2 mb-1"> &#43;</span>
+              {lists.length === 0 ? 'Añade una lista' : 'Añade otra lista'}
             </button>
           )}
         </div>
