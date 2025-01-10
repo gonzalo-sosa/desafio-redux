@@ -22,12 +22,12 @@ export class BoardController {
   }
 
   createBoard({ title, userEmail }: { title: string; userEmail?: string }): {
-    error: null | { value: true; message: string };
+    error: null | { message: string };
     data: null | { board: Board };
   } {
     if (!title) {
       return {
-        error: { value: true, message: 'Title is required' },
+        error: { message: 'Title is required' },
         data: null,
       };
     }
@@ -38,33 +38,38 @@ export class BoardController {
     );
     let boardId, userId, queryResult;
 
-    if (userEmail) {
-      const { error, data } = userController.getUserByEmail(userEmail);
-
-      if (error) {
-        return {
-          error: { value: true, message: 'User not found' },
-          data: null,
-        };
-      }
-
-      const { user } = data;
-
-      if (!user) {
-        queryResult = stmt.run(title, null);
-      } else {
-        userId = user.id;
-        queryResult = stmt.run(title, user.id);
-      }
-    } else {
-      queryResult = stmt.run(title, null);
+    if (!userEmail) {
+      return {
+        error: { message: 'User not found' },
+        data: null,
+      };
     }
 
+    const { error, data } = userController.getUserByEmail(userEmail);
+
+    if (error) {
+      return {
+        error: { message: 'User not found' },
+        data: null,
+      };
+    }
+
+    const { user } = data;
+
+    if (!user) {
+      return {
+        error: { message: 'User not found' },
+        data: null,
+      };
+    }
+
+    userId = user.id;
+    queryResult = stmt.run(title, user.id);
     boardId = queryResult.lastInsertRowid as number;
 
     return {
       error: null,
-      data: { board: { id: boardId, title, user_id: userId || null } },
+      data: { board: { id: boardId, title, user_id: userId } },
     };
   }
 

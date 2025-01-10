@@ -8,28 +8,41 @@ export class UserController {
     const stmt = this.db.query(
       'INSERT INTO users (name, email, password) VALUES (?, ?, ?)',
     );
-    const queryResult = stmt.run(user.name, user.email, user.password);
-
-    return {
-      error: null,
-      data: {
-        user: {
-          id: queryResult.lastInsertRowid,
-          name: user.name,
-          email: user.email,
+    try {
+      const queryResult = stmt.run(user.name, user.email, user.password);
+      return {
+        error: null,
+        data: {
+          user: {
+            id: queryResult.lastInsertRowid,
+            name: user.name,
+            email: user.email,
+          },
         },
-      },
-    };
+      };
+    } catch (error) {
+      return {
+        error: { message: 'User already exists' },
+        data: null,
+      };
+    }
   }
 
   deleteUser(user: { id: string }) {
     const stmt = this.db.prepare('DELETE FROM users WHERE id = ?');
-    stmt.run(Number(user.id));
+    try {
+      stmt.run(Number(user.id));
 
-    return {
-      error: null,
-      data: { user },
-    };
+      return {
+        error: null,
+        data: { user },
+      };
+    } catch (error) {
+      return {
+        error: { message: 'User not found' },
+        data: null,
+      };
+    }
   }
 
   updateUser(user: {
@@ -41,12 +54,20 @@ export class UserController {
     const stmt = this.db.prepare(
       'UPDATE users SET name = ?, email = ?, password = ? WHERE id = ?',
     );
-    stmt.run(user.name, user.email, user.newPassword, user.id);
 
-    return {
-      error: null,
-      data: { user },
-    };
+    try {
+      stmt.run(user.name, user.email, user.newPassword, user.id);
+
+      return {
+        error: null,
+        data: { user },
+      };
+    } catch (error) {
+      return {
+        error: { message: 'User not found' },
+        data: null,
+      };
+    }
   }
 
   getUserById(id: string) {
