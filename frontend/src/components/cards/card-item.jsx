@@ -4,8 +4,7 @@ import Modal from '@/components/common/modal';
 import EditCardForm from './edit-card-form';
 import { connect } from 'react-redux';
 import { removeCard } from '@/store/cards';
-import LoadIcon from '../common/icons/load-icon';
-import iconNames from '../common/icons/icon-names';
+import PencilIcon from '@/components/common/icons/pencil-icon';
 // import DndContext from '@/context/dnd-context';
 
 class CardItem extends Component {
@@ -65,7 +64,7 @@ class CardItem extends Component {
               onClick={this.handleEditCard}
               className="btn mx-2"
             >
-              <LoadIcon name={iconNames.PENCIL} height={20} width={20} />
+              <PencilIcon height={20} width={20} />
             </button>
             {/* <button onClick={this.handleRemoveCard} className="btn btn-danger">
             X

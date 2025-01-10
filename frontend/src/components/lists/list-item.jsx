@@ -2,8 +2,9 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import CardsList from '../cards/cards-list';
 import DndContext from '@/context/dnd-context';
-import LoadIcon from '../common/icons/load-icon';
-import iconNames from '../common/icons/icon-names';
+import FrontArrowsIcon from '../common/icons/front-arrows-icon';
+import LeftRightArrowsIcon from '../common/icons/left-right-arrows-icon';
+import ThreeDotsIcon from '../common/icons/three-dots-icon';
 /* eslint-disable no-unused-vars */
 
 class ListItem extends Component {
@@ -49,18 +50,9 @@ class ListItem extends Component {
                     onClick={() => this.setState({ isClosed: !isClosed })}
                   >
                     {this.state.isClosed ? (
-                      <LoadIcon
-                        name={iconNames.LEFT_RIGHT_ARROWS}
-                        height={16}
-                        width={16}
-                      />
+                      <LeftRightArrowsIcon height={16} width={16} />
                     ) : (
-                      <LoadIcon
-                        name={iconNames.FRONT_ARROWS}
-                        height={16}
-                        width={16}
-                        style={{ transform: 'rotate(45deg)' }}
-                      />
+                      <FrontArrowsIcon height={16} width={16} />
                     )}
                   </button>
                   <button
@@ -69,11 +61,7 @@ class ListItem extends Component {
                       display: `${this.state.isClosed ? 'none' : 'block'}`,
                     }}
                   >
-                    <LoadIcon
-                      name={iconNames.THREE_DOTS}
-                      height={20}
-                      width={20}
-                    />
+                    <ThreeDotsIcon height={20} width={20} />
                   </button>
                 </div>
                 {/* <button

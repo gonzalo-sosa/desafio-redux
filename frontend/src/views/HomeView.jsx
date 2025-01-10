@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import Board from '@/components/boards/board';
@@ -6,20 +7,26 @@ import BoardsList from '@/components/boards/boards-list';
 import configureStore from '@/store/configureStore';
 import NavBar from '@/components/nav-bar';
 import SideBar from '@/components/side-bar';
-import User from '@/components/users/user';
 import { loadUsers } from '@/store/users';
 import { loadBoards } from '@/store/boards';
 import { loadLists } from '@/store/lists';
 import { loadCards } from '@/store/cards';
 import iconNames from '@/components/common/icons/icon-names';
 import LoadIcon from '../components/common/icons/load-icon';
+import UserItem from '../components/users/user-item';
+import UsersList from '../components/users/users-list';
+import UserInfo from '../components/users/user-info';
 
 const store = configureStore();
 
-class Home extends Component {
+class HomeView extends Component {
   sideBarItems = [
     { label: 'Tableros', href: '/boards', icon: iconNames.BOARDS },
-    { label: 'Miembros', href: '/users', icon: iconNames.USER },
+    () => (
+      <li key={'users'} className="sidebar__nav__item">
+        <UserItem />
+      </li>
+    ),
     {
       label: 'Ajustes del Espacio de trabajo',
       href: '/settings',
@@ -62,7 +69,7 @@ class Home extends Component {
 
   render() {
     return (
-      <Route path="/">
+      <>
         <NavBar />
         <Provider store={store}>
           <div
@@ -96,16 +103,24 @@ class Home extends Component {
                 </div>
               </div>
             </SideBar>
-            <div className="container-fluid px-0">
+            <div
+              className="container-fluid px-0"
+              style={{ maxWidth: 'calc(100% - 265px)' }}
+            >
               <Route path="/boards/:id" component={Board} />
-              <Route path="/users/:id" component={User} />
+              <Route path="/users" component={UsersList} />
+              <Route path="/users/:id" component={UserInfo} />
             </div>
           </div>
         </Provider>
         <Route path="*" render={() => <Redirect to="/" />} />
-      </Route>
+      </>
     );
   }
 }
 
-export default Home;
+HomeView.propTypes = {
+  user: PropTypes.object,
+};
+
+export default HomeView;

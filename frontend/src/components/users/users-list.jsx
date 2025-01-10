@@ -3,54 +3,30 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { getUsers } from '@/store/users';
 import { NavLink } from 'react-router-dom';
-import Modal from '@/components/common/modal';
-import UserForm from './user-form';
+import UserContext from '@/context/user-context';
 
 class UsersList extends Component {
-  state = {
-    showForm: false,
-  };
+  static contextType = UserContext;
+
+  filterUsers() {
+    return this.props.users.filter((user) => user.email !== this.context.email);
+  }
 
   render() {
-    const { showForm } = this.state;
-
     return (
-      <>
-        <div className="nav-link text-light d-flex flex-row justify-content-between align-items-center pe-0">
-          <span>Usuarios</span>
-          <button
-            onClick={() => this.setState({ showForm: true })}
-            className="btn btn-primary"
-          >
-            +
-          </button>
-        </div>
-        {showForm && (
-          <Modal
-            label={'Nuevo usuario'}
-            onClose={() => this.setState({ showForm: false })}
-            btnSave={{
-              type: 'submit',
-              form: 'new-user-form',
-            }}
-          >
-            <UserForm
-              action="add"
-              form={{ id: 'new-user-form' }}
-              onSubmit={() => this.setState({ showForm: false })}
-            />
-          </Modal>
+      <UserContext.Consumer>
+        {() => (
+          <div className="container-fluid mt-3">
+            <ul className="list-group">
+              {this.filterUsers().map((user) => (
+                <li key={user.id} className="list-group-item">
+                  <NavLink to={`/users/${user.id}`}>{user.name}</NavLink>
+                </li>
+              ))}
+            </ul>
+          </div>
         )}
-        <ul>
-          {this.props.users.map((user) => (
-            <li key={user.id} className="nav-item">
-              <NavLink to={`/users/${user.id}`} className="nav-link text-light">
-                {user.name}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </>
+      </UserContext.Consumer>
     );
   }
 }

@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import config from '../config';
 
-axios.defaults.baseURL = import.meta.env.PUBLIC_API_URL;
+axios.defaults.baseURL = config.api_url;
+axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 // Interceptor para errores inesperados
 axios.interceptors.response.use(null, (error) => {

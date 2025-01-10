@@ -6,8 +6,7 @@ import { removeUser, updateUser } from '@/store/users';
 import TabPane from '@/components/common/tab-pane';
 import Modal from '@/components/common/modal';
 import UserForm from './user-form';
-import LoadIcon from '@/components/common/icons/load-icon';
-import iconNames from '@/components/common/icons/icon-names';
+import PencilIcon from '@/components/common/icons/pencil-icon';
 
 class User extends Component {
   state = {
@@ -15,27 +14,6 @@ class User extends Component {
   };
 
   tabs = [{ id: 'tab-1', label: 'Actividad', active: true }];
-
-  columns = [
-    {
-      path: 'icon',
-      label: '',
-      content: (item) => (
-        <div className="text-center">
-          <i className={`fa ${item.icon}`}></i>
-        </div>
-      ),
-    },
-    {
-      path: 'description',
-      label: '',
-      content: (item) => (
-        <div>
-          {item.description} <a href={item.link}>{item.project}</a> project.
-        </div>
-      ),
-    },
-  ];
 
   render() {
     const { showEditForm } = this.state;
@@ -58,7 +36,7 @@ class User extends Component {
                   onClick={() => this.setState({ showEditForm: true })}
                   className="btn btn-primary edit-profile"
                 >
-                  <LoadIcon name={iconNames.PENCIL} />
+                  <PencilIcon />
                   Editar perfil
                 </button>
                 <button

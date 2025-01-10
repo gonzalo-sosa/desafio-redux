@@ -4,6 +4,8 @@ import Search from '@/components/search';
 import iconNames from './common/icons/icon-names';
 import LoadIcon from './common/icons/load-icon';
 import Logo from './logo';
+import { useContext } from 'react';
+import userContext from '../context/user-context';
 
 const dropdownItems = {
   ESPACIOS_DE_TRABAJO: [
@@ -29,6 +31,8 @@ const dropdownItems = {
 };
 
 const NavBar = () => {
+  const currentUser = useContext(userContext);
+
   return (
     <nav className="nav-bar navbar navbar-expand-lg border-bottom py-1">
       <div className="d-flex align-items-center">
@@ -89,7 +93,7 @@ const NavBar = () => {
             </button>
             <button className="btn p-0 mx-1 d-flex align-items-center">
               <span className="user-icon">
-                <span>GS</span>
+                <span>{currentUser?.initials}</span>
               </span>
             </button>
           </div>

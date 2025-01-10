@@ -56,12 +56,14 @@
 .list-container {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 1rem;
+  height: calc(100vh - 7.5rem);
+  overflow-x: scroll;
 }
 
 .new-list-container {
-  width: 260px;
+  min-width: 260px;
 }
 
 .new-list {
@@ -79,6 +81,7 @@
 .list-card {
   font-size: 12px;
   cursor: grab;
+  min-width: 270px;
   height: fit-content;
 
   & h6 {

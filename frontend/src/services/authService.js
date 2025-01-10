@@ -1,19 +1,22 @@
+// import config from '../config';
 import http from './httpService';
 import { jwtDecode } from 'jwt-decode';
 
-const apiEndpoint = `${import.meta.env.PUBLIC_API_URL}/login`;
 const tokenKey = 'token';
 
 http.setJwt(getJwt());
 
+function register(user) {
+  return http.post('/register', {
+    email: user.email,
+    password: user.password,
+  });
+}
+
 async function login(email, password) {
-  const { error, data } = await http.post(apiEndpoint, { email, password });
+  const { data } = await http.post('/login', { email, password });
 
-  if (error) {
-    throw error;
-  }
-
-  const { jwt } = data;
+  const jwt = data.jwt;
   localStorage.setItem(tokenKey, jwt);
 }
 
@@ -40,6 +43,7 @@ function getJwt() {
 }
 
 export default {
+  register,
   login,
   loginWithJwt,
   logout,

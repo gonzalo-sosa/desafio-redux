@@ -2,8 +2,11 @@ import { connect } from 'react-redux';
 import { addBoard } from '@/store/boards';
 import Form from '@/components/common/form/form';
 import Joi from 'joi-browser';
+import userContext from '../../context/user-context';
 
 class NewBoardForm extends Form {
+  static contextType = userContext;
+
   constructor(props) {
     super(props);
   }
@@ -18,7 +21,7 @@ class NewBoardForm extends Form {
   };
 
   doSubmit = () => {
-    this.props.addBoard(this.state.data);
+    this.props.addBoard({ ...this.state.data, userEmail: this.context.email });
     this.props.onSubmit();
   };
 

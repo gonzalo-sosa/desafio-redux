@@ -44,7 +44,6 @@ class UserForm extends Form {
       }
 
       // TODO: buscar correo y validar que sea único
-
       this.props.addUser(this.state.data);
     }
 
