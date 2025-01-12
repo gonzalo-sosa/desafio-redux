@@ -57,8 +57,8 @@ describe('CardSlice', () => {
   });
 
   it('should update a card', async () => {
-    const card = { title: 'a', id: 1 };
-    const cardUpdated = { title: 'b', id: 1 };
+    const card = { title: 'a', id: 1, list_id: 1 };
+    const cardUpdated = { title: 'b', id: 1, list_id: 2 };
     fakeAxios.onPost('/cards').reply(200, card);
     fakeAxios.onPatch('/cards/1').reply(200, cardUpdated);
 

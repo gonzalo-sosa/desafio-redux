@@ -14,11 +14,17 @@ const cardSlice = createSlice({
       cards.list[`${listId}`].push(card);
     },
     cardUpdated: (cards, action) => {
-      const listId = action.payload.list_id;
-      let card = cards.list[`${listId}`].find(
-        (card) => card.id === Number(action.payload.id),
+      const cardId = Number(action.payload.id);
+      const beforeUpdateCard = Object.values(cards.list)
+        .flat()
+        .find((card) => card.id === cardId);
+      const listId = beforeUpdateCard.list_id;
+      const card = cards.list[`${listId}`].find((card) => card.id === cardId);
+      cards.list[`${listId}`] = cards.list[`${listId}`].filter(
+        (card) => card.id !== cardId,
       );
       Object.assign(card, action.payload);
+      cards.list[`${action.payload.list_id}`].push(card);
     },
     cardRemoved: (cards, action) => {
       const listId = action.payload.list_id;

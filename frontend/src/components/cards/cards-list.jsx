@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
@@ -6,7 +7,6 @@ import NewCardForm from '@/components/cards/new-card-form';
 import CardItem from './card-item';
 import DndContext from '@/context/dnd-context';
 import { loadCardsByListId } from '@/store/cards';
-/* eslint-disable no-unused-vars */
 
 class CardsList extends Component {
   static contextType = DndContext;
@@ -60,9 +60,10 @@ class CardsList extends Component {
 
   componentDidMount() {
     this.props.loadCardsByListId(this.props.listId);
+    this.setState({ cards: this.props.cards });
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (this.props.cards !== prevProps.cards) {
       this.setState({ cards: this.props.cards });
     }
