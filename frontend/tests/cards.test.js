@@ -25,7 +25,7 @@ describe('CardSlice', () => {
     store.dispatch(removeAllCards());
   });
 
-  const createState = (list = []) => ({
+  const createState = (list = {}) => ({
     entities: {
       cards: {
         list,
@@ -95,10 +95,10 @@ describe('CardSlice', () => {
 
   describe('selectors', () => {
     it('should get all cards', () => {
-      const state = createState([
-        { title: 'a', id: 1 },
-        { title: 'a', id: 2 },
-      ]);
+      const state = createState({
+        1: { title: 'a', id: 1 },
+        2: { title: 'a', id: 2 },
+      });
       const result = getCards(state);
 
       expect(result).toHaveLength(2);
@@ -110,7 +110,7 @@ describe('CardSlice', () => {
       const card1 = { title: 'a', id: 1, list_id: 1 };
       const card2 = { title: 'a', id: 2, list_id: 1 };
       const card3 = { title: 'a', id: 3, list_id: 2 };
-      const state = createState([card1, card2, card3]);
+      const state = createState({ 1: [card1, card2], 2: [card3] });
 
       const result1 = getCardsByListId(state, 1);
       const result2 = getCardsByListId(state, 2);
