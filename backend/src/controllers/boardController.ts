@@ -82,14 +82,14 @@ export class BoardController {
     };
   }
 
-  updateBoard(board: { id: number; title: string }) {
+  updateBoard(board: { id: string | number; title: string }) {
     const stmt = this.db.prepare('UPDATE boards SET title = ? WHERE id = ?');
-    stmt.run(board.title, board.id);
+    stmt.run(board.title, Number(board.id));
 
     return {
       error: null,
       data: {
-        board,
+        board: { id: Number(board.id), title: board.title },
       },
     };
   }

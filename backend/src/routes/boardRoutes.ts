@@ -76,7 +76,7 @@ router.patch('/boards/:id', (req, res) => {
 
   const { board } = data;
 
-  res.status(200).json({ board, message: 'Board updated successfully' });
+  res.status(200).json(board);
 });
 
 router.delete('/boards/:id', (req, res) => {
