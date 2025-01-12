@@ -2,19 +2,39 @@ import { Router } from 'express';
 import { Database } from 'bun:sqlite';
 import config from 'config';
 import { BoardController } from '@/controllers/boardController';
+import { UserController } from '@/controllers/userController';
 
 const router = Router();
 const db = new Database(config.db_filename);
 const boardController = new BoardController(db);
+const userController = new UserController(db);
 
 router.get('/boards', (req, res) => {
-  const { error, data } = boardController.getBoards();
+  if (!req.query.user_email)
+    return res.status(400).send('user_email is required');
 
-  if (error) {
-    return res.status(400).send(error);
+  const { error: userError, data: userData } = userController.getUserByEmail(
+    req.query.user_email.toString(),
+  );
+  if (userError) {
+    return res.status(400).send(userError);
   }
 
-  const { boards } = data;
+  const { user } = userData;
+
+  if (!user) {
+    return res.status(404).send('User not found');
+  }
+
+  const { id: userId } = user;
+  const { error: boardError, data: boardData } =
+    boardController.getBoardsByUserId(userId);
+
+  if (boardError) {
+    return res.status(400).send(boardError);
+  }
+
+  const { boards } = boardData;
 
   res.status(200).json(boards);
 });

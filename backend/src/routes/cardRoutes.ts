@@ -2,13 +2,22 @@ import { CardController } from '@/controllers/cardController';
 import config from 'config';
 import { Router } from 'express';
 import { Database } from 'bun:sqlite';
+import { UserController } from '@/controllers/userController';
+import { ListController } from '@/controllers/listController';
+import { BoardController } from '@/controllers/boardController';
 
 const router = Router();
 const db = new Database(config.db_filename);
 const cardController = new CardController(db);
 
 router.get('/cards', (req, res) => {
-  const { error, data } = cardController.getCards();
+  if (!req.query.list_id) {
+    return res.status(400).send('list_id is required');
+  }
+
+  const { error, data } = cardController.getCardsByListId(
+    req.query.list_id.toString(),
+  );
 
   if (error) {
     return res.status(400).send(error);

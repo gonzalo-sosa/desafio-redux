@@ -70,7 +70,7 @@ export class UserController {
     }
   }
 
-  getUserById(id: string) {
+  getUserById(id: string | number) {
     const stmt = this.db.query('SELECT * FROM users WHERE id = ?').as(User);
     const user = stmt.get(Number(id));
 

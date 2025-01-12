@@ -13,6 +13,16 @@ export class ListController {
     };
   }
 
+  getListsByBoardId(board_id: string | number) {
+    const stmt = this.db.prepare('SELECT * FROM lists WHERE board_id = ?');
+    const lists = stmt.all(Number(board_id));
+
+    return {
+      error: null,
+      data: { lists },
+    };
+  }
+
   getListById(id: string) {
     const stmt = this.db.prepare('SELECT * FROM lists WHERE id = ?');
     const list = stmt.get(id);

@@ -2,13 +2,21 @@ import { Router } from 'express';
 import { ListController } from '../controllers/listController';
 import { Database } from 'bun:sqlite';
 import config from 'config';
+import { BoardController } from '@/controllers/boardController';
+import { UserController } from '@/controllers/userController';
 
 const router = Router();
 const db = new Database(config.db_filename);
 const listController = new ListController(db);
 
 router.get('/lists', (req, res) => {
-  const { error, data } = listController.getLists();
+  if (!req.query.board_id) {
+    return res.status(400).send('board_id is required');
+  }
+
+  const { error, data } = listController.getListsByBoardId(
+    req.query.board_id.toString(),
+  );
 
   if (error) {
     return res.status(400).send(error);

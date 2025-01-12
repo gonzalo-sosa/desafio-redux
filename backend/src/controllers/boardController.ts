@@ -12,6 +12,15 @@ export class BoardController {
     return { error: null, data: { boards } };
   }
 
+  getBoardsByUserId(userId: string | number) {
+    const stmt = this.db
+      .query('SELECT id, title FROM boards WHERE user_id = ?')
+      .as(Board);
+    const boards = stmt.all(Number(userId));
+
+    return { error: null, data: { boards } };
+  }
+
   getBoardById(id: string) {
     const stmt = this.db
       .query('SELECT id, title FROM boards WHERE id = ?')

@@ -14,6 +14,16 @@ export class CardController {
     };
   }
 
+  getCardsByListId(listId: string | number) {
+    const stmt = this.db.prepare('SELECT * FROM cards WHERE list_id = ?');
+    const cards = stmt.all(Number(listId));
+
+    return {
+      error: null,
+      data: { cards },
+    };
+  }
+
   getCardById(id: string) {
     const stmt = this.db.prepare('SELECT * FROM cards WHERE id = ?');
     const card = stmt.get(Number(id));
