@@ -106,8 +106,8 @@ class LoginForm extends Form {
           </button>
         </div>
         <div className="d-flex flex-column align-items-center">
-          <a href="/login" className="link">
-            ¿Ya tienes una cuenta? Inicia sesión
+          <a href="/register" className="link">
+            ¿No tiene una cuenta? Crea una
           </a>
           <br />
         </div>

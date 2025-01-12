@@ -36,6 +36,7 @@ class ListGroup extends Component {
             onDragEnd={onDragEnd}
             onDrop={onDrop}
             getCardById={this.props.getCardById}
+            onRemove={this.props.removeList}
           />
         ))}
         <div className="new-list-container" style={{ order: lists.length + 1 }}>

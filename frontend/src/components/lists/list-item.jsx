@@ -5,6 +5,8 @@ import DndContext from '@/context/dnd-context';
 import FrontArrowsIcon from '../common/icons/front-arrows-icon';
 import LeftRightArrowsIcon from '../common/icons/left-right-arrows-icon';
 import ThreeDotsIcon from '../common/icons/three-dots-icon';
+import Modal from '../common/modal';
+import EditListForm from './edit-list-form';
 /* eslint-disable no-unused-vars */
 
 class ListItem extends Component {
@@ -12,6 +14,7 @@ class ListItem extends Component {
 
   state = {
     isClosed: false,
+    showModal: false,
   };
 
   handleDragStart = (e, id, index) => {
@@ -60,17 +63,37 @@ class ListItem extends Component {
                     style={{
                       display: `${this.state.isClosed ? 'none' : 'block'}`,
                     }}
+                    onClick={() => this.setState({ showModal: true })}
                   >
                     <ThreeDotsIcon height={20} width={20} />
                   </button>
+                  {this.state.showModal && (
+                    <Modal
+                      label={'Editar lista'}
+                      onClose={() => this.setState({ showModal: false })}
+                      btnSave={{
+                        type: 'submit',
+                        form: 'edit-list-form',
+                      }}
+                    >
+                      <EditListForm
+                        form={{ id: 'edit-list-form' }}
+                        list={list}
+                        onSubmit={() => this.setState({ showModal: false })}
+                      />
+                    </Modal>
+                  )}
+                  <button
+                    onClick={() => this.props.onRemove(list)}
+                    type="button"
+                    className="btn"
+                    style={{
+                      display: `${this.state.isClosed ? 'none' : 'block'}`,
+                    }}
+                  >
+                    <span className="fs-4 fw-bold">&times;</span>
+                  </button>
                 </div>
-                {/* <button
-                        onClick={() => this.props.removeList(list)}
-                        type="button"
-                        className="btn btn-danger"
-                      >
-                        X
-                      </button> */}
               </div>
             </header>
             <div
@@ -94,6 +117,7 @@ ListItem.propTypes = {
   onDragEnd: PropTypes.func.isRequired,
   onDrop: PropTypes.func.isRequired,
   getCardById: PropTypes.func.isRequired,
+  onRemove: PropTypes.func.isRequired,
 };
 
 export default ListItem;

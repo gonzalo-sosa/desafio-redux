@@ -15,9 +15,15 @@ import ThreeDotsIcon from '../common/icons/three-dots-icon';
 import BarsIcon from '../common/icons/bars-icon';
 import ListIcon from '../common/icons/list-icon';
 import UserContext from '../../context/user-context';
+import Modal from '../common/modal';
+import EditBoardForm from './edit-board-form';
 
 class BoardNavBar extends Component {
   static contextType = UserContext;
+
+  state = {
+    showModal: false,
+  };
 
   render() {
     const { title } = this.props;
@@ -92,18 +98,34 @@ class BoardNavBar extends Component {
                 </button>
               </li>
               <li className="nav-item">
-                <button className="btn">
+                <button
+                  className="btn btn-primary mx-2"
+                  onClick={() => this.setState({ showModal: true })}
+                >
                   <ThreeDotsIcon height={16} width={16} />
                 </button>
+                {this.state.showModal && (
+                  <Modal
+                    label="Editar tablero"
+                    btnSave={{ type: 'submit', form: 'edit-board-form' }}
+                    onClose={() => this.setState({ showModal: false })}
+                  >
+                    <EditBoardForm
+                      boardId={this.props.boardId}
+                      form={{ id: 'edit-board-form' }}
+                      onSubmit={() => this.setState({ showModal: false })}
+                    />
+                  </Modal>
+                )}
               </li>
-              {/* <li className="nav-item">
-            <button
-              onClick={() => this.props.removeBoard(this.props.boardId)}
-              className="btn btn-danger"
-            >
-              X
-            </button>
-          </li> */}
+              <li className="nav-item">
+                <button
+                  onClick={() => this.props.removeBoard(this.props.boardId)}
+                  className="btn btn-danger"
+                >
+                  X
+                </button>
+              </li>
             </ul>
           </NavBar>
         )}

@@ -62,13 +62,13 @@ class CardItem extends Component {
             <button
               type="button"
               onClick={this.handleEditCard}
-              className="btn mx-2"
+              className="btn ms-2"
             >
               <PencilIcon height={20} width={20} />
             </button>
-            {/* <button onClick={this.handleRemoveCard} className="btn btn-danger">
-            X
-          </button> */}
+            <button onClick={this.handleRemoveCard} className="btn">
+              <span className="fs-4 fw-bold">&times;</span>
+            </button>
           </div>
         </li>
       </>
