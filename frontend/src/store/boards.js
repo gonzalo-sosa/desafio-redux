@@ -59,7 +59,7 @@ export default boardSlice.reducer;
 
 const url = '/boards';
 
-export const loadBoards = () => (dispatch, getState) => {
+export const loadBoardsByUserEmail = (userEmail) => (dispatch, getState) => {
   const { lastFetch } = getState().entities.boards;
 
   if (lastFetch) {
@@ -69,7 +69,7 @@ export const loadBoards = () => (dispatch, getState) => {
 
   return dispatch(
     apiCallBegan({
-      url,
+      url: `${url}?user_email=${userEmail}`,
       method: 'get',
       onStart: boardsRequested.type,
       onSuccess: boardsReceived.type,

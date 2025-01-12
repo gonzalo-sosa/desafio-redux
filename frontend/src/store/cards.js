@@ -5,25 +5,29 @@ import { apiCallBegan } from './api';
 
 const cardSlice = createSlice({
   name: 'cards',
-  initialState: { list: [], loading: false, lastFetch: null },
+  initialState: { list: {}, loading: false, lastFetch: null },
   reducers: {
     cardAdded: (cards, action) => {
       const card = { ...action.payload, id: Number(action.payload.id) };
-      cards.list.push(card);
+      const listId = Number(action.payload.list_id);
+      cards.list[`${listId}`] ??= [];
+      cards.list[`${listId}`].push(card);
     },
     cardUpdated: (cards, action) => {
-      let card = cards.list.find(
+      const listId = Number(action.payload.list_id);
+      let card = cards.list[listId].find(
         (card) => card.id === Number(action.payload.id),
       );
       Object.assign(card, action.payload);
     },
     cardRemoved: (cards, action) => {
-      cards.list = cards.list.filter(
+      const { list_id: listId } = action.payload;
+      cards.list = cards.list[`${listId}`].filter(
         (card) => card.id !== Number(action.payload.id),
       );
     },
     allCardsRemoved: (cards, action) => {
-      cards.list = [];
+      cards.list = {};
     },
     allCardsRemovedFromList: (cards, action) => {
       cards.list = cards.list.filter(
@@ -37,7 +41,10 @@ const cardSlice = createSlice({
       cards.loading = false;
     },
     cardsReceived: (cards, action) => {
-      cards.list = action.payload;
+      if (action.payload.length !== 0) {
+        const listId = action.payload[0].list_id;
+        cards.list[`${listId}`] = action.payload;
+      }
       cards.loading = false;
       cards.lastFetch = Date.now();
     },
@@ -58,14 +65,14 @@ export default cardSlice.reducer;
 
 const url = '/cards';
 
-export const loadCards = () => (dispatch, getState) => {
+export const loadCardsByListId = (listId) => (dispatch, getState) => {
   const { lastFetch } = getState().entities.cards;
   const diffInMinutes = (Date.now() - lastFetch) / 1000 / 60;
   if (diffInMinutes < 1) return;
 
   return dispatch(
     apiCallBegan({
-      url,
+      url: `${url}?list_id=${listId}`,
       method: 'get',
       onStart: cardsRequested.type,
       onSuccess: cardsReceived.type,
@@ -108,11 +115,13 @@ export const removeAllCardsFromList = (list) => (dispatch) => {
 
 export const getCards = createSelector(
   (state) => state.entities.cards,
-  (cards) => cards.list,
+  (cards) => Object.values(cards.list).flat(),
 );
 
 export const getCardById = (state, id) =>
-  getCards(state).find((card) => card.id === Number(id));
+  Object.values(getCards(state))
+    .flat()
+    .find((card) => card.id === Number(id));
 
 export const getCardsByListId = (state, listId) =>
-  getCards(state).filter((card) => card.list_id === Number(listId));
+  state.entities.cards.list[`${listId}`];

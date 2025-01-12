@@ -67,7 +67,7 @@ export const getListsByBoardId = (state, boardId) =>
 
 const url = '/lists';
 
-export const loadLists = () => (dispatch, getState) => {
+export const loadListsByBoardId = (boardId) => (dispatch, getState) => {
   const { lastFetch } = getState().entities.lists;
 
   if (lastFetch) {
@@ -77,7 +77,7 @@ export const loadLists = () => (dispatch, getState) => {
 
   return dispatch(
     apiCallBegan({
-      url,
+      url: `${url}?board_id=${boardId}`,
       method: 'get',
       onStart: listsRequested.type,
       onSuccess: listsReceived.type,
