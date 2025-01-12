@@ -24,6 +24,7 @@ const cardSlice = createSlice({
         (card) => card.id !== cardId,
       );
       Object.assign(card, action.payload);
+      cards.list[`${action.payload.list_id}`] ??= [];
       cards.list[`${action.payload.list_id}`].push(card);
     },
     cardRemoved: (cards, action) => {
