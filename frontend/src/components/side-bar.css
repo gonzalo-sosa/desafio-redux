@@ -42,10 +42,6 @@ li {
   flex: 1 1 auto;
 }
 
-/* .sidebar__nav__item {
-  padding: 0.15rem 0;
-} */
-
 a.sidebar__nav__link,
 span.sidebar__nav__link {
   text-decoration: none;
@@ -53,7 +49,7 @@ span.sidebar__nav__link {
   color: inherit;
   position: relative;
   transition: all 0.35s;
-  padding: 0.25rem 1rem;
+  padding: 0.45rem 1rem;
   display: flex;
   flex-direction: row;
   align-items: center;

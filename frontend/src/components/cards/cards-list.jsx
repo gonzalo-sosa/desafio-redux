@@ -5,15 +5,16 @@ import { getCardsByListId, updateCard } from '@/store/cards';
 import NewCardForm from '@/components/cards/new-card-form';
 import CardItem from './card-item';
 import DndContext from '@/context/dnd-context';
+import { loadCardsByListId } from '@/store/cards';
 /* eslint-disable no-unused-vars */
 
 class CardsList extends Component {
+  static contextType = DndContext;
+
   state = {
     showForm: false,
     cards: [],
   };
-
-  static contextType = DndContext;
 
   handleDragStart = (e, item, container) => {
     e.stopPropagation();
@@ -58,10 +59,10 @@ class CardsList extends Component {
   };
 
   componentDidMount() {
-    this.setState({ cards: this.props.cards });
+    this.props.loadCardsByListId(this.props.listId);
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.cards !== prevProps.cards) {
       this.setState({ cards: this.props.cards });
     }
@@ -126,15 +127,22 @@ class CardsList extends Component {
 CardsList.propTypes = {
   listId: PropTypes.number,
   cards: PropTypes.array,
-  updateCard: PropTypes.func,
   onDrop: PropTypes.func,
+  loadCardsByListId: PropTypes.func,
+  updateCard: PropTypes.func,
 };
 
-const mapStateToProps = (state, ownProps) => ({
-  cards: getCardsByListId(state, ownProps.listId),
-});
+const mapStateToProps = (state, ownProps) => {
+  const { listId } = ownProps;
+  const parsedId = parseInt(listId, 10);
+
+  return {
+    cards: getCardsByListId(state, parsedId),
+  };
+};
 
 const mapDispatchToProps = (dispatch) => ({
+  loadCardsByListId: (listId) => dispatch(loadCardsByListId(listId)),
   updateCard: (card) => dispatch(updateCard(card)),
 });
 

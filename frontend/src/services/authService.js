@@ -31,10 +31,13 @@ function loginWithJwt(jwt) {
 function getCurrentUser() {
   try {
     const jwt = localStorage.getItem(tokenKey);
-    return jwtDecode(jwt);
-    // eslint-disable-next-line no-unused-vars
+    if (!jwt) {
+      return { error: true, data: null };
+    }
+
+    return { error: null, data: { user: jwtDecode(jwt) } };
   } catch (error) {
-    return null;
+    return { error, data: null };
   }
 }
 

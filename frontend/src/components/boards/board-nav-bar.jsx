@@ -78,7 +78,7 @@ class BoardNavBar extends Component {
               <li className="nav-item d-flex align-items-center mx-2">
                 <button className="btn p-0 d-flex align-items-center">
                   <span className="user-icon">
-                    <span>{userContext?.initials}</span>
+                    <span>{userContext?.user?.initials}</span>
                   </span>
                 </button>
               </li>

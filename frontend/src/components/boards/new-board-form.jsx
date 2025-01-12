@@ -21,7 +21,10 @@ class NewBoardForm extends Form {
   };
 
   doSubmit = () => {
-    this.props.addBoard({ ...this.state.data, userEmail: this.context.email });
+    this.props.addBoard({
+      ...this.state.data,
+      userEmail: this.context.user.email,
+    });
     this.props.onSubmit();
   };
 

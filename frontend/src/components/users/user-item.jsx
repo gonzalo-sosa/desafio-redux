@@ -11,7 +11,7 @@ class UserItem extends Component {
     return (
       <NavLink
         to="/users"
-        className="sidebar__nav__link d-inline-flex pe-0 w-100 justify-content-between"
+        className="sidebar__nav__link d-inline-flex py-0 pe-0 w-100 justify-content-between"
       >
         <span className="d-flex align-items-center">
           <LoadIcon

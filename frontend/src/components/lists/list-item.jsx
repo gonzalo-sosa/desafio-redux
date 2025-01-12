@@ -8,11 +8,11 @@ import ThreeDotsIcon from '../common/icons/three-dots-icon';
 /* eslint-disable no-unused-vars */
 
 class ListItem extends Component {
+  static contextType = DndContext;
+
   state = {
     isClosed: false,
   };
-
-  static contextType = DndContext;
 
   handleDragStart = (e, id, index) => {
     this.props.onDragStart(e, id, index);

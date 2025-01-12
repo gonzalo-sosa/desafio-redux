@@ -31,7 +31,7 @@ const dropdownItems = {
 };
 
 const NavBar = () => {
-  const currentUser = useContext(userContext);
+  const { user } = useContext(userContext);
 
   return (
     <nav className="nav-bar navbar navbar-expand-lg border-bottom py-1">
@@ -93,7 +93,7 @@ const NavBar = () => {
             </button>
             <button className="btn p-0 mx-1 d-flex align-items-center">
               <span className="user-icon">
-                <span>{currentUser?.initials}</span>
+                <span>{user?.initials}</span>
               </span>
             </button>
           </div>

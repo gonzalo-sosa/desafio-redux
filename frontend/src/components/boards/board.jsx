@@ -7,6 +7,7 @@ import { getListsByBoardId } from '@/store/lists';
 import BoardNavBar from './board-nav-bar';
 import ListGroup from '../lists/list-group';
 import DndContext from '@/context/dnd-context';
+import { loadListsByBoardId } from '@/store/lists';
 
 class Board extends Component {
   state = {
@@ -188,6 +189,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
+  loadListsByBoardId: (boardId) => dispatch(loadListsByBoardId(boardId)),
   updateBoard: (data) => dispatch(updateBoard(data)),
   removeBoard: (id) => dispatch(removeBoard(id)),
   updateCard: (card) => dispatch(updateCard(card)),

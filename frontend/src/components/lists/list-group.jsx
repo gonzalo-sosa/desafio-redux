@@ -5,11 +5,16 @@ import { connect } from 'react-redux';
 import { removeList } from '@/store/lists';
 import { removeCard, updateCard, getCardById } from '@/store/cards';
 import ListItem from './list-item';
+import { loadListsByBoardId } from '@/store/lists';
 
 class ListGroup extends Component {
   state = {
     showNewForm: false,
   };
+
+  componentDidMount() {
+    this.props.loadListsByBoardId(this.props.boardId);
+  }
 
   render() {
     const { showNewForm } = this.state;
@@ -58,17 +63,16 @@ class ListGroup extends Component {
 
 ListGroup.propTypes = {
   boardId: PropTypes.number,
-  title: PropTypes.string,
   lists: PropTypes.array,
-  orders: PropTypes.object,
-  removeList: PropTypes.func,
-  removeCard: PropTypes.func,
-  updateCard: PropTypes.func,
   onDragStart: PropTypes.func,
-  onDragOver: PropTypes.func,
   onDragEnd: PropTypes.func,
+  onDragOver: PropTypes.func,
   onDrop: PropTypes.func,
+  loadListsByBoardId: PropTypes.func,
+  removeList: PropTypes.func,
   getCardById: PropTypes.func,
+  updateCard: PropTypes.func,
+  removeCard: PropTypes.func,
 };
 
 const mapStateToProps = (state) => ({
@@ -76,6 +80,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  loadListsByBoardId: (boardId) => dispatch(loadListsByBoardId(boardId)),
   removeList: (list) => dispatch(removeList(list)),
   removeCard: (card) => dispatch(removeCard(card)),
   updateCard: (card) => dispatch(updateCard(card)),
