@@ -9,19 +9,19 @@ const cardSlice = createSlice({
   reducers: {
     cardAdded: (cards, action) => {
       const card = { ...action.payload, id: Number(action.payload.id) };
-      const listId = Number(action.payload.list_id);
+      const listId = action.payload.list_id;
       cards.list[`${listId}`] ??= [];
       cards.list[`${listId}`].push(card);
     },
     cardUpdated: (cards, action) => {
-      const listId = Number(action.payload.list_id);
-      let card = cards.list[listId].find(
+      const listId = action.payload.list_id;
+      let card = cards.list[`${listId}`].find(
         (card) => card.id === Number(action.payload.id),
       );
       Object.assign(card, action.payload);
     },
     cardRemoved: (cards, action) => {
-      const { list_id: listId } = action.payload;
+      const listId = action.payload.list_id;
       cards.list = cards.list[`${listId}`].filter(
         (card) => card.id !== Number(action.payload.id),
       );
@@ -124,4 +124,4 @@ export const getCardById = (state, id) =>
     .find((card) => card.id === Number(id));
 
 export const getCardsByListId = (state, listId) =>
-  state.entities.cards.list[`${listId}`];
+  state.entities.cards.list[`${listId}`] ?? [];

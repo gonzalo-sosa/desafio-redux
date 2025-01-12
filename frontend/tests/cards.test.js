@@ -34,23 +34,26 @@ describe('CardSlice', () => {
   });
 
   it('should add a card', async () => {
-    const card = { title: 'a', id: 1 };
+    const card = { title: 'a', id: 1, list_id: 1 };
     fakeAxios.onPost('/cards').reply(200, card);
 
     await store.dispatch(addCard(card));
 
-    expect(getCards(store.getState())).toHaveLength(1);
-    expect(getCards(store.getState())).toContainEqual(card);
+    expect(getCardsByListId(store.getState(), card.list_id)).toHaveLength(1);
+    expect(getCardsByListId(store.getState(), card.list_id)).toContainEqual(
+      card,
+    );
   });
 
   it('should remove a card', async () => {
-    const card = { title: 'a', id: 1 };
-    fakeAxios.onDelete('/cards/1').reply(200);
+    const card = { title: 'a', id: 1, list_id: 1 };
+    fakeAxios.onPost('/cards').reply(200, card);
+    fakeAxios.onDelete('/cards/1').reply(200, card);
 
     await store.dispatch(addCard(card));
     await store.dispatch(removeCard(card));
 
-    expect(getCards(store.getState())).toHaveLength(0);
+    expect(getCardsByListId(store.getState(), card.list_id)).toHaveLength(0);
   });
 
   it('should update a card', async () => {
